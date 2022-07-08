@@ -18,7 +18,7 @@ Hypertext Markup Language (HTML) is a language that describes the layout/structu
 <html>
 ```
 
-<img src="https://user-images.githubusercontent.com/99038613/177905817-6fd60013-09b3-47e1-9bff-f43cd5a734ca.jpg" width=60%>
+<img src="https://user-images.githubusercontent.com/99038613/177906700-4fc0c79f-2e6f-4e4c-bb9d-a0e221c2a8b0.jpg" width=60%>
 
 HTML is structured by elements, or pairs of tag, which are the `<>` pairs. For instance, the `<html>` and `</html>` are the opening and closing tag for this HTML file. HTML elements can include attributes such as the `lang="en"` in the opening _html_ tag, indicates that this webpage is in English
 
@@ -140,4 +140,5 @@ The previous elements were not interactive, they only show something to the user
 </html>
 ```
 
-<img src="https://user-images.githubusercontent.com/99038613/177905956-ef367e3d-3317-49f8-b544-d08faac8f883.jpg" width=60%>
+<img src="https://user-images.githubusercontent.com/99038613/177906854-511465e3-a07a-4ffc-8c0d-fd2c8f0c76e3.jpg" width=60%>
+
