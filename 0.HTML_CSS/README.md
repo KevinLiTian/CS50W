@@ -18,13 +18,13 @@ Hypertext Markup Language (HTML) is a language that describes the layout/structu
 <html>
 ```
 
-Figure 1
+<img src="https://user-images.githubusercontent.com/99038613/177905817-6fd60013-09b3-47e1-9bff-f43cd5a734ca.jpg" width=60%>
 
 HTML is structured by elements, or pairs of tag, which are the `<>` pairs. For instance, the `<html>` and `</html>` are the opening and closing tag for this HTML file. HTML elements can include attributes such as the `lang="en"` in the opening _html_ tag, indicates that this webpage is in English
 
 #### Document Objet Model (DOM)
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/177905929-2bcfc647-b63a-41e1-b364-b8aa2ae0c986.jpg" height=30% width=30%>
 
 The DOM is a convenient way of visualizing the way HTML elements relate to each other using a tree-like structure. Above is an example of the DOM layout for the "Hello, world" HTML file
 
@@ -75,7 +75,8 @@ Note: <!----> represents comments in HTML files
             <li>baz</li>
         </ol>
 
-        <!-- Images require a src attribute, which can be either the path to a file on your computer or the link to an image online. It also includes an alt attribute, which gives a description in case the image can't be loaded. -->
+        <!-- Images require a src attribute, which can be either the path to a file on your computer or the link to an image online. 
+        It also includes an alt attribute, which gives a description in case the image can't be loaded. -->
         An image:
         <img src="../../images/duck.jpeg" alt="Rubber Duck Picture">
         <!-- We can also see above that for some elements that don't contain other ones, closing tags are not necessary. -->
@@ -107,7 +108,7 @@ Note: <!----> represents comments in HTML files
 <html>
 ```
 
-Figure 3
+<img src="https://user-images.githubusercontent.com/99038613/177905942-4f770665-a675-46d5-a93c-4433378095c8.jpg" height=40% width=40%>
 
 #### Forms
 
@@ -139,4 +140,4 @@ The previous elements were not interactive, they only show something to the user
 </html>
 ```
 
-Figure 4
+<img src="https://user-images.githubusercontent.com/99038613/177905956-ef367e3d-3317-49f8-b544-d08faac8f883.jpg" width=60%>
