@@ -30,10 +30,7 @@ The DOM is a convenient way of visualizing the way HTML elements relate to each 
 
 #### More HTML Elements
 
-Otherthan the html, head and body elements that are used in almost all the webpages, there are more elements to describe different layout of the webpage such as headings, lists, links, images or
-bold/italics
-
-Note: <!----> represents comments in HTML files
+Otherthan the html, head and body elements that are used in almost all the webpages, there are more elements to describe different layout of the webpage such as headings, lists, links, images, bold/italics, tables, etc.
 
 - **Headings**: `<h1></h1>`, `<h2></h2>`, ..., `<h6></h6>`
 - **Lists**: `<ol></ol>`, `<ul></ul>`, `<li>,</li>`
