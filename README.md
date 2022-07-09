@@ -14,9 +14,9 @@ This course dive deeply into the design and implementation of web apps with Pyth
 
 Web programming/development involves front-end development and back-end development. Front-end is the presentation layer, or the user interface (UI), which can be generally summarized by three languages, HTML, CSS and Javascript, where each one plays an important role in the UI. Back-end is the data access layer, or the database where the data is stored and interacted. This course will discuss thoroughly both the front-end and back-end development of web apps and will also introduce framework and database
 
-- **[HTML & CSS](#lecture-0---html--css)**: A markup language used to outline a webpage, and a procedure for making websites more visually appealing
-- **Git**: Used for version control and collaboration
-- **Python**: A widely-used programming language to make websites more dynamic
+- **[HTML & CSS](#lecture-0---introduction)**: A markup language used to outline a webpage, and a procedure for making websites more visually appealing
+- **[Git](#lecture-0---introduction)**: Used for version control and collaboration
+- **[Python](#lecture-0---introduction)**: A widely-used programming language to make websites more dynamic
 - **Django**: A popular web framework for the backend of websites
 - **SQL**: A language used for storing and retrieving data
 - **JavaScript**: A programming language used to make websites faster and more interactive
@@ -24,19 +24,19 @@ Web programming/development involves front-end development and back-end developm
 - **Testing**: Learning about different methods used to make sure updates to web pages proceed smoothly
 - **Scalability & Security**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
 
-## Lecture 0 - [HTML & CSS](0.HTML_CSS/)
+## Lecture 0 - Introduction
 
-HTML is a markup language that defines the structure of a web page. CSS is used to customize the appearance of a website. They are interpreted by web browsers (Safari, Google Chrome, Firefox, etc.) in order to display content on the screen
+HTML is a markup language that defines the structure of a web page. CSS is used to customize the appearance of a website. They are interpreted by web browsers (Safari, Google Chrome, Firefox, etc.) in order to display content on the screen. Git is a version control tool to help programmers to have better workflows. Python is a popular programming language that has a variety of uses
 
 ### Objectives
 
-- HTML
-- CSS
-- Boostrap & Sass
+- [HTML, CSS](0.Introduction/0.HTML_CSS/)
+- [Git](0.Introduction/1.Git/)
+- [Python](0.Introduction/2.Python/)
 
 ### Projects
 
-- [Search](0.HTML_CSS/search/)
+- [Search](0.Introduction/search/)
 
 ## Contact ME
 
