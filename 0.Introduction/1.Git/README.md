@@ -42,7 +42,7 @@ Git specifies the workflow into 4 stages, local directory, staging area, local r
 - **Local Repo**: Once one uses the command `git commit`, the changes will be in the local repo
 - **Remote Repo**: Once one uses the command `git push`, the local changes will be sent to and stored on Github
 
-Figure 1
+![1](https://user-images.githubusercontent.com/99038613/178121325-ad649e2e-1c2d-49d9-95aa-14e450361fba.png)
 
 ## Conflict
 
@@ -66,8 +66,9 @@ The line between `<<<<< HEAD` and `=====` is what's in local repo and the lline 
 
 A project usually has multiple features that are developing by different people at the same time. If everyone is developing on a straight line so-to speak
 
-Figure 2
+![2](https://user-images.githubusercontent.com/99038613/178121331-8ad9e69a-b2bb-48e4-9c57-3280a407340f.jpg)
 
 The commits will become messy and untrackable if something went wrong since everyone's commits are together on the same line. Branching is introduced to avoid this situation. A branch can be thought as a completely different repo so that one can track one's work clearly. Then after the feature is finished, one will merge the branch back to the original main code base
 
-Figure 3
+![3](https://user-images.githubusercontent.com/99038613/178121333-70abc7a0-d27b-4c30-8d27-6c8acc7455cb.jpg)
+
