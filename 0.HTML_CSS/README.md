@@ -159,6 +159,6 @@ Cascading Style Sheet (CSS) is used to customize the appearance of a website. CS
 <html>
 ```
 
-Figure 1
+<img src="https://user-images.githubusercontent.com/99038613/178088415-6c5ec938-4ae8-4b5f-88fb-ca3718b79261.jpg" width=60%>
 
 By adding the attribute "style" in the h1 element, the heading turns to blue color and is aligned at the center of the webpage. This styling method is called "inline styling", which the style is specified within the HTML element
