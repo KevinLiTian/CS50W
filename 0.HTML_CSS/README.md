@@ -75,7 +75,7 @@ Note: <!----> represents comments in HTML files
             <li>baz</li>
         </ol>
 
-        <!-- Images require a src attribute, which can be either the path to a file on your computer or the link to an image online. 
+        <!-- Images require a src attribute, which can be either the path to a file on your computer or the link to an image online.
         It also includes an alt attribute, which gives a description in case the image can't be loaded. -->
         An image:
         <img src="../../images/duck.jpeg" alt="Rubber Duck Picture">
@@ -142,3 +142,23 @@ The previous elements were not interactive, they only show something to the user
 
 <img src="https://user-images.githubusercontent.com/99038613/177906854-511465e3-a07a-4ffc-8c0d-fd2c8f0c76e3.jpg" width=60%>
 
+## CSS
+
+Cascading Style Sheet (CSS) is used to customize the appearance of a website. CSS properties can be applied to HTML elements to change the way they look to the users. For instance
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello!</title>
+    </head>
+    <body>
+        <h1 style="color: blue; text-align: center;">A Colorful Heading!</h1>
+        Hello, world!
+    </body>
+<html>
+```
+
+Figure 1
+
+By adding the attribute "style" in the h1 element, the heading turns to blue color and is aligned at the center of the webpage. This styling method is called "inline styling", which the style is specified within the HTML element
