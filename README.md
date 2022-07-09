@@ -30,7 +30,7 @@ HTML is a markup language that defines the structure of a web page. CSS is used 
 
 ### Objectives
 
-- [HTML, CSS](0.Introduction/0.HTML_CSS/)
+- [HTML & CSS](0.Introduction/0.HTML_CSS/)
 - [Git](0.Introduction/1.Git/)
 - [Python](0.Introduction/2.Python/)
 
