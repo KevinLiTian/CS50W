@@ -283,7 +283,7 @@ The above code specifies that when the screen is larger than 600px in width, the
 
 CSS is complex and tedious, therefore use some extensions would be helpful to make better appearance with less effort
 
-#### Bootstrp
+### Bootstrap
 
 It turns out that there are many libraries that other people have already written that can make the styling of a webpage even simpler. One popular library that we’ll use throughout the course is known as [bootstrap](https://getbootstrap.com/). By simply including a link in the head section of the HTML, we are able to use written CSS classes in Bootstrap
 
@@ -291,7 +291,7 @@ It turns out that there are many libraries that other people have already writte
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 ```
 
-#### Sass
+### Sass
 
 Syntactically Awesome Style Sheets (Sass) is an extension to CSS which makes the CSS more efficient and readable. Notice that whatever is written using Sass can all be written in CSS, Sass only makes the syntax more efficient and convenient
 
@@ -349,4 +349,3 @@ One more feature that Sass gives us is known as inheritance, which a CSS propert
 By using `@extend`, the latter three properties inherits from the `%message` property, providing better syntax
 
 <img src="https://user-images.githubusercontent.com/99038613/178119010-c9ae9f77-a508-4096-b350-65c673b9dd56.jpg" width=60%>
-
