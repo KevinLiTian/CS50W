@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Search</title>
-    </head>
-    <body>
-        <form action="https://google.com/search">
-            <input type="text" name="q">
-            <input type="submit" value="Google Search">
-        </form>
-    </body>
+  <head>
+    <title>Search</title>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- From font awesome website, to get icons -->
+    <script
+      src="https://kit.fontawesome.com/e3608bdf86.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="header">
+      <a class="header-link" href="image.html">Images</a>
+      <a class="header-link" href="advanced.html">Advanced Search</a>
+    </div>
+    <img src="images/google.jpg" />
+    <form action="https://google.com/search">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+        <input type="text" name="q" />
+      </div>
+
+      <input class="search-buttons" type="submit" value="Google Search" />
+      <input
+        class="search-buttons"
+        type="submit"
+        name="btnI"
+        value="I'm Feeling Lucky"
+      />
+    </form>
+  </body>
 </html>
