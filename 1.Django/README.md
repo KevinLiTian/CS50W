@@ -93,7 +93,7 @@ Now, in order to get started with our application:
 
 Now, when initiating the server using `python manage.py runserver` and visit the URL `localhost:8000/myapp`, the webpage should look like this:
 
-Figure 1
+![1](https://user-images.githubusercontent.com/99038613/178374363-14526742-579f-40e5-8e7b-f5561afe156b.jpg)
 
 Now that we’ve had some success, let’s go over what just happened to get us to that point:
 
