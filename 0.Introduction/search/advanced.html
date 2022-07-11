@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="advanced-header">
+      <img src="images/google.jpg" alt="Google logo" />
+      <a class="header-link" href="index.html">Google Search</a>
+    </div>
+    <div class="title">Advanced Search</div>
+    <hr />
+
+    <div class="form-title">Find pages with...</div>
+    <form action="https://google.com/search">
+      <div class="grid-container">
+        <div class="grid-item">all these words:</div>
+        <div class="grid-item">
+          <input type="text" name="as_q" />
+        </div>
+        <div class="grid-item explain">
+          Type the important words: tri-colour rat terrier
+        </div>
+        <div class="grid-item">this exact word or phrase:</div>
+        <div class="grid-item">
+          <input type="text" name="as_epq" />
+        </div>
+        <div class="grid-item explain">
+          Put exact words in quotes: "rat terrier"
+        </div>
+        <div class="grid-item">any of these words:</div>
+        <div class="grid-item">
+          <input name="as_oq" type="text" />
+        </div>
+        <div class="grid-item explain">
+          Type OR between all the words you want: miniature OR standard
+        </div>
+        <div class="grid-item">none of these words:</div>
+        <div class="grid-item">
+          <input name="as_eq" type="text" />
+        </div>
+        <div class="grid-item explain">
+          Put a minus sign just before words that you don't want: -rodent,
+          -"Jack Russell"
+        </div>
+        <div class="grid-item"></div>
+        <div class="grid-item">
+          <input id="advanced-button" type="submit" value="Advanced Search" />
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
