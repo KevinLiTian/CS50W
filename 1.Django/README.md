@@ -43,7 +43,7 @@ After installing Django, we can go through the steps of creating a new Django pr
 4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
 5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
 
-<img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
+    <img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
 
 #### Routes
 
@@ -169,7 +169,7 @@ def index(request):
     return render(request, "hello/index.html")
 ```
 
-Now, we’ll need to create that template. To do this, we’ll create a folder called templates inside our app, then create a folder called hello (or whatever our app’s name is) within that, and then add a file called index.html
+Now, we’ll need to create that template. To do this, we’ll create a folder called templates inside our app, then create a folder called `hello` (or whatever our app’s name is) within that, and then add a file called `index.html`
 
 ![files](https://user-images.githubusercontent.com/99038613/178374885-7f477a7c-34f4-4246-835c-52fe2e730279.jpg)
 
@@ -191,3 +191,96 @@ Now, when we visit the main page of our application, we can see the header and t
 
 <img src="https://user-images.githubusercontent.com/99038613/178374894-5f3d6dc9-330a-4e53-ba4a-fd23064f7c2f.jpg" width=60%>
 
+In addition to writing some static HTML pages, we can also use [Django’s templating language](https://docs.djangoproject.com/en/4.0/ref/templates/language/) to change the content of our HTML files based on the URL visited. Let’s try it out by changing our `greet` function from earlier:
+
+```Python
+def greet(request, name):
+    return render(request, "hello/greet.html", {
+        "name": name.capitalize() # Capitalize the first character
+    })
+```
+
+Notice that we passed a third argument into the `render` function here, one that is known as the context. In this context, we can provide information that we would like to have available within our HTML files. This context takes the form of a Python dictionary. Now, we can create a `greet.html` file:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello</title>
+    </head>
+    <body>
+        <h1>Hello, {{ name }}!</h1>
+    </body>
+</html>
+```
+
+You’ll noticed that we used some new syntax: `{{}}`. This syntax allows us to access variables that we’ve provided in the context argument. Now, when we try it out:
+
+Figure 1
+
+Now, we’ve seen how we can modify our HTML templates based on the context we provide. However, the Django templating language is even more powerful than that, so let’s take a look at a few other ways it can be helpful
+
+#### Conditionals
+
+We may want to change what is displayed on our website depending on some conditions. For example, if you visit the site www.isitchristmas.com, you’ll probably be met with a page that looks like this:
+
+Figure 2
+
+But this website will change on Christmas day, when the website will say YES. To make something like this for ourselves, let’s try creating a similar application, where we check whether or not it is New Year’s Day. Let’s create a new app to do so, recalling our process for creating a new app:
+
+1. Run `python manage.py startapp newyear` in the terminal
+2. Edit `settings.py`, adding “newyear” as one of our `INSTALLED_APPS`
+3. Edit our project’s `urls.py` file, and include a path similar to the one we created for the `hello` app:
+
+   `path('newyear/', include("newyear.urls"))`
+
+4. Create another `urls.py` file within our new app’s directory, and update it to include a path similar to the index path in `hello`:
+
+   ```Python
+   from django.urls import path
+   from . import views
+
+   urlpatterns = [
+       path("", views.index, name="index"),
+   ]
+   ```
+
+5. Lastly, Create an index function in `views.py`
+
+Now that we’re set up with our new app, let’s figure out how to check whether or not it’s New Year’s Day. To do this, we can import Python’s [datetime](https://docs.python.org/3/library/datetime.html) module
+
+Create the `index` function in `views.py`:
+
+```Python
+import datatime
+
+def index(request):
+    now = datetime.datetime.now()
+    return render(request, "newyear/index.html", {
+        "newyear": now.month == 1 and now.day == 1
+    })
+```
+
+Now, let’s create our `index.html` template. We’ll have to again create a new folder called `templates`, a folder within that called `newyear`, and a file within that called `index.html`. Inside that file, we’ll write something like this:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Is it New Year's?</title>
+    </head>
+    <body>
+        {% if newyear %}
+            <h1>YES</h1>
+        {% else %}
+            <h1>NO</h1>
+        {% endif %}
+    </body>
+</html>
+```
+
+In the code above, notice that when we wish to include logic in our HTML files, we use `{%` and `%}` as opening and closing tags around logical statements. Also note that Django’s formatting language requires you to include an `{% endif %}` tag indicating that we are done with our if-else block. Now, we can open up to our page to see:
+
+Figure 3
+
+#### Styling
