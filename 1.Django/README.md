@@ -27,6 +27,8 @@ Django is a web framework in Python that allows us to create a backend where the
 - To get started, we’ll have to install Django, which means you’ll also have to [install pip](https://pip.pypa.io/en/stable/installation/) if you haven’t already done so
 - Once you have Pip installed, you can run `pip3 install Django` in your terminal to install Django
 
+#### Creating a Django Project
+
 After installing Django, we can go through the steps of creating a new Django project:
 
 1. Run `django-admin startproject PROJECT_NAME` to create a number of starter files for our project. Then run `cd PROJECT_NAME` to navigate into your new project’s directory
@@ -36,10 +38,53 @@ After installing Django, we can go through the steps of creating a new Django pr
    - `urls.py` contains directions for where users should be routed after navigating to a certain URL
 3. Start the project by running `python manage.py runserver`. This will open a development server, which you can access by visiting the URL provided. This development server is being run locally on your machine, meaning other people cannot access your website. This should bring you to a default landing page:
 
-![1](https://user-images.githubusercontent.com/99038613/178370083-bb07982f-9307-472d-8a22-90997b37ffbb.jpg)
+![DefaultPage](https://user-images.githubusercontent.com/99038613/178370083-bb07982f-9307-472d-8a22-90997b37ffbb.jpg)
 
 4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
 5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
 
-<img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
+    <img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
 
+#### Routes
+
+Now, in order to get started with our application:
+
+1. Next, we’ll navigate to `views.py`. This file will contain a number of different views, and we can think of a view for now as one page the user might like to see. To create our first view, we’ll write a function that takes in a `request`. For now, we’ll simply return an `HttpResponse` (A very simple response that includes a response code of 200 and a string of text that can be displayed in a web browser) of “Hello, World”. In order to do this, we have include `from django.http import HttpResponse`. Our file now looks like:
+
+   ```Python
+   from django.shortcuts import render
+   from django.http import HttpResponse
+
+   # Create your views here.
+
+   def index(request):
+       return HttpResponse("Hello, world!")
+   ```
+
+2. Now, we need to somehow associate this view we have just created with a specific URL. To do this, we’ll create another file called `urls.py` in the same directory as `views.py`. We already have a `urls.py` file for the whole project, but it is best to have a separate one for each individual app
+
+3. Inside our new urls.py, we’ll create a list of url patterns that a user might visit while using our website. In order to do this:
+
+   1. We have to make some imports: `from django.urls import path` will give us the ability to reroute URLSs, and `from . import views` will import any functions we’ve created in `views.py`
+   2. Create a list called `urlpatterns`. For each desired URL, add an item to the `urlpatterns` list that contains a call to the `path` function with two or three arguments: A string representing the URL path, a function from `views.py` that we wish to call when that URL is visited, and (optionally) a name for that path, in the format `name="something"`. For example, here’s what our simple app looks like now:
+
+      ```Python
+      from django.urls import path
+      from . import views
+
+      urlpatterns = [
+          path("", views.index, name="index")
+      ]
+      ```
+
+   3. Now, we’ve created a `urls.py` for this specific application, and it’s time to edit the `urls.py` created for us for the entire project. When you open this file, you should see that there’s already a path called `admin` which we’ll go over later. We want to add another path for our new app, so we’ll add an item to the `urlpatterns` list. This follows the same pattern as our earlier paths, except instead of adding a function from `views.py` as our second argument, we want to be able to include all of the paths from the `urls.py` file within our application. To do this, we write: `include("APP_NAME.urls")`, where `include` is a function we gain access to by using also importing `from django.urls import include` as shown in the urls.py below:
+
+      ```Python
+      from django.contrib import admin
+      from django.urls import path, include
+
+      urlpatterns = [
+          path('admin/', admin.site.urls),
+          path('myapp/', include("myapp.urls"))
+      ]
+      ```
