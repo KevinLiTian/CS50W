@@ -216,7 +216,7 @@ Notice that we passed a third argument into the `render` function here, one that
 
 You’ll noticed that we used some new syntax: `{{}}`. This syntax allows us to access variables that we’ve provided in the context argument. Now, when we try it out:
 
-Figure 1
+![examples](https://user-images.githubusercontent.com/99038613/178376233-e9117430-f262-4029-af14-735412e32121.jpg)
 
 Now, we’ve seen how we can modify our HTML templates based on the context we provide. However, the Django templating language is even more powerful than that, so let’s take a look at a few other ways it can be helpful
 
@@ -224,7 +224,7 @@ Now, we’ve seen how we can modify our HTML templates based on the context we p
 
 We may want to change what is displayed on our website depending on some conditions. For example, if you visit the site www.isitchristmas.com, you’ll probably be met with a page that looks like this:
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/178376245-d56baae2-d696-4168-8172-8bde5ce9019a.jpg" width=60%>
 
 But this website will change on Christmas day, when the website will say YES. To make something like this for ourselves, let’s try creating a similar application, where we check whether or not it is New Year’s Day. Let’s create a new app to do so, recalling our process for creating a new app:
 
@@ -281,6 +281,6 @@ Now, let’s create our `index.html` template. We’ll have to again create a ne
 
 In the code above, notice that when we wish to include logic in our HTML files, we use `{%` and `%}` as opening and closing tags around logical statements. Also note that Django’s formatting language requires you to include an `{% endif %}` tag indicating that we are done with our if-else block. Now, we can open up to our page to see:
 
-Figure 3
+<img src="https://user-images.githubusercontent.com/99038613/178376256-4340536a-5512-4ae6-aeeb-2154f1e6c4b1.jpg" width=60%>
 
 #### Styling
