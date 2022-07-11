@@ -171,7 +171,7 @@ def index(request):
 
 Now, we’ll need to create that template. To do this, we’ll create a folder called templates inside our app, then create a folder called hello (or whatever our app’s name is) within that, and then add a file called index.html
 
-Figure 1
+![files](https://user-images.githubusercontent.com/99038613/178374885-7f477a7c-34f4-4246-835c-52fe2e730279.jpg)
 
 Next, we’ll add whatever we want to that new file:
 
@@ -189,5 +189,5 @@ Next, we’ll add whatever we want to that new file:
 
 Now, when we visit the main page of our application, we can see the header and title have been updated:
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/178374894-5f3d6dc9-330a-4e53-ba4a-fd23064f7c2f.jpg" width=60%>
 
