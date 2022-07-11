@@ -38,6 +38,20 @@ HTML is a markup language that defines the structure of a web page. CSS is used 
 
 - [Search](0.Introduction/search/)
 
+## Lecture 1 - [Django](1.Django/)
+
+Django is a Python-based web framework that will allow us to write Python code that dynamically generates HTML and CSS. The advantage to using a framework like Django is that a lot of code is already written for us that we can take advantage of
+
+### Objectives
+
+- HTTP
+- Django Features
+- Sessions
+
+### Projects
+
+- [Wiki](1.Django/wiki/)
+
 ## Contact ME
 
 If you have any questions regarding the course material or any of the projects, please feel free to contact me through my email <kevintian.li@mail.utoronto.ca> or <kevin.li20021106@gmail.com>
