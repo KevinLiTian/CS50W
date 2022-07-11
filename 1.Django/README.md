@@ -36,10 +36,10 @@ After installing Django, we can go through the steps of creating a new Django pr
    - `urls.py` contains directions for where users should be routed after navigating to a certain URL
 3. Start the project by running `python manage.py runserver`. This will open a development server, which you can access by visiting the URL provided. This development server is being run locally on your machine, meaning other people cannot access your website. This should bring you to a default landing page:
 
-Figure 1
+![1](https://user-images.githubusercontent.com/99038613/178370083-bb07982f-9307-472d-8a22-90997b37ffbb.jpg)
 
 4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
 5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
 
