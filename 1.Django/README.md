@@ -38,7 +38,7 @@ After installing Django, we can go through the steps of creating a new Django pr
    - `urls.py` contains directions for where users should be routed after navigating to a certain URL
 3. Start the project by running `python manage.py runserver`. This will open a development server, which you can access by visiting the URL provided. This development server is being run locally on your machine, meaning other people cannot access your website. This should bring you to a default landing page:
 
-    ![DefaultPage](https://user-images.githubusercontent.com/99038613/178370083-bb07982f-9307-472d-8a22-90997b37ffbb.jpg)
+   ![DefaultPage](https://user-images.githubusercontent.com/99038613/178370083-bb07982f-9307-472d-8a22-90997b37ffbb.jpg)
 
 4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
 5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
@@ -77,7 +77,7 @@ Now, in order to get started with our application:
       ]
       ```
 
-        The `""`, first argument of the `path` function indicates that if the URL is just `localhost:8000/myapp`, then use the `index` function in `views.py`
+      The `""`, first argument of the `path` function indicates that if the URL is just `localhost:8000/myapp`, then use the `index` function in `views.py`
 
    3. Now, we’ve created a `urls.py` for this specific application, and it’s time to edit the `urls.py` created for us for the entire project. When you open this file, you should see that there’s already a path called `admin` which we’ll go over later. We want to add another path for our new app, so we’ll add an item to the `urlpatterns` list. This follows the same pattern as our earlier paths, except instead of adding a function from `views.py` as our second argument, we want to be able to include all of the paths from the `urls.py` file within our application. To do this, we write: `include("APP_NAME.urls")`, where `include` is a function we gain access to by using also importing `from django.urls import include` as shown in the urls.py below:
 
@@ -90,3 +90,65 @@ Now, in order to get started with our application:
           path('myapp/', include("myapp.urls"))
       ]
       ```
+
+Now, when initiating the server using `python manage.py runserver` and visit the URL `localhost:8000/myapp`, the webpage should look like this:
+
+Figure 1
+
+Now that we’ve had some success, let’s go over what just happened to get us to that point:
+
+1. When we accessed the URL `localhost:8000/hello/`, Django looked at what came after the base URL (`localhost:8000/`) and went to our project’s `urls.py` file and searched for a pattern that matched `hello`
+2. It found that extension because we defined it, and saw that when met with that extension, it should `include` our `urls.py` file from within our application
+3. Then, Django ignored the parts of the URL it has already used in rerouting (`localhost:8000/hello/`, or all of it) and looked inside our other `urls.py` file for a pattern that matches the remaining part of the URL
+4. It found that our only path so far (`""`) matched what was left of the URL, and so it directed us to the function from `views.py` associated with that path
+5. Finally, Django ran that function within `views.py`, and returned the result (`HttpResponse("Hello, world!")`) to our web browser
+
+Now, if we want to, we can change the index function within views.py to return anything we want it to! We could even keep track of variables and do calculations within the function before eventually returning something
+
+Also, we can add more functions inside `views.py` to display differently when the URL is different
+
+```Python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+def index(request):
+    return HttpResponse("Hello, world!")
+
+def brian(request):
+    return HttpResponse("Hello, Brian!")
+
+def david(request):
+    return HttpResponse("Hello, David!")
+```
+
+Inside urls.py (within our application):
+
+```Python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("brian", views.brian, name="brian"),
+    path("david", views.david, name="david")
+]
+```
+
+So when the URL is `localhost:8000/hello/brian`, the webpage will show "Hello, Brian!" or when the URL is `localhost:8000/hello/david`, the webpage will show "Hello, David!"
+
+However, this shortly gets tedious when there's hundreds of names or even thousands. It's not a good design and also not possible to hard code thousands of functions and link them to thousands of URLs. Django provides a feature that allows us to parameterize variables. For example, let's create a general function called `greet` in `views.py`:
+
+```Python
+def greet(request, name):
+    return HttpResponse(f"Hello, {name}!")
+```
+
+This function takes in one more parameter `name` and pass into the HttpResponse as a formatting string. Then in the `urls.py`, the `path` will look like:
+
+`path("<str:name>", views.greet, name="greet")`
+
+By using `<>`, the end part of the URL will be passed as a `name` variable into the `greet` function and it will return an HttpResponse which renders the page with "Hello, {name}"
+
+#### Templates
