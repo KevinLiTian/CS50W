@@ -8,11 +8,38 @@ To understand how a backend works, we have to first understand what is a [Hypert
 
 ![server_client](https://user-images.githubusercontent.com/99038613/178368862-907bb958-f8e3-46ea-b126-c02dc33427fd.jpg)
 
-
 The request can be of various types. Common ones are `GET` and `POST`. `GET` request appears everyday when one is browsing the internet, it basically means to ask the server for permission of viewing a website. `POST` on the other hand is when the user enters some information in, for example, an HTML form, then sending the information to the server
 
 Requests are sent from the client to the server, and the server will reply or response. The response is usually some status code
 
 <img src="https://user-images.githubusercontent.com/99038613/178368869-8c76842f-be55-4a42-a1fb-337e421ae134.jpg" width=60%>
 
-Status code 200 indicates that the request is permitted and the HTML and CSS files are rendered by the clinet's browser to display the website. Status code 301 means the website has moved to another URL permanently. Status code 403 means that the client sending the request should not have the permission to view the website. Status code 404 is a common one which just means the website at the URL is not found. Status code 500 means the website itself has some bug in it
+- **Status code 200**: The request is permitted and the HTML and CSS files are rendered by the clinet's browser to display the website
+- **Status code 301**: The website has moved to another URL permanently
+- **Status code 403**: The client sending the request should not have the permission to view the website
+- **Status code 404**: The website at the URL is not found
+- **Status code 500**: The website itself has some bug in it
+
+## Django Features
+
+Django is a web framework in Python that allows us to create a backend where the data can be stored, manipulated and also serve as a server to respond to client requests
+
+- To get started, we’ll have to install Django, which means you’ll also have to [install pip](https://pip.pypa.io/en/stable/installation/) if you haven’t already done so
+- Once you have Pip installed, you can run `pip3 install Django` in your terminal to install Django
+
+After installing Django, we can go through the steps of creating a new Django project:
+
+1. Run `django-admin startproject PROJECT_NAME` to create a number of starter files for our project. Then run `cd PROJECT_NAME` to navigate into your new project’s directory
+2. Open the directory in your text editor of choice. You’ll notice that some files have been created for you. We won’t need to look at most of these for now, but there are three that will be very important from the start:
+   - `manage.py` is what we use to execute commands on our terminal. We won’t have to edit it, but we’ll use it often
+   - `settings.py` contains some important configuration settings for our new project. There are some default settings, but we may wish to change some of them from time to time
+   - `urls.py` contains directions for where users should be routed after navigating to a certain URL
+3. Start the project by running `python manage.py runserver`. This will open a development server, which you can access by visiting the URL provided. This development server is being run locally on your machine, meaning other people cannot access your website. This should bring you to a default landing page:
+
+Figure 1
+
+4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
+5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
+
+Figure 2
+
