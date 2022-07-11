@@ -43,7 +43,7 @@ After installing Django, we can go through the steps of creating a new Django pr
 4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
 5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
 
-    <img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
+<img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
 
 #### Routes
 
@@ -152,3 +152,42 @@ This function takes in one more parameter `name` and pass into the HttpResponse 
 By using `<>`, the end part of the URL will be passed as a `name` variable into the `greet` function and it will return an HttpResponse which renders the page with "Hello, {name}"
 
 #### Templates
+
+So far, our HTTP Responses, have been only text, but we can include any HTML elements we want to! For example, I could decide to return a blue header instead of just the text in our index function:
+
+```Python
+def index(request):
+    return HttpResponse("<h1 style=\"color:blue\">Hello, world!</h1>")
+```
+
+But it would get very tedious to write an entire HTML page within a function. It would also constitute bad design since sometimes there are a group of people working on backend, Python, for example, and others working on frontend, HTML and CSS. We want to separate the work for each of them to avoid problems
+
+This is why we’ll now introduce [Django’s templates](https://docs.djangoproject.com/en/4.0/topics/templates/), which will allow us to write HTML and CSS in separate files and render those files using Django. The syntax we’ll use for rendering a template looks like this:
+
+```Python
+def index(request):
+    return render(request, "hello/index.html")
+```
+
+Now, we’ll need to create that template. To do this, we’ll create a folder called templates inside our app, then create a folder called hello (or whatever our app’s name is) within that, and then add a file called index.html
+
+Figure 1
+
+Next, we’ll add whatever we want to that new file:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello</title>
+    </head>
+    <body>
+        <h1>Hello, World!</h1>
+    </body>
+</html>
+```
+
+Now, when we visit the main page of our application, we can see the header and title have been updated:
+
+Figure 2
+
