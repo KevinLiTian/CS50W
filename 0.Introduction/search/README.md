@@ -40,3 +40,11 @@ Using this information, we are able to re-implement a front end for Google's sea
 ## Video Demo
 
 [![Watch the video](https://img.youtube.com/vi/nYtm2S3cETE/default.jpg)](https://www.youtube.com/watch?v=nYtm2S3cETE)
+
+## Note
+
+If out of curiosity, one would like to see what the GET parameters for a URL are, I wrote a simple Python script in the _readurl_ directory. Navigate to that directory, copy and paste the URL in the _url.txt_, run the command
+
+`python readurl.py url.txt`
+
+The result will be generated in the result.txt which the URL is being splited into several pieces and each piece is a GET parameter
