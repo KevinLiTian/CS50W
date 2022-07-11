@@ -17,7 +17,7 @@ Web programming/development involves front-end development and back-end developm
 - **[HTML & CSS](#lecture-0---introduction)**: A markup language used to outline a webpage, and a procedure for making websites more visually appealing
 - **[Git](#lecture-0---introduction)**: Used for version control and collaboration
 - **[Python](#lecture-0---introduction)**: A widely-used programming language to make websites more dynamic
-- **Django**: A popular web framework for the backend of websites
+- **[Django](#lecture-1---django)**: A popular web framework for the backend of websites
 - **SQL**: A language used for storing and retrieving data
 - **JavaScript**: A programming language used to make websites faster and more interactive
 - **UI**: Methods used to make a website as easy to use as possible
