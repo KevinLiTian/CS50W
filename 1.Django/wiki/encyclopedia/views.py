@@ -1,7 +1,9 @@
+""" View Functions """
+
 from django.shortcuts import render, redirect
 from markdown2 import markdown
 
-from . import util
+from . import util, forms
 
 
 def index(request):
@@ -16,7 +18,10 @@ def page(request, title):
 
     # Page Not Found
     if content is None:
-        return render(request, "encyclopedia/404.html")
+        return render(request, "encyclopedia/error.html", {
+            "title": "404",
+            "content": "Page Not Found"
+        })
 
     # Render the corresponding page
     return render(request, "encyclopedia/page.html", {
@@ -49,3 +54,33 @@ def search(request):
         })
 
     return index(request)
+
+def new(request):
+    """ Create a New Wiki Page """
+    # If using GET method, just render the page
+    if request.method == "GET":
+        form = forms.NewPageForm()
+        return render(request, "encyclopedia/new.html", {
+            "form": form
+        })
+
+    # Otherwise is during form submission (POST)
+    form = forms.NewPageForm(request.POST)
+
+    # Server-side validation
+    if form.is_valid():
+
+        title = form.cleaned_data["title"]
+        content = form.cleaned_data["content"]
+
+        # Check for existance
+        # Render error page if exists
+        if title in util.list_entries():
+            return render(request, "encyclopedia/error.html", {
+                "title": "Page Exist",
+                "content": "There is already a Wiki page with this title"
+                })
+
+        # Save New if new
+        util.save_entry(title, content)
+        return redirect('page', title=title)

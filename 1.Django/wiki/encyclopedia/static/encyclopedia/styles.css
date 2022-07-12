@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   background-color: white;
@@ -13,7 +17,7 @@ h1 {
 }
 
 textarea {
-  height: 90vh;
+  height: 50vh;
   width: 80%;
 }
 
@@ -35,4 +39,11 @@ textarea {
 
 .sidebar h2 {
   margin-top: 5px;
+}
+
+.submit-button {
+  position: relative;
+  width: 91.5%;
+  top: 2rem;
+  text-align: right;
 }
