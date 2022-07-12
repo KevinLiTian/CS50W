@@ -17,6 +17,7 @@ h1 {
 }
 
 textarea {
+  margin-top: 1rem;
   height: 50vh;
   width: 80%;
 }

@@ -2,17 +2,20 @@
 
 {% block title %}
 
-    New
+    {{ title }}
 
 {% endblock %}
 
 {% block body %}
-    <h1>New Entry</h1>
-    <form action="{% url 'new' %}" method="post">
+
+    <h1>Edit {{ title }}</h1>
+    
+
+    <form action="{% url 'edit' %}" method="post">
         {% csrf_token %}
         {{ form }}
         <div class="submit-button">
-            <input class="btn btn-primary" type="submit" value="Create" />
+            <input class="btn btn-primary" type="submit" value="Done" />
         </div>
     </form>
 

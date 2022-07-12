@@ -1,5 +1,7 @@
 """ View Functions """
 
+import random
+
 from django.shortcuts import render, redirect
 from markdown2 import markdown
 
@@ -14,19 +16,27 @@ def index(request):
 
 def page(request, title):
     """ Any Wiki Page """
-    content = util.get_entry(title)
+    content = util.get_entry(title).strip()
 
-    # Page Not Found
-    if content is None:
-        return render(request, "encyclopedia/error.html", {
-            "title": "404",
-            "content": "Page Not Found"
+    if request.method == "GET":
+        # Page Not Found
+        if content is None:
+            return render(request, "encyclopedia/error.html", {
+                "title": "404",
+                "content": "Page Not Found"
+            })
+
+        # Render the corresponding page
+        return render(request, "encyclopedia/page.html", {
+            "title": title,
+            "content": markdown(content)
         })
 
-    # Render the corresponding page
-    return render(request, "encyclopedia/page.html", {
+    # If is POST, take to edit page
+    form = forms.EditPageForm(initial={"title": title, "content":content})
+    return render(request, "encyclopedia/edit.html", {
         "title": title,
-        "content": markdown(content)
+        "form": form
     })
 
 def search(request):
@@ -69,7 +79,6 @@ def new(request):
 
     # Server-side validation
     if form.is_valid():
-
         title = form.cleaned_data["title"]
         content = form.cleaned_data["content"]
 
@@ -84,3 +93,24 @@ def new(request):
         # Save New if new
         util.save_entry(title, content)
         return redirect('page', title=title)
+
+    return redirect('page', title=title)
+
+def edit(request):
+    """ Edit Wiki Page Done (POST) """
+    form = forms.EditPageForm(request.POST)
+
+    # Server-side validation
+    if form.is_valid():
+        title = form.cleaned_data["title"].strip()
+        content = form.cleaned_data["content"].strip()
+
+        util.save_entry(title, content)
+        util.remove_newline(title)
+        return redirect('page', title=title)
+
+    return redirect('page', title=title)
+
+def rand():
+    """ Randomly Redirect to a Wiki Page """
+    return redirect('page', title=random.choice(util.list_entries()))
