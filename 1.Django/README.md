@@ -245,11 +245,11 @@ But this website will change on Christmas day, when the website will say YES. To
    ]
    ```
 
-5. Lastly, Create an index function in `views.py`
+5. Lastly, Create an `index` function in `views.py`
 
 Now that we’re set up with our new app, let’s figure out how to check whether or not it’s New Year’s Day. To do this, we can import Python’s [datetime](https://docs.python.org/3/library/datetime.html) module
 
-Create the `index` function in `views.py`:
+In the `index` function in `views.py`:
 
 ```Python
 import datatime
@@ -284,3 +284,341 @@ In the code above, notice that when we wish to include logic in our HTML files, 
 <img src="https://user-images.githubusercontent.com/99038613/178376256-4340536a-5512-4ae6-aeeb-2154f1e6c4b1.jpg" width=60%>
 
 #### Styling
+
+If we want to add a CSS file, which is a static file because it doesn’t change, we’ll first create a folder called `static` in the application, then create a `newyear` folder within that, and then a `styles.css` file within that. In this file, we can add any styling we wish:
+
+```CSS
+h1 {
+    font-family: sans-serif;
+    font-size: 90px;
+    text-align: center;
+}
+```
+
+Now, to include this styling in our HTML file, we add the line `{% load static %}` to the top of our HTML template, which signals to Django that we wish to have access to the files in our `static` folder. Then, rather than hard-coding the exact path to a stylesheet as we did before, we’ll use some Django-specific syntax:
+
+`<link rel="stylesheet" href="{% static 'newyear/styles.css' %}">`
+
+Now, if we restart the server, we can see that the styling changes were in fact applied:
+
+Figure 1
+
+## TODO List
+
+Now, let’s take what we’ve learned so far and apply it to a mini-project: creating a TODO list. Let’s start by, once again, creating a new app:
+
+1. Run `python manage.py startapp tasks` in the terminal
+2. Edit `settings.py`, adding “tasks” as one of our `INSTALLED_APPS`
+3. Edit our project’s `urls.py` file, and include a path similar to the one we created for the `hello` app:
+
+   `path('tasks/', include("tasks.urls"))`
+
+4. Create another `urls.py` file within our new app’s directory, and update it to include a path similar to the index path in `hello`:
+
+   ```Python
+   from django.urls import path
+   from . import views
+
+   urlpatterns = [
+       path("", views.index, name="index"),
+   ]
+   ```
+
+5. Create an `index` function in `views.py`
+
+Now, let’s begin by attempting to simply create a list of tasks and then display them to a page. Let’s create a Python list at the top of `views.py` where we’ll store our tasks. Then, we can update our `index` function to render a template, and provide our newly-created list as context.
+
+```Python
+from django.shortcuts import render
+
+tasks = ["foo", "bar", "baz"]
+
+# Create your views here.
+def index(request):
+    return render(request, "tasks/index.html", {
+        "tasks": tasks
+    })
+```
+
+Now, let’s work on creating our template HTML file:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tasks</title>
+    </head>
+    <body>
+        <ul>
+            {% for task in tasks %}
+                <li>{{ task }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
+```
+
+Notice here that we are able to loop over our tasks using syntax similar to our conditionals from earlier, and also similar to a Python loop. When we go to the tasks page now, we can see our list being rendered:
+
+Figure 2
+
+#### Forms
+
+Now that we can see all of our current tasks as a list, we may want to be able to add some new tasks. To do this we’ll start taking a look at using forms to update a web page. Let’s begin by adding another function to `views.py` that will render a page with a form for adding a new task:
+
+```Python
+# Add a new task:
+def add(request):
+    return render(request, "tasks/add.html")
+```
+
+Next, make sure to add another path to `urls.py`:
+
+`path("add", views.add, name="add")`
+
+Now, we’ll create our `add.html` file, which is fairly similar to `index.html`, except that in the body we’ll include a form rather than a list:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tasks</title>
+    </head>
+    <body>
+        <h1>Add Task:</h1>
+        <form action="">
+            <input type="text", name="task">
+            <input type="submit">
+        </form>
+    </body>
+</html>
+```
+
+However, what we’ve just done isn’t necessarily the best design, as we’ve just repeated the bulk of that HTML in two different files. Django’s templating language gives us a way to eliminate this poor design: [template inheritance](https://tutorial.djangogirls.org/en/template_extending/). This allows us to create a `layout.html` file that will contain the general structure of our page:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tasks</title>
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
+```
+
+Notice that we’ve again used `{%...%}` to denote some sort of non-HTML logic, and in this case, we’re telling Django to fill this “block” with some text from another file. Now, we can alter our other two HTML files to look like:
+
+In `index.html`:
+
+```HTML
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+    <h1>Tasks:</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+```
+
+And in `add.html`
+
+```HTML
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+    <h1>Add Task:</h1>
+    <form action="">
+        <input type="text", name="task">
+        <input type="submit">
+    </form>
+{% endblock %}
+```
+
+Notice how we can now get rid of much of the repeated code by extending our layout file. Now, our index page remains the same, and we now have an add page as well:
+
+Figure 3
+
+Next, it’s not ideal to have to type “/add” in the URL any time we want to add a new task, so we’ll probably want to add some links between pages. Instead of hard-coding links though, we can now use the `name` variable we assigned to each path in `urls.py`, and create a link that looks like this:
+
+`<a href="{% url 'add' %}">Add a New Task</a>`
+
+where ‘add’ is the name of that path. We can do a similar thing in our `add.html`:
+
+`<a href="{% url 'index' %}">View Tasks</a>`
+
+This could potentially create a problem though, as we have a few routes named `index` throughout our different apps. We can solve this by going into each of our app’s `urls.py` file, and adding an `app_name` variable, so that the files now look something like this:
+
+```Python
+from django.urls import path
+from . import views
+
+app_name = "tasks"
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("add", views.add, name="add")
+]
+```
+
+Then for the links:
+
+```HTML
+<a href="{% url 'tasks:index' %}">View Tasks</a>
+<a href="{% url 'tasks:add' %}">Add a New Task</a>
+```
+
+Now, let’s work on making sure the form actually does something when the user submits it. We can do this by adding an `action` to the form we have created in `add.html`:
+
+`<form action="{% url 'tasks:add' %}" method="post">`
+
+And to prevent [Cross-Site Request Forgery (CSRF) Attack](https://portswigger.net/web-security/csrf), we must add a CSRF token in the form which serves as an identifier:
+
+```HTML
+<form action="{% url 'tasks:add' %}" method="post">
+    {% csrf_token %}
+    <input type="text", name="task">
+    <input type="submit">
+</form>
+```
+
+#### Django Forms
+
+While we can create forms by writing raw HTML as we’ve just done, Django provides an even easier way to collect information from a user: [Django Forms](https://docs.djangoproject.com/en/4.0/ref/forms/api/). In order to use this method, we’ll add the following to the top of `views.py` to import the `forms` module:
+
+`from django import forms`
+
+Now, we can create a new form within `views.py` by creating a Python class called `NewTaskForm` that inherits from Django forms:
+
+```Python
+class NewTaskForm(forms.Form):
+    task = forms.CharField(label="New Task")
+```
+
+Now that we’ve created a `NewTaskForm` class, we can include it in the context while rendering the `add` page:
+
+```Python
+# Add a new task:
+def add(request):
+    return render(request, "tasks/add.html", {
+        "form": NewTaskForm()
+    })
+```
+
+Now, within `add.html`, we can replace our input field with the form we just created:
+
+```HTML
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+    <h1>Add Task:</h1>
+    <form action="{% url 'tasks:add' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+    <a href="{% url 'tasks:index' %}">View Tasks</a>
+{% endblock %}
+```
+
+There are several advantages to using the `forms` module rather than manually writing an HTML form:
+
+- If we want to add new fields to the form, we can simply add them in views.py without typing additional HTML
+- Django automatically performs [client-side validation](https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation)
+- Django provides simple [server-side validation](https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation)
+
+Now that we have a form set up, let’s work on what happens when a user clicks the submit button. When a user navigates to the add page by clicking a link or typing in the URL, they submit a `GET` request to the server, which we’ve already handled in our `add` function. When a user submits a form though, they send a `POST` request to the server, which at the moment is not handled in the `add` function. We can handle a `POST` method by adding a condition based on the request argument our function takes in. The comments in the code below explain the purpose of each line:
+
+```Python
+# Add a new task:
+def add(request):
+
+    # Check if method is POST
+    if request.method == "POST":
+
+        # Take in the data the user submitted and save it as form
+        form = NewTaskForm(request.POST)
+
+        # Check if form data is valid (server-side)
+        if form.is_valid():
+
+            # Isolate the task from the 'cleaned' version of form data
+            task = form.cleaned_data["task"]
+
+            # Add the new task to our list of tasks
+            tasks.append(task)
+
+            # Redirect user to list of tasks
+            return HttpResponseRedirect(reverse("tasks:index"))
+
+        else:
+
+            # If the form is invalid, re-render the page with existing information.
+            return render(request, "tasks/add.html", {
+                "form": form
+            })
+
+    return render(request, "tasks/add.html", {
+        "form": NewTaskForm()
+    })
+```
+
+A quick note: in order to redirect the user after a successful submission, we need a few more imports:
+
+```Python
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+```
+
+#### Sessions
+
+At this point, the TODO list is working as it load additional user input tasks and render on the webpage; however, it is problematic to store the task list as a gloabl variable inside `views.py`. Because it means that all of the users who visit this page will see the exact same list of TODOs, which is not what we want in this case. In order to solve this problem, we introduce [sessions](https://docs.djangoproject.com/en/4.0/topics/http/sessions/)
+
+Sessions are a way to store unique data on the server side for each client. To use sessions in our application, we’ll first delete our global `tasks` variable, then alter our `index` function, and finally make sure that anywhere else we had used the variable `tasks`, we replace it with `request.session["tasks"]`
+
+```Python
+def index(request):
+    # Check if there already exists a "tasks" key in current session
+    if "tasks" not in request.session:
+
+        # If not, create a new list
+        request.session["tasks"] = []
+
+    return render(request, "tasks/index.html", {
+        "tasks": request.session["tasks"]
+    })
+
+# Add a new task:
+def add(request):
+    if request.method == "POST":
+        # Take in the data the user submitted and save it as form
+        form = NewTaskForm(request.POST)
+
+        # Check if form data is valid (server-side)
+        if form.is_valid():
+
+            # Isolate the task from the 'cleaned' version of form data
+            task = form.cleaned_data["task"]
+
+            # Add the new task to our list of tasks
+            request.session["tasks"] += [task]
+
+            # Redirect user to list of tasks
+            return HttpResponseRedirect(reverse("tasks:index"))
+        else:
+
+            # If the form is invalid, re-render the page with existing information.
+            return render(request, "tasks/add.html", {
+                "form": form
+            })
+
+    return render(request, "tasks/add.html", {
+        "form": NewTaskForm()
+    })
+```
+
+In order to store the session data, we must first run the command `python manage.py migrate` in the terminal

@@ -46,7 +46,7 @@ Django is a Python-based web framework that will allow us to write Python code t
 
 - HTTP
 - Django Features
-- Sessions
+- TODO List
 
 ### Projects
 
