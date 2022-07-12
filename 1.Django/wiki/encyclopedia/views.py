@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from markdown2 import markdown
 
 from . import util
 
@@ -18,5 +19,5 @@ def page(request, title):
 
     return render(request, "encyclopedia/page.html", {
         "title": title,
-        "content": util.get_entry(title)
+        "content": markdown(content)
     })
