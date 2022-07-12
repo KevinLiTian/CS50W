@@ -16,6 +16,7 @@ def index(request):
 
 def page(request, title):
     """ Any Wiki Page """
+    title = (title.upper() if title.lower() in ("html", "css") else title.capitalize())
     content = util.get_entry(title)
 
     if request.method == "GET":
@@ -23,7 +24,8 @@ def page(request, title):
         if content is None:
             return render(request, "encyclopedia/error.html", {
                 "title": "404",
-                "content": "Page Not Found"
+                "content": "Page Not Found",
+                "name": ''
             })
 
         # Render the corresponding page
@@ -87,7 +89,8 @@ def new(request):
         if title in util.list_entries():
             return render(request, "encyclopedia/error.html", {
                 "title": "Page Exist",
-                "content": "There is already a Wiki page with this title"
+                "content": "There is already a Wiki page named ",
+                "name": title
                 })
 
         # Save New if new
