@@ -301,7 +301,7 @@ Now, to include this styling in our HTML file, we add the line `{% load static %
 
 Now, if we restart the server, we can see that the styling changes were in fact applied:
 
-Figure 1
+<img src="https://user-images.githubusercontent.com/99038613/178379780-be99f712-23df-4406-ab09-ed97253499c5.jpg" width=60%>
 
 ## TODO List
 
@@ -360,7 +360,7 @@ Now, let’s work on creating our template HTML file:
 
 Notice here that we are able to loop over our tasks using syntax similar to our conditionals from earlier, and also similar to a Python loop. When we go to the tasks page now, we can see our list being rendered:
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/178379794-66b874c6-52cd-4b10-aa3d-759a6b2aa00b.jpg" width=60%>
 
 #### Forms
 
@@ -442,7 +442,7 @@ And in `add.html`
 
 Notice how we can now get rid of much of the repeated code by extending our layout file. Now, our index page remains the same, and we now have an add page as well:
 
-Figure 3
+<img src="https://user-images.githubusercontent.com/99038613/178379804-72202cac-a062-4ade-bb1e-a2b4ba7a34b4.jpg" width=60%>
 
 Next, it’s not ideal to have to type “/add” in the URL any time we want to add a new task, so we’ll probably want to add some links between pages. Instead of hard-coding links though, we can now use the `name` variable we assigned to each path in `urls.py`, and create a link that looks like this:
 
