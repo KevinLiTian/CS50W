@@ -16,7 +16,7 @@ def index(request):
 
 def page(request, title):
     """ Any Wiki Page """
-    content = util.get_entry(title).strip()
+    content = util.get_entry(title)
 
     if request.method == "GET":
         # Page Not Found
@@ -102,8 +102,8 @@ def edit(request):
 
     # Server-side validation
     if form.is_valid():
-        title = form.cleaned_data["title"].strip()
-        content = form.cleaned_data["content"].strip()
+        title = form.cleaned_data["title"]
+        content = form.cleaned_data["content"]
 
         util.save_entry(title, content)
         util.remove_newline(title)
@@ -111,6 +111,9 @@ def edit(request):
 
     return redirect('page', title=title)
 
-def rand():
+def rand(request):
     """ Randomly Redirect to a Wiki Page """
+    if request.method == "GET":
+        return redirect('page', title=random.choice(util.list_entries()))
+
     return redirect('page', title=random.choice(util.list_entries()))

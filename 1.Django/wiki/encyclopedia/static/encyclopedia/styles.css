@@ -48,3 +48,17 @@ textarea {
   top: 2rem;
   text-align: right;
 }
+
+a:hover {
+  text-decoration: none;
+}
+
+a:not(.sidebar a) {
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border-radius: 5px;
+}
+
+a:not(.sidebar a):hover {
+  box-shadow: inset 100px 0 0 0 #ffb69e;
+  color: white;
+}
