@@ -553,7 +553,7 @@ def add(request):
             tasks.append(task)
 
             # Redirect user to list of tasks
-            return HttpResponseRedirect(reverse("tasks:index"))
+            return redirect("tasks:index")
 
         else:
 
@@ -571,7 +571,7 @@ A quick note: in order to redirect the user after a successful submission, we ne
 
 ```Python
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 ```
 
 #### Sessions
@@ -608,7 +608,7 @@ def add(request):
             request.session["tasks"] += [task]
 
             # Redirect user to list of tasks
-            return HttpResponseRedirect(reverse("tasks:index"))
+            return redirect("tasks:index")
         else:
 
             # If the form is invalid, re-render the page with existing information.
