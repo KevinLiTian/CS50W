@@ -1,0 +1,204 @@
+# SQL
+
+Previously, we have learned languages such as HTML, CSS and Python, as well as the Django framework, which allow us to build dynamic web apps. As web app grows, there are data we need to store somewhere, this is where SQL comes in handy. SQL is a programming language that allows us to update and query databases
+
+## SQLite
+
+There are several SQL database management systems that are commonly used to store information:
+
+- [MySQL](https://www.mysql.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [SQLite](https://www.sqlite.org/index.html)
+- ...
+
+The first two, MySQL and PostgreSQL, are heavier-duty database management systems that are typically run on their own servers separate from those running a website. SQLite on the other hand, is a light-weight system that can store all the data in a single file. Django's default system is SQLite
+
+#### Database
+
+Before getting into the details of SQL, let's first discuss what is a database. A database consists of relational tables, which are just normal tables with a certain number of columns and a flexible number of rows. Relational tables stand for tables with relations between each other
+
+#### Column Types
+
+Just like variable types in any programming language, SQL also provides types of data:
+
+- `TEXT`: For strings of text
+- `INTEGER`: Any non-decimal number
+- `REAL`: Any real number
+- `NUMERIC`: A more general form a numbers, such as boolean value
+- `BLOB`(Binary Large Object): Any other binary data, such as images
+
+#### Tables
+
+Now, to actually get started with using SQL to interact with a database, let’s begin by creating a new table. The [command to create a new table](https://www.w3schools.com/sql/sql_create_table.asp) looks something like this:
+
+```SQL
+CREATE TABLE flights(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    origin TEXT NOT NULL,
+    destination TEXT NOT NULL,
+    duration INTEGER NOT NULL
+);
+```
+
+In the above SQL command, the table created is called `flights`, which has four columns:
+
+- `id`: `INTEGER` type data, has attributes [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.ASP), and `AUTOINCREMENT` which means that `id` is the primary way to distinguish between different rows and `id` will be automatically filled and incremented by SQL everytime we enter a new data
+- `origin`, `destination`: `TEXT` type data, has attribute `NOT NULL`, which means the SQL will not accept a data without `origin` or `destination`
+- `duration`: `INTEGER` type data, has attribute `NOT NULL`, SQL will not accept a data without duration
+
+We just saw the `NOT NULL` and `PRIMARY KEY` constraint when making a column, but there are several other [constraints](https://www.tutorialspoint.com/sqlite/sqlite_constraints.htm) available to us:
+
+- `CHECK`: Makes sure certain constraints are met before allowing a row to be added/modified
+- `DEFAULT`: Provides a default value if no value is given
+- `UNIQUE`: Ensures that no two rows have the same value in that column
+- ...
+
+Now that we’ve seen how to create a table, let’s look at how we can add rows to it. In SQL, we do this using the `INSERT` command:
+
+```SQL
+INSERT INTO flights
+    (origin, destination, duration)
+    VALUES ("New York", "London", 415);
+```
+
+In the `INSERT` command, we have to specify which table to `INSERT INTO` and for each column, provide `VALUES`. Notice we don't have to provide value for the `id` column since we specified that it should be `AUTOINCREMENT` during the creation of the table
+
+#### SELECT
+
+Once a table has been created and populated with data, we would want a way to retrieve the data from the database. The [`SELECT`](https://www.w3schools.com/sql/sql_select.asp) keyword allows us to extract specific information from the database:
+
+```SQL
+SELECT * FROM flights;
+```
+
+Figure 1
+
+The `FROM` keyword specifies which table we are retrieving data from. The `*` is a wildcard select which means everything will be selected. Commonly, we don't have to retrieve all the data from the table, maybe just certain columns:
+
+```SQL
+SELECT origin, destination FROM flights;
+```
+
+Figure 2
+
+As the table gets larger, we might not want to retrieve all the data from a column, but only a single row of data:
+
+```SQL
+SELECT * FROM flights WHERE id = 3;
+```
+
+The [`WHERE`](https://www.w3schools.com/sql/sql_where.asp) keyword allows us to specify a condition and the data that satisfies the condition will be selected and in this case, the row with `id = 3` will be selected
+
+Figure 3
+
+`WHERE` can also filter by any column, not just by `id`:
+
+```SQL
+SELECT * FROM flights WHERE origin = "New York";
+```
+
+Figure 4
+
+#### Working with SQL in the Terminal
+
+Now that we learned that basic SQL commands, let's test them out in the terminal! In order to work with SQLite, first download it from [HERE](https://www.sqlite.org/download.html)(Specifically the sqlite-tools one in Precompiled Binaries). An alternative is to download the [DB Browser](https://sqlitebrowser.org/dl/) which provides a more user-friendly way to use SQL. Don't forget to add to environment after downloading it
+
+After setting up SQLite, in the terminal, use the command `sqlite3 mydb.sql` to create a new database. You will not find the .sql file in your directory, if you would like to see it, use the command `.databases`. Some common SQLite commands are:
+
+- `sqlite3 dbname.sqlite3`: Create new database
+- `.quit`: Exit the SQLite command line
+- `.databases`: List all databases, show them in directories they are in
+- `.tables`: List all tables
+
+The following code is an example of utilizing SQLite from command line:
+
+```SQL
+# Entering into the SQLite Prompt
+% sqlite3 flights.sql
+SQLite version 3.26.0 2018-12-01 12:34:55
+Enter ".help" for usage hints.
+
+# Creating a new Table
+sqlite> CREATE TABLE flights(
+   ...>     id INTEGER PRIMARY KEY AUTOINCREMENT,
+   ...>     origin TEXT NOT NULL,
+   ...>     destination TEXT NOT NULL,
+   ...>     duration INTEGER NOT NULL
+   ...> );
+
+# Listing all current tables (Just flights for now)
+sqlite> .tables
+flights
+
+# Querying for everything within flights (Which is now empty)
+sqlite> SELECT * FROM flights;
+
+# Adding one flight
+sqlite> INSERT INTO flights
+   ...>     (origin, destination, duration)
+   ...>     VALUES ("New York", "London", 415);
+
+# Checking for new information, which we can now see
+sqlite> SELECT * FROM flights;
+1|New York|London|415
+
+# Adding some more flights
+sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Shanghai", "Paris", 760);
+sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Istanbul", "Tokyo", 700);
+sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("New York", "Paris", 435);
+sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Moscow", "Paris", 245);
+sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Lima", "New York", 455);
+
+# Querying this new information
+sqlite> SELECT * FROM flights;
+1|New York|London|415
+2|Shanghai|Paris|760
+3|Istanbul|Tokyo|700
+4|New York|Paris|435
+5|Moscow|Paris|245
+6|Lima|New York|455
+
+# Changing the settings to make output more readable
+sqlite> .mode columns
+sqlite> .headers yes
+
+# Querying all information again
+sqlite> SELECT * FROM flights;
+id          origin      destination  duration
+----------  ----------  -----------  ----------
+1           New York    London       415
+2           Shanghai    Paris        760
+3           Istanbul    Tokyo        700
+4           New York    Paris        435
+5           Moscow      Paris        245
+6           Lima        New York     455
+
+# Searching for just those flights originating in New York
+sqlite> SELECT * FROM flights WHERE origin = "New York";
+id          origin      destination  duration
+----------  ----------  -----------  ----------
+1           New York    London       415
+4           New York    Paris        435
+```
+
+We can use more than just equality to filtering, for numeric values, we can use greater than or less than:
+
+```SQL
+SELECT * FROM flights WHERE duration > 500;
+```
+
+Figure 5
+
+We can use other logics (AND, OR) in SQL commands:
+
+```SQL
+SELECT * FROM flights WHERE duration > 500 AND destination = "Paris";
+```
+
+Figure 6
+
+```SQL
+SELECT * FROM flights WHERE duration > 500 OR destination = "Paris";
+```
+
+Figure 7

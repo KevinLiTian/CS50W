@@ -18,7 +18,7 @@ Web programming/development involves front-end development and back-end developm
 - **[Git](#lecture-0---introduction)**: Used for version control and collaboration
 - **[Python](#lecture-0---introduction)**: A widely-used programming language to make websites more dynamic
 - **[Django](#lecture-1---django)**: A popular web framework for the backend of websites
-- **SQL**: A language used for storing and retrieving data
+- **[SQL](#lecture-2---sql)**: A language used for storing and retrieving data
 - **JavaScript**: A programming language used to make websites faster and more interactive
 - **UI**: Methods used to make a website as easy to use as possible
 - **Testing**: Learning about different methods used to make sure updates to web pages proceed smoothly
@@ -51,6 +51,20 @@ Django is a Python-based web framework that will allow us to write Python code t
 ### Projects
 
 - [Wiki](1.Django/wiki/)
+
+## Lecture 2 - [SQL](2.SQL/)
+
+[SQL](https://www.w3schools.com/sql/), or Structured Query Language, is a programming language that allows us to update and query database
+
+### Objectives
+
+- SQLite
+- Django Models
+- Users
+
+### Projects
+
+- [Commerce](2.SQL/commerce/)
 
 ## Contact ME
 
