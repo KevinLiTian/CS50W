@@ -5,3 +5,5 @@ Make sure you have read and understand the lecture notes as well as the example 
 ### Introduction - [Search](search/)
 
 ### Django - [Wiki](wiki/)
+
+### SQL - [Commerce](commerce/)
