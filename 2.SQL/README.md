@@ -211,7 +211,7 @@ Just like in Python, we can use the keyword [`IN`](https://www.w3schools.com/sql
 SELECT * FROM flights WHERE origin IN ("New York", "Lima");
 ```
 
-Figure 1
+<img src="https://user-images.githubusercontent.com/99038613/179123498-7ae149b0-2203-4f8f-be89-19fb19fd54ea.jpg" width=60%>
 
 We can use regular expressoins to search for data more broadly using the [`LIKE`](https://www.w3schools.com/sql/sql_like.asp) keyword. For example, we can find the data with an "a" in its `origin`:
 
@@ -228,7 +228,7 @@ SELECT * FROM flights WHERE origin LIKE "%a";
 
 The `%` means 0 or more characters
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/179123503-4bebbb69-e0e5-4431-a57e-aa2b3d21280d.jpgg" width=60%>
 
 #### Functions
 
