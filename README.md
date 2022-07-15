@@ -54,7 +54,7 @@ Django is a Python-based web framework that will allow us to write Python code t
 
 ## Lecture 2 - [SQL](2.SQL/)
 
-[SQL](https://www.w3schools.com/sql/), or Structured Query Language, is a programming language that allows us to update and query database
+[SQL](https://www.w3schools.com/sql/), or Structured Query Language, is a programming language that allows us to update and query database. Django models is an abstraction layer on top of SQL that allows us to only interact with Django without writing SQL commands ourselves. We will also discuss how users can log in/log out of the website
 
 ### Objectives
 

@@ -41,8 +41,18 @@ Git specifies the workflow into 4 stages, local directory, staging area, local r
 - **Staging Area**: Once one uses the command `git add .`, the changes in the local directory will be staged in the staging area, where the changes are tracked by Git, but not stored in local repo
 - **Local Repo**: Once one uses the command `git commit`, the changes will be in the local repo
 - **Remote Repo**: Once one uses the command `git push`, the local changes will be sent to and stored on Github
+- `git pull`: The pull command will retrieve the commits from the remote repository to your local repository if your local repository don't yet have them, for example if your teammates pushed their changes, you have to use this pull command to sync these commits to your local repository
 
-![1](https://user-images.githubusercontent.com/99038613/178121325-ad649e2e-1c2d-49d9-95aa-14e450361fba.png)
+![stages](https://user-images.githubusercontent.com/99038613/178121325-ad649e2e-1c2d-49d9-95aa-14e450361fba.png)
+
+#### Common Workflow
+
+1. After setting up a remote repository and clone that repository to your local device, you can start coding in that local repository
+2. After finish developing a feature (maybe a single function or maybe an entire program), use `git add .` to add all the changes to the staging area, which Git can track all the changes
+3. If you are happy about changes, go ahead and `git commit` or `git commit -m "Some message"` to commit all the added changes to you local repository
+4. You can decide the frequency to send your commit information to the rremote repository online using, whether to push after every commit or push several commits together is up to you. Use `git push` to push the commits that are in your local repository and not in the remote repository to the remote repository
+
+- Note: Remember to `git pull` frequently if you are working with a team, ideally pull before you start working and also before you `git push`
 
 ## Conflict
 
@@ -71,4 +81,3 @@ A project usually has multiple features that are developing by different people 
 The commits will become messy and untrackable if something went wrong since everyone's commits are together on the same line. Branching is introduced to avoid this situation. A branch can be thought as a completely different repo so that one can track one's work clearly. Then after the feature is finished, one will merge the branch back to the original main code base
 
 ![3](https://user-images.githubusercontent.com/99038613/178121333-70abc7a0-d27b-4c30-8d27-6c8acc7455cb.jpg)
-
