@@ -779,3 +779,5 @@ def logout_view(request):
                 "message": "Logged Out"
             })
 ```
+
+These are the backend operations during an authentication process. You are welcome to customize the `user.html` and `login.html` to make the login page more attractive
