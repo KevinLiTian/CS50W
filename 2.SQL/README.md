@@ -617,7 +617,7 @@ Also create a `layout.html` and a `index.html` file
 
 Now our webpage is able to display all the flights information stored in our database
 
-Figure 1
+![1](https://user-images.githubusercontent.com/99038613/179260206-21f201d3-8ccc-4dc8-b8e1-8387caf65218.jpg)
 
 #### Django Admin
 
@@ -645,9 +645,9 @@ admin.site.register(Airport)
 
 Now, when we visit our site and add /admin to the url, we can log into a page that looks like this
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/179260272-2e79a9ac-c2fb-4308-a305-343d48850eb9.jpg" width=60%>
 
-Figure 3
+<img src="https://user-images.githubusercontent.com/99038613/179260284-f4df1557-af35-4a2e-a4ed-cac6dfe5369f.jpg" width=60%>
 
 #### Many to Many Relationship
 
@@ -693,7 +693,7 @@ And in `flight.html`
 </ul>
 ```
 
-Figure 4
+<img src="https://user-images.githubusercontent.com/99038613/179260415-add9702a-b095-4669-85b5-1fd8f59d955e.jpg" height=60%>
 
 ## Users
 
