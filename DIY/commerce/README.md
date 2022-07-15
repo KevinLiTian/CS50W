@@ -17,6 +17,7 @@ Complete the implementation of your auction site. You must fulfill the following
 
 ## Hints
 
+- Start by make migrations for the `auctions` app by `cd` into the `commerce` directory and using the command in the terminal `python manage.py makemigrations auctions` then `python manage.py migrate`
 - To create a superuser account that can access Django’s admin interface, run `python manage.py createsuperuser`
 - See Django’s [Model field reference](https://docs.djangoproject.com/en/4.0/ref/models/fields/) for possible field types for your Django model
 - You’ll likely need to create some [Django forms](https://docs.djangoproject.com/en/4.0/topics/forms/) for various parts of this web application

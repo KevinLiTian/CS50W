@@ -1,17 +1,22 @@
+""" View Functions """
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse
+from django.shortcuts import render, redirect
 
 from .models import User
 
 
 def index(request):
+    """ Index View """
     return render(request, "auctions/index.html")
 
 
 def login_view(request):
+    """ Login View
+    If POST request, then log user in if information matches database
+    If GET request, render the login page
+    """
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -22,23 +27,30 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
-        else:
-            return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
-            })
-    else:
-        return render(request, "auctions/login.html")
+            return redirect("index")
+
+        return render(request, "auctions/login.html", {
+            "message": "Invalid username and/or password."
+        })
+
+    # GET
+    return render(request, "auctions/login.html")
 
 
 def logout_view(request):
+    """ Logout View """
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return redirect("index")
 
 
 def register(request):
+    """ Register View
+    If POST request, try to register a new user
+    If GET request, render the registration form
+    """
     if request.method == "POST":
         username = request.POST["username"]
+        nickname = request.POST["nickname"]
         email = request.POST["email"]
 
         # Ensure password matches confirmation
@@ -51,13 +63,14 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, nickname=nickname)
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, "auctions/register.html")
+        return redirect("index")
+
+    # GET
+    return render(request, "auctions/register.html")
