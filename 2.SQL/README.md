@@ -228,7 +228,7 @@ SELECT * FROM flights WHERE origin LIKE "%a";
 
 The `%` means 0 or more characters
 
-<img src="https://user-images.githubusercontent.com/99038613/179123503-4bebbb69-e0e5-4431-a57e-aa2b3d21280d.jpgg" width=60%>
+<img src="https://user-images.githubusercontent.com/99038613/179123503-4bebbb69-e0e5-4431-a57e-aa2b3d21280d.jpg" width=60%>
 
 #### Functions
 
