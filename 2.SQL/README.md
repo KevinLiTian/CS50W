@@ -71,7 +71,7 @@ Once a table has been created and populated with data, we would want a way to re
 SELECT * FROM flights;
 ```
 
-Figure 1
+<img src="https://user-images.githubusercontent.com/99038613/179120199-d6665ca6-8b8b-4824-a047-68f4849de494.jpg" width=60%>
 
 The `FROM` keyword specifies which table we are retrieving data from. The `*` is a wildcard select which means everything will be selected. Commonly, we don't have to retrieve all the data from the table, maybe just certain columns:
 
@@ -79,7 +79,7 @@ The `FROM` keyword specifies which table we are retrieving data from. The `*` is
 SELECT origin, destination FROM flights;
 ```
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/179120214-d6cbc214-cc39-421f-9bfe-82c24999aec3.jpg" width=60%>
 
 As the table gets larger, we might not want to retrieve all the data from a column, but only a single row of data:
 
@@ -89,7 +89,8 @@ SELECT * FROM flights WHERE id = 3;
 
 The [`WHERE`](https://www.w3schools.com/sql/sql_where.asp) keyword allows us to specify a condition and the data that satisfies the condition will be selected and in this case, the row with `id = 3` will be selected
 
-Figure 3
+
+<img src="https://user-images.githubusercontent.com/99038613/179120223-210ec8d9-28db-4520-a662-46b73d40ff86.jpg" width=60%>
 
 `WHERE` can also filter by any column, not just by `id`:
 
@@ -97,7 +98,7 @@ Figure 3
 SELECT * FROM flights WHERE origin = "New York";
 ```
 
-Figure 4
+<img src="https://user-images.githubusercontent.com/99038613/179120229-4baa62e3-a05d-46c6-8a2c-d3fd7e12e822.jpg" width=60%>
 
 #### Working with SQL in the Terminal
 
@@ -187,7 +188,7 @@ We can use more than just equality to filtering, for numeric values, we can use 
 SELECT * FROM flights WHERE duration > 500;
 ```
 
-Figure 5
+<img src="https://user-images.githubusercontent.com/99038613/179120274-3fc97e28-d7ae-40a4-a50c-aebc77242544.jpg" width=60%>
 
 We can use other logics (AND, OR) in SQL commands:
 
@@ -195,10 +196,10 @@ We can use other logics (AND, OR) in SQL commands:
 SELECT * FROM flights WHERE duration > 500 AND destination = "Paris";
 ```
 
-Figure 6
+<img src="https://user-images.githubusercontent.com/99038613/179120280-d246d3ab-14bf-40cc-aaae-728e1c4adae8.jpg" width=60%>
 
 ```SQL
 SELECT * FROM flights WHERE duration > 500 OR destination = "Paris";
 ```
 
-Figure 7
+<img src="https://user-images.githubusercontent.com/99038613/179120287-3f1015bc-c396-47ff-8660-4d60ed0e49ae.jpg" width=60%>
