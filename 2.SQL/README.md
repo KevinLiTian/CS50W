@@ -274,22 +274,23 @@ There are a number of additional clauses we can use to control queries coming ba
 
 So far, we have been working on only one table, instead of the relational tables we mentioned in the beginning about databases. It turns out that many databases in practice are popuated by number of tables tha all relate to each other in some way. In the airlines example, what if we want to add the airport code to the origin and destination? Such as JFK for New York, or PVG for Shanghai. For sure we can add more columns to store the additional information, but that will make the table too large and slow down the performance when quering or storing data. Instead, we can create another `code` table that relates the cities with their airport codes:
 
-Figure 1
+<img src="https://user-images.githubusercontent.com/99038613/179130207-ee87618a-f23d-4810-801a-4190f04a01fa.jpg" width=60%>
 
 Now we have the cities with their corresponding codes, we can modify the original `flights` table to store these instead of only cities. The way to do this is by using [Foreign Keys](https://www.w3schools.com/sql/sql_foreignkey.asp) in SQL:
 
-Figure 2
+<img src="https://user-images.githubusercontent.com/99038613/179130216-d347ff2e-6755-4b82-8fc5-6338f7da9084.jpg" width=60%>
 
 Notice that the data in the flights table is some numeric numbers instead of `TEXT` data of city names. These numbers themselves are meaningless, but they serve as foreign keys that connects the `flights` table to the `code` table since they are the `id` of the `code` table
 
 In addition to airport codes, airlines might want to store the data about the passengers and what airlines did they book. Therefore, we can create another table, storing the passengers with their booked airline where the `flight_id` is also a foreign key as they are the `id` of `flights` table:
 
-Figure 3
+<img src="https://user-images.githubusercontent.com/99038613/179130220-de6d8456-8dd5-4061-bbae-912adb7d5860.jpg" width=60%>
 
 We can do even better, since one passenger could book more than one flights, we can make another `people` table that only contains the information of every person and the passenger table will have a foreign key from `people` and another foreign key from `flights`:
 
-Figure 4
-Figure 5
+<img src="https://user-images.githubusercontent.com/99038613/179130224-a8bf0422-9baa-471b-8b74-bcd70c1e8e4a.jpg" width=60%>
+
+<img src="https://user-images.githubusercontent.com/99038613/179130227-6357c9f1-b337-473a-ba02-e26f07f6220e.jpg" width=60%>
 
 This creates a "Many to Many" relationship where a passenger could book more than one airline and an airline could have more than one passenger
 
