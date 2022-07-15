@@ -246,7 +246,8 @@ There are also a number of SQL functions we can apply to the results of a query.
 We now have the ability to `CREATE` a table, `INSERT` data into a table, and `SELECT` data to retrive them. Now imagine a case where an airline might upgrade their airplane and the duration will thus decrease. In this case, we might want a way to update the data for that airline. We can [`DELETE`](https://www.w3schools.com/sql/sql_delete.asp) that data then `INSERT` an updated one:
 
 ```SQL
-DELETE FROM flights WHERE origin = "Shanghai" AND destination = "Paris";
+DELETE FROM flights
+WHERE origin = "Shanghai" AND destination = "Paris";
 INSERT INTO flights (origin, destination, duration) VALUES ("Shanghai", "Paris", 700);
 ```
 
@@ -327,3 +328,48 @@ Ginny          Lima      New York
 
 We’ve just used something called an [INNER JOIN](https://www.w3schools.com/sql/sql_join_inner.asp), which means we are ignoring rows that have no matches between the tables, but there are other types of joins, including [LEFT JOIN](https://www.w3schools.com/sql/sql_join_left.asp), [RIGHT JOIN](https://www.w3schools.com/sql/sql_join_right.asp), and [FULL OUTER JOIN](https://www.w3schools.com/sql/sql_join_right.asp), which we won’t discuss here in detail
 
+#### Indexing
+
+Indexing is an optimization technique when querying frequently and regarding specific columns. This works as if the index page of a dictionary, which will let us find contents quicker than flipping page by page. For instance, if we know that we will frequently look up passengers by their last names, we can:
+
+```SQL
+CREATE INDEX name_index ON passengers (last);
+```
+
+#### SQL Vulnerabilities
+
+Now that we know the basics of using SQL to work with data, it's important to know the vulnerabilities associated with using SQL. Start with [SQL Injection](https://www.w3schools.com/sql/sql_injection.asp)
+
+SQL Injection is a malicious attack using the syntax of SQL. For example, nowadays most websites have authentification systems that need users to login to check their personal information. The SQL command to check if username and password are valid is:
+
+```SQL
+SELECT * FROM users
+WHERE username = username AND password = password;
+```
+
+For instance, a user Harry might enter `harrypotter` for username and `12345` for password, then the specific SQL command will be:
+
+```SQL
+SELECT * FROM users
+WHERE username = "harrypotter" AND password = "12345";
+```
+
+If the data exists in the database, then the website will log Harry in. A hacker, on the other hand, might set a username `harrypotter"--` as a username and an arbitrary password which does not exist in the database. The hacker should not be allowed to log onto Harry's account but in fact he will. This is because `--` in SQL syntax is comment, so the SQL command will become:
+
+```SQL
+SELECT * FROM users
+WHERE username = "harrypotter"--" AND password = "66666";
+```
+
+As the code illustrated, the SQL command after `harrypotter` is commented out, so that if there exists a username `harrypotter` in the database, the hacker will be able to log onto that account without knowing the password
+
+To solve this problem, we can use:
+
+- Explicitly specifying characters to make sure SQL treats the input as plain string and not as SQL code
+- An abstraction layer on top of SQL which includes its own escape sequence, so we don’t have to write SQL queries ourselves, such as using Django as the abstraction layer
+
+Another main vulnerability when it comes to SQL is known as a [Race Condition](https://searchstorage.techtarget.com/definition/race-condition#:~:text=A%20race%20condition%20is%20an,sequence%20to%20be%20done%20correctly.)
+
+A race condition is a situation that occurs when multiple queries to a database occur simultaneously. When these are not adequately handled, problems can arise in the precise times that databases are updated. For example, let’s say I have $150 in my bank account. A race condition could occur if I log into my bank account on both my phone and my laptop, and attempt to withdraw $100 on each device. If the bank’s software developers did not deal with race conditions correctly, then I may be able to withdraw $200 from an account with only $150 in it. One potential solution for this problem would be locking the database. We could not allow any other interaction with the database until one transaction has been completed. In the bank example, after clicking navigating to the “Make a Withdrawl” page on my computer, the bank might not allow me to navigate to that page on my phone
+
+## Django Models
