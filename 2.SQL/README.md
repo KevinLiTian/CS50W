@@ -696,3 +696,86 @@ And in `flight.html`
 Figure 4
 
 ## Users
+
+Django also makes it easy for us to create an authentification system, allowing users to sign in or out of the website. We'll start by creating an app called `users`. After going through the normal steps of creating a new app, in the `urls.py` in this new app, we add a few more routes:
+
+```Python
+urlpatterns = [
+    path('', views.index, name="index"),
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout")
+]
+```
+
+Then create a form where a user can log in:
+
+```HTML
+{% extends "users/layout.html" %}
+
+{% block body %}
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="text", name="username", placeholder="Username">
+        <input type="password", name="password", placeholder="Password">
+        <input type="submit", value="Login">
+    </form>
+{% endblock %}
+```
+
+Then in `views.py`:
+
+```Python
+def index(request):
+    # If no user is signed in, return to login page:
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    return render(request, "users/user.html")
+
+def login_view(request):
+    return render(request, "users/login.html")
+
+def logout_view(request):
+    # Pass is a simple way to tell python to do nothing.
+    pass
+```
+
+Next, we can head to the admin site and add some users. After that we will update the `login_view` function to handle a `POST` request with a username and password:
+
+```Python
+# Additional imports we'll need:
+from django.contrib.auth import authenticate, login, logout
+
+def login_view(request):
+    if request.method == "POST":
+        # Accessing username and password from form data
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        # Check if username and password are correct, returning User object if so
+        user = authenticate(request, username=username, password=password)
+
+        # If user object is returned, log in and route to index page:
+        if user:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        # Otherwise, return login page again with new context
+        else:
+            return render(request, "users/login.html", {
+                "message": "Invalid Credentials"
+            })
+    return render(request, "users/login.html")
+```
+
+Then we will implement the log out function to log users out:
+
+```Python
+def logout_view(request):
+    logout(request)
+    return render(request, "users/login.html", {
+                "message": "Logged Out"
+            })
+```
