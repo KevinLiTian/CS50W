@@ -269,3 +269,61 @@ There are a number of additional clauses we can use to control queries coming ba
 - [`ORDER BY`](https://www.w3schools.com/sql/sql_orderby.asp): Orders the results based on a specified column
 - [`GROUP BY`](https://www.w3schools.com/sql/sql_groupby.asp): Groups results by a specified column
 - [`HAVING`](https://www.w3schools.com/sql/sql_having.asp): Allows for additional constraints based on the number of results
+
+#### Joining Tables
+
+So far, we have been working on only one table, instead of the relational tables we mentioned in the beginning about databases. It turns out that many databases in practice are popuated by number of tables tha all relate to each other in some way. In the airlines example, what if we want to add the airport code to the origin and destination? Such as JFK for New York, or PVG for Shanghai. For sure we can add more columns to store the additional information, but that will make the table too large and slow down the performance when quering or storing data. Instead, we can create another `code` table that relates the cities with their airport codes:
+
+Figure 1
+
+Now we have the cities with their corresponding codes, we can modify the original `flights` table to store these instead of only cities. The way to do this is by using [Foreign Keys](https://www.w3schools.com/sql/sql_foreignkey.asp) in SQL:
+
+Figure 2
+
+Notice that the data in the flights table is some numeric numbers instead of `TEXT` data of city names. These numbers themselves are meaningless, but they serve as foreign keys that connects the `flights` table to the `code` table since they are the `id` of the `code` table
+
+In addition to airport codes, airlines might want to store the data about the passengers and what airlines did they book. Therefore, we can create another table, storing the passengers with their booked airline where the `flight_id` is also a foreign key as they are the `id` of `flights` table:
+
+Figure 3
+
+We can do even better, since one passenger could book more than one flights, we can make another `people` table that only contains the information of every person and the passenger table will have a foreign key from `people` and another foreign key from `flights`:
+
+Figure 4
+Figure 5
+
+This creates a "Many to Many" relationship where a passenger could book more than one airline and an airline could have more than one passenger
+
+#### JOIN Query
+
+Although our data are stored more efficiently by now, it seems like it may be harder to query the data since they are spreaded across several tables. SQL makes it convenient by introducing the [`JOIN`](https://www.w3schools.com/sql/sql_join.asp) query where we can combine tables for data retrieval
+
+For example, if we want to find the origin, destination and the first names of the passengers of an airline. Just to demonstrate what the `JOIN` key do, we will use the unoptimized `passengers` table with `flight_id` being one of its columns:
+
+```SQL
+SELECT first, origin, destination
+FROM ...
+```
+
+This part seems familiar since we are querying about the first names of the passengers, origin and destination of an airline. But we run into a problem since `first` is stored in another table, we cannot only specify one table, `flights`, after the `FROM` keyword. Therefore we will use the `JOIN` keyword, and specify which are the foreign keys by using the `ON` keyword:
+
+```SQL
+SELECT first, origin, destination
+FROM flights JOIN passengers
+ON passengers.flight_id = flights.id;
+```
+
+The result will be:
+
+```
+first         origin    destination
+----------  ----------  -----------
+Harry        New York     London
+Ron          Shanghai     Paris
+Hermione     Istanbul     Tokyo
+Draco        New York     Paris
+Luna          Moscow      Paris
+Ginny          Lima      New York
+```
+
+We’ve just used something called an [INNER JOIN](https://www.w3schools.com/sql/sql_join_inner.asp), which means we are ignoring rows that have no matches between the tables, but there are other types of joins, including [LEFT JOIN](https://www.w3schools.com/sql/sql_join_left.asp), [RIGHT JOIN](https://www.w3schools.com/sql/sql_join_right.asp), and [FULL OUTER JOIN](https://www.w3schools.com/sql/sql_join_right.asp), which we won’t discuss here in detail
+
