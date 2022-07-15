@@ -89,7 +89,6 @@ SELECT * FROM flights WHERE id = 3;
 
 The [`WHERE`](https://www.w3schools.com/sql/sql_where.asp) keyword allows us to specify a condition and the data that satisfies the condition will be selected and in this case, the row with `id = 3` will be selected
 
-
 <img src="https://user-images.githubusercontent.com/99038613/179120223-210ec8d9-28db-4520-a662-46b73d40ff86.jpg" width=60%>
 
 `WHERE` can also filter by any column, not just by `id`:
@@ -114,12 +113,14 @@ After setting up SQLite, in the terminal, use the command `sqlite3 mydb.sql` to 
 The following code is an example of utilizing SQLite from command line:
 
 ```SQL
-# Entering into the SQLite Prompt
+-- "--" is the comment in SQL language
+
+-- Entering into the SQLite Prompt
 % sqlite3 flights.sql
 SQLite version 3.26.0 2018-12-01 12:34:55
 Enter ".help" for usage hints.
 
-# Creating a new Table
+-- Creating a new Table
 sqlite> CREATE TABLE flights(
    ...>     id INTEGER PRIMARY KEY AUTOINCREMENT,
    ...>     origin TEXT NOT NULL,
@@ -127,30 +128,30 @@ sqlite> CREATE TABLE flights(
    ...>     duration INTEGER NOT NULL
    ...> );
 
-# Listing all current tables (Just flights for now)
+-- Listing all current tables (Just flights for now)
 sqlite> .tables
 flights
 
-# Querying for everything within flights (Which is now empty)
+-- Querying for everything within flights (Which is now empty)
 sqlite> SELECT * FROM flights;
 
-# Adding one flight
+-- Adding one flight
 sqlite> INSERT INTO flights
    ...>     (origin, destination, duration)
    ...>     VALUES ("New York", "London", 415);
 
-# Checking for new information, which we can now see
+-- Checking for new information, which we can now see
 sqlite> SELECT * FROM flights;
 1|New York|London|415
 
-# Adding some more flights
+-- Adding some more flights
 sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Shanghai", "Paris", 760);
 sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Istanbul", "Tokyo", 700);
 sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("New York", "Paris", 435);
 sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Moscow", "Paris", 245);
 sqlite> INSERT INTO flights (origin, destination, duration) VALUES ("Lima", "New York", 455);
 
-# Querying this new information
+-- Querying this new information
 sqlite> SELECT * FROM flights;
 1|New York|London|415
 2|Shanghai|Paris|760
@@ -159,11 +160,11 @@ sqlite> SELECT * FROM flights;
 5|Moscow|Paris|245
 6|Lima|New York|455
 
-# Changing the settings to make output more readable
+-- Changing the settings to make output more readable
 sqlite> .mode columns
 sqlite> .headers yes
 
-# Querying all information again
+-- Querying all information again
 sqlite> SELECT * FROM flights;
 id          origin      destination  duration
 ----------  ----------  -----------  ----------
@@ -174,7 +175,7 @@ id          origin      destination  duration
 5           Moscow      Paris        245
 6           Lima        New York     455
 
-# Searching for just those flights originating in New York
+-- Searching for just those flights originating in New York
 sqlite> SELECT * FROM flights WHERE origin = "New York";
 id          origin      destination  duration
 ----------  ----------  -----------  ----------
@@ -203,3 +204,68 @@ SELECT * FROM flights WHERE duration > 500 OR destination = "Paris";
 ```
 
 <img src="https://user-images.githubusercontent.com/99038613/179120287-3f1015bc-c396-47ff-8660-4d60ed0e49ae.jpg" width=60%>
+
+Just like in Python, we can use the keyword [`IN`](https://www.w3schools.com/sql/sql_in.asp) to check if a data is one of the several options:
+
+```SQL
+SELECT * FROM flights WHERE origin IN ("New York", "Lima");
+```
+
+Figure 1
+
+We can use regular expressoins to search for data more broadly using the [`LIKE`](https://www.w3schools.com/sql/sql_like.asp) keyword. For example, we can find the data with an "a" in its `origin`:
+
+```SQL
+-- "a" can be anywhere in the origin string
+SELECT * FROM flights WHERE origin LIKE "%a%";
+
+-- "a" must be the first character in the origin string
+SELECT * FROM flights WHERE origin LIKE "a%";
+
+-- "a" must be the ending character in the origin string
+SELECT * FROM flights WHERE origin LIKE "%a";
+```
+
+The `%` means 0 or more characters
+
+Figure 2
+
+#### Functions
+
+There are also a number of SQL functions we can apply to the results of a query. These can be useful if we don’t need all of the data returned by a query, but just some summary statistics of the data
+
+- [`AVERAGE`](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
+- [`COUNT`](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
+- [`MAX`](https://www.w3schools.com/sql/sql_min_max.asp)
+- [`MIN`](https://www.w3schools.com/sql/sql_min_max.asp)
+- [`SUM`](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
+- ...
+
+#### UPDATE
+
+We now have the ability to `CREATE` a table, `INSERT` data into a table, and `SELECT` data to retrive them. Now imagine a case where an airline might upgrade their airplane and the duration will thus decrease. In this case, we might want a way to update the data for that airline. We can [`DELETE`](https://www.w3schools.com/sql/sql_delete.asp) that data then `INSERT` an updated one:
+
+```SQL
+DELETE FROM flights WHERE origin = "Shanghai" AND destination = "Paris";
+INSERT INTO flights (origin, destination, duration) VALUES ("Shanghai", "Paris", 700);
+```
+
+But this is not the best way to do it, in fact, there is an `UPDATE` that just do this work in SQL:
+
+```SQL
+UPDATE flights
+    SET duration = 700
+    WHERE origin = "Shanghai"
+    AND destination = "Paris";
+```
+
+However, if for instance an airline is canceled permanently, `DELETE` is the one to use. Choose the suitable SQL command to do corresponding work
+
+#### Other Clauses
+
+There are a number of additional clauses we can use to control queries coming back to us:
+
+- [`LIMIT`](https://www.w3schools.com/sql/sql_top.asp): Limits the number of results returned by a query
+- [`ORDER BY`](https://www.w3schools.com/sql/sql_orderby.asp): Orders the results based on a specified column
+- [`GROUP BY`](https://www.w3schools.com/sql/sql_groupby.asp): Groups results by a specified column
+- [`HAVING`](https://www.w3schools.com/sql/sql_having.asp): Allows for additional constraints based on the number of results
