@@ -404,3 +404,295 @@ class Flight(models.Model):
 - In the first line, we create a new model that extends Django’s model class
 - Below, we add fields for origin, destination, and duration. The first two are [Character Fields](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#charfield), meaning they store strings, and the third is an [Integer Field](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#integerfield). These are just two of many [built-in Django Field classes](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes)
 - We specify maximum lengths of 64 for the two Character Fields. you can check the specifications available for a given field by checking the [documentation](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes)
+
+#### Migration
+
+Now that we've created a Django model class, we don't yet have a database setup. In order to create a database from the models, we navigate to the main directory of the Django project and run the command:
+
+`python manage.py makemigrations`
+
+This command will create some Python files that allow us to create and query the database. Next, to actually create the database itself, we run the following command:
+
+`python manage.py migrate`
+
+Which will create a `db.sqlite3` file as the database
+
+#### Shell
+
+After setting up a database, we need a way to interact with it, for example insert data or retrieve data. We can enter Django's shell to achieve this:
+
+`python manage.py shell`
+
+```shell
+Python 3.7.2 (default, Dec 29 2018, 00:00:04)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 6.5.0 -- An enhanced Interactive Python. Type '?' for help.
+```
+
+```shell
+# Import our flight model
+In [1]: from flights.models import Flight
+
+# Create a new flight
+In [2]: f = Flight(origin="New York", destination="London", duration=415)
+
+# Instert that flight into our database
+In [3]: f.save()
+
+# Query for all flights stored in the database
+In [4]: Flight.objects.all()
+Out[4]: <QuerySet [<Flight: Flight object (1)>]>
+```
+
+When we query the database using `Flight.objects.all()`, we see an output that says `Flight object (1)` which isn't that helpful. We can create a `__str__` function within the `Flight` class to define what should the output of the query be:
+
+```Python
+class Flight(models.Model):
+    origin = models.CharField(max_length=64)
+    destination = models.CharField(max_length=64)
+    duration = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.id}: {self.origin} to {self.destination}"
+```
+
+Not if we go back to the shell and query again, the output will be more readable:
+
+```shell
+# Create a variable called flights to store the results of a query
+In [7]: flights = Flight.objects.all()
+
+# Displaying all flights
+In [8]: flights
+Out[8]: <QuerySet [<Flight: 1: New York to London>]>
+
+# Isolating just the first flight
+In [9]: flight = flights.first()
+
+# Printing flight information
+In [10]: flight
+Out[10]: <Flight: 1: New York to London>
+
+# Display flight id
+In [11]: flight.id
+Out[11]: 1
+
+# Display flight origin
+In [12]: flight.origin
+Out[12]: 'New York'
+
+# Display flight destination
+In [13]: flight.destination
+Out[13]: 'London'
+
+# Display flight duration
+In [14]: flight.duration
+Out[14]: 415
+```
+
+Now that we've learned how to work with Django models, let's think back to the design earlier where cities and their airport codes are stored as a separate table:
+
+```Python
+class Airport(models.Model):
+    code = models.CharField(max_length=3)
+    city = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.city} ({self.code})"
+
+class Flight(models.Model):
+    origin = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="departures")
+    destination = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="arrivals")
+    duration = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.id}: {self.origin} to {self.destination}"
+```
+
+- Notice that the `origin` and `destination` are changed from `CharField` to [`ForeignKey`](https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_one/)
+- `on_delete=models.CASCADE` means that if an airport is deleted for whatever reason in the `airports` table, since some airlines in `flights` table will no longer have an airport to reference to via foreign key, they will also be deleted automatically
+- We also provide a [`related name`](https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey.related_name) which gives us a way to search for all airlines with a given airport as their origin or destination
+
+Every time we make changes to `models.py`, we'll have to repeat the two migration commands in order to let the change take effect in the database
+
+```shell
+# Create New Migrations
+python manage.py makemigration
+
+# Migrate
+python manage.py migrate
+```
+
+Now we can try to use the new models in the Django shell:
+
+```shell
+# Open up the Django shell
+python manage.py shell
+
+# Import all models
+In [1]: from flights.models import *
+
+# Create some new airports
+In [2]: jfk = Airport(code="JFK", city="New York")
+In [4]: lhr = Airport(code="LHR", city="London")
+In [6]: cdg = Airport(code="CDG", city="Paris")
+In [9]: nrt = Airport(code="NRT", city="Tokyo")
+
+# Save the airports to the database
+In [3]: jfk.save()
+In [5]: lhr.save()
+In [8]: cdg.save()
+In [10]: nrt.save()
+
+# Add a flight and save it to the database
+f = Flight(origin=jfk, destination=lhr, duration=414)
+f.save()
+
+# Display some info about the flight
+In [14]: f
+Out[14]: <Flight: 1: New York (JFK) to London (LHR)>
+In [15]: f.origin
+Out[15]: <Airport: New York (JFK)>
+
+# Using the related name to query by airport of arrival:
+In [17]: lhr.arrivals.all()
+Out[17]: <QuerySet [<Flight: 1: New York (JFK) to London (LHR)>]>
+```
+
+#### Starting the Application
+
+We can now build an application with the skills of working with Django models to create and interact with a database. First create a `urls.py` file in the airline application:
+
+```Python
+urlpatterns = [
+    path('', views.index, name="index")
+]
+```
+
+And inside `views.py`
+
+```Python
+from django.shortcuts import render
+from .models import Flight, Airport
+
+# Create your views here.
+
+def index(request):
+    return render(request, "flights/index.html", {
+        "flights": Flight.objects.all()
+    })
+```
+
+Also create a `layout.html` and a `index.html` file
+
+- `layout.html`
+
+  ```HTML
+  <!DOCTYPE html>
+  <html lang="en">
+      <head>
+          <title>Flights</title>
+      </head>
+      <body>
+          {% block body %}
+          {% endblock %}
+      </body>
+  </html>
+  ```
+
+- `index.html`
+
+  ```HTML
+  {% extends "flights/layout.html" %}
+
+  {% block body %}
+    <h1>Flights:</h1>
+    <ul>
+        {% for flight in flights %}
+            <li>Flight {{ flight.id }}: {{ flight.origin }} to {{ flight.destination }}</li>
+        {% endfor %}
+    </ul>
+  {% endblock %}
+  ```
+
+Now our webpage is able to display all the flights information stored in our database
+
+Figure 1
+
+#### Django Admin
+
+Instead of interacting with the database in the Django shell, Django provides a more convenient way which is the Django Admin. We start by creating an administrative userL
+
+```shell
+python manage.py createsuperuser
+Username: superuser
+Email address: superuser@gmail.com
+Password:
+Password (again):
+Superuser created successfully.
+```
+
+Next, navigate to `admin.py` and register our models:
+
+```Python
+from django.contrib import admin
+from .models import Flight, Airport
+
+# Register your models here.
+admin.site.register(Flight)
+admin.site.register(Airport)
+```
+
+Now, when we visit our site and add /admin to the url, we can log into a page that looks like this
+
+Figure 2
+
+Figure 3
+
+#### Many to Many Relationship
+
+Think back to the relationship where a passenger could book more than one flight and a flight could have booked by more than one passenger. We can achieve this by using the `ManytoManyField` in Django:
+
+```Python
+class Passenger(models.Model):
+    first = models.CharField(max_length=64)
+    last = models.CharField(max_length=64)
+    flights = models.ManyToManyField(Flight, blank=True, related_name="passengers")
+
+    def __str__(self):
+        return f"{self.first} {self.last}"
+```
+
+- `blank=true` means that a passenger could have no flights
+- `related_name` allows us to find all passengers given a flight
+
+Remember to register this new model in `admin.py` and also make migrations using the two commands mentioned before
+
+We can now show a flight's information with all its passengers' information as well
+
+```Python
+def flight(request, flight_id):
+    flight = Flight.objects.get(id=flight_id)
+    passengers = flight.passengers.all()
+    return render(request, "flights/flight.html", {
+        "flight": flight,
+        "passengers": passengers
+    })
+```
+
+And in `flight.html`
+
+```HTML
+<h2>Passengers:</h2>
+<ul>
+    {% for passenger in passengers %}
+        <li>{{ passenger }}</li>
+    {% empty %}
+        <li>No Passengers.</li>
+    {% endfor %}
+</ul>
+```
+
+Figure 4
+
+## Users
