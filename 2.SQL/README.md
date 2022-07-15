@@ -374,3 +374,33 @@ Another main vulnerability when it comes to SQL is known as a [Race Condition](h
 A race condition is a situation that occurs when multiple queries to a database occur simultaneously. When these are not adequately handled, problems can arise in the precise times that databases are updated. For example, let’s say I have $150 in my bank account. A race condition could occur if I log into my bank account on both my phone and my laptop, and attempt to withdraw $100 on each device. If the bank’s software developers did not deal with race conditions correctly, then I may be able to withdraw $200 from an account with only $150 in it. One potential solution for this problem would be locking the database. We could not allow any other interaction with the database until one transaction has been completed. In the bank example, after clicking navigating to the “Make a Withdrawl” page on my computer, the bank might not allow me to navigate to that page on my phone
 
 ## Django Models
+
+[Django Models](https://docs.djangoproject.com/en/4.0/topics/db/models/) are a level of abstraction on top of SQL that allow us to work with databases using Python classes and objects rather than direct SQL queries
+
+Let’s get started on using models by creating a django project for our airline, and creating an app within that project:
+
+```shell
+django-admin startproject airline
+cd airline
+python manage.py startapp flights
+```
+
+Now we’ll have to go through the process of adding an app as usual:
+
+1. Add `flights` to the `INSTALLED_APPS` list in `settings.py`
+2. Add a route for `flights` in `urls.py`:
+   `path("flights/", include(flights.urls))`
+3. Create a `urls.py` file within the `flights` app
+
+Now we will take a look at the `models.py` file. In this file, we will outline what data we want to store in our application. Then Django will determine the SQL syntax necessary to store information on each of our models
+
+```Python
+class Flight(models.Model):
+    origin = models.CharField(max_length=64)
+    destination = models.CharField(max_length=64)
+    duration = models.IntegerField()
+```
+
+- In the first line, we create a new model that extends Django’s model class
+- Below, we add fields for origin, destination, and duration. The first two are [Character Fields](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#charfield), meaning they store strings, and the third is an [Integer Field](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#integerfield). These are just two of many [built-in Django Field classes](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes)
+- We specify maximum lengths of 64 for the two Character Fields. you can check the specifications available for a given field by checking the [documentation](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes)
