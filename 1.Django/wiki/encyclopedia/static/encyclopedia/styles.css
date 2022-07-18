@@ -49,6 +49,10 @@ textarea {
   text-align: right;
 }
 
+a {
+  text-decoration: none;
+}
+
 a:hover {
   text-decoration: none;
 }
