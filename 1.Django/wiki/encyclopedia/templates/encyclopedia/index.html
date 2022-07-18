@@ -5,12 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <h1>All Pages</h1>
-    <hr />
-    <ul>
-        {% for entry in entries %}
-            <li><a href="{% url 'page' entry %}">{{ entry }}</a></li>
-        {% endfor %}
-    </ul>
+    <h1>Home</h1>
+    <hr>
+    <p>Here's the home page of the encyclopedia.
+    Feel free to browse through the contents via
+    the titles on the sidebar</p>
+    
+    <h3>Create</h3>
+    <p>Create your own contents using the "Create New Page"
+    on the sidebar</p>
+
+    <h3>Random</h3>
+    <p>Use the "Random Page" on the sidebar to learn some random contents</p>
 
 {% endblock %}

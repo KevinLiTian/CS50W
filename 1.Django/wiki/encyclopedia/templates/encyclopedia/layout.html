@@ -26,16 +26,21 @@
             placeholder="Search Encyclopedia"
           />
         </form>
-        <div>
+        <div class="list-item">
           <a href="{% url 'index' %}">Home</a>
         </div>
-        <div>
+        <div class="list-item">
           <a href="{% url 'new' %}">Create New Page</a>
         </div>
-        <div>
+        <div class="list-item">
           <a href="{% url 'rand' %}">Random Page</a>
         </div>
-        {% block nav %} {% endblock %}
+        <hr />
+        {% for entry in entries %}
+          <div class="list-item">
+              <a href="{% url 'page' entry %}">{{ entry }}</a>
+          </div>
+        {% endfor %}
       </div>
       <div class="main col-lg-10 col-md-9">{% block body %} {% endblock %}</div>
     </div>

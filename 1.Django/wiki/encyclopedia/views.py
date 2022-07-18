@@ -25,20 +25,23 @@ def page(request, title):
             return render(request, "encyclopedia/error.html", {
                 "title": "404",
                 "content": "Page Not Found",
-                "name": ''
+                "name": '',
+                "entries": util.list_entries()
             })
 
         # Render the corresponding page
         return render(request, "encyclopedia/page.html", {
             "title": title,
-            "content": markdown(content)
+            "content": markdown(content),
+            "entries": util.list_entries()
         })
 
     # If is POST, take to edit page
     form = forms.EditPageForm(initial={"title": title, "content":content})
     return render(request, "encyclopedia/edit.html", {
         "title": title,
-        "form": form
+        "form": form,
+        "entries": util.list_entries()
     })
 
 def search(request):
@@ -62,7 +65,8 @@ def search(request):
 
         # Show all candidates
         return render(request, "encyclopedia/search.html", {
-            "candidates": candidates
+            "candidates": candidates,
+            "entries": util.list_entries()
         })
 
     return index(request)
@@ -73,7 +77,8 @@ def new(request):
     if request.method == "GET":
         form = forms.NewPageForm()
         return render(request, "encyclopedia/new.html", {
-            "form": form
+            "form": form,
+            "entries": util.list_entries()
         })
 
     # Otherwise is during form submission (POST)
@@ -90,7 +95,8 @@ def new(request):
             return render(request, "encyclopedia/error.html", {
                 "title": "Page Exist",
                 "content": "There is already a Wiki page named ",
-                "name": title
+                "name": title,
+                "entries": util.list_entries()
                 })
 
         # Save New if new

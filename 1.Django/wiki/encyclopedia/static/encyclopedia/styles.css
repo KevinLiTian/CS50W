@@ -16,6 +16,16 @@ h1 {
   padding-top: 20px;
 }
 
+a {
+  text-decoration: none;
+  color: dimgray;
+}
+
+a:hover {
+  color: dimgray;
+  text-decoration: underline;
+}
+
 textarea {
   margin-top: 1rem;
   height: 50vh;
@@ -40,6 +50,7 @@ textarea {
 
 .sidebar h2 {
   margin-top: 5px;
+  padding-left: 10px;
 }
 
 .submit-button {
@@ -49,20 +60,14 @@ textarea {
   text-align: right;
 }
 
-a {
-  text-decoration: none;
+.list-item {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
-a:hover {
-  text-decoration: none;
-}
-
-a:not(.sidebar a) {
-  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  border-radius: 5px;
-}
-
-a:not(.sidebar a):hover {
-  box-shadow: inset 100px 0 0 0 #ffb69e;
-  color: white;
+input[class="search"] {
+  border-radius: 8px;
+  border: 0.5px solid lightgrey;
+  margin-left: 10px;
+  width: 90%;
 }
