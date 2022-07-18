@@ -3,8 +3,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
-from .models import User
+from .models import *
+from .forms import NewListingForm
 
 
 def index(request):
@@ -74,3 +76,25 @@ def register(request):
 
     # GET
     return render(request, "auctions/register.html")
+
+def new(request):
+    """ Create new listing """
+    if request.method == "POST":
+        form = NewListingForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            title = form.cleaned_data["title"]
+            description = form.cleaned_data["description"]
+            price = form.cleaned_data["price"]
+            category = Category.objects.get(id=request.POST["category"])
+            imgurl = form.cleaned_data["url"]
+
+            AuctionListing.objects.create(user=user, name=title, description=description,
+                price=price, category=category, imgurl=imgurl)
+
+            return redirect("index")
+
+    return render(request, "auctions/new.html", {
+        "form": NewListingForm(),
+        "categories": Category.objects.all()
+    })
