@@ -14,6 +14,6 @@ class NewListingForm(forms.Form):
     price = forms.CharField(label='', required=True,
         widget=forms.NumberInput(attrs={"placeholder":"Starting Price", "step": 0.01, "min":0,
         "class": "form-control"}))
-    url = forms.CharField(label='',
+    url = forms.CharField(label='', required=False,
         widget=forms.URLInput(attrs={"placeholder":"Image URL",
         "class": "form-control"}))

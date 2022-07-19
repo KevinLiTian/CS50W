@@ -93,6 +93,10 @@ def new(request):
             category = Category.objects.get(id=request.POST["category"])
             imgurl = form.cleaned_data["url"]
 
+            # Default
+            if not imgurl:
+                imgurl = "https://ualr.edu/elearning/files/2020/10/No-Photo-Available.jpg"
+
             AuctionListing.objects.create(user=user, name=title, description=description,
                 price=price, category=category, imgurl=imgurl)
 
