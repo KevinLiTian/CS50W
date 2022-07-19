@@ -112,19 +112,26 @@ def listing(request, listing_id):
     minbid = price
 
     # Check for bids on the item
-    if Bid.objects.filter(auc_list=listing_id).exists():
-        bid_obj = Bid.objects.order_by('-amount').first()
+    bids = Bid.objects.filter(auc_list=listing_id)
+    bid_obj = None
+    if bids.exists():
+        bid_obj = bids.order_by('-amount').first()
         item.price = bid_obj.amount
         item.save()
         minbid = float(price) + 0.01
 
     # Check if user is waching this list
+    # Check if user is the winner
     watching = False
+    winner = False
     if user.is_authenticated:
         watch_list = user.watch.all()
         auc_list = [watch.auc_list for watch in watch_list]
         if item in auc_list:
             watching = True
+
+        if not item.active and bid_obj is not None and bid_obj.user == user:
+            winner = True
 
     return render(request, "auctions/listing.html", {
         "id": item.id,
@@ -136,7 +143,9 @@ def listing(request, listing_id):
         "minbid": minbid,
         "imgurl": item.imgurl,
         "comments": comment,
-        "watching": watching
+        "watching": watching,
+        "active": item.active,
+        "winner": winner
     })
 
 @login_required(login_url="login")
@@ -175,7 +184,7 @@ def watch(request):
     watch_list = user.watch.all()
     auc_list = [watch.auc_list for watch in watch_list]
     return render(request, "auctions/watch.html", {
-        "user": user,
+        "owner": user,
         "auc_list": auc_list
     })
 
@@ -183,11 +192,19 @@ def watch(request):
 def delwatch(request, listing_id):
     """ Delete from Watch List """
     WatchList.objects.filter(user=request.user, auc_list=listing_id).delete()
-    return redirect("listing", listing_id)
+    return redirect("watch")
 
 @login_required(login_url="login")
 def addwatch(request, listing_id):
     """ Add to Watch List """
     item = AuctionListing.objects.get(id=listing_id)
     WatchList.objects.create(user=request.user, auc_list=item)
+    return redirect("watch")
+
+@login_required(login_url="login")
+def close(__, listing_id):
+    """ Owner close Listing """
+    item = AuctionListing.objects.get(id=listing_id)
+    item.active = False
+    item.save()
     return redirect("listing", listing_id)

@@ -14,16 +14,36 @@
         </div>
     </div>
 
-    <div class="container shadow p-4 mb-4">
-        <h4>Current Price: ${{ price }}</h4>
-        <form action="{% url 'bid' %}" method="post">
-            {% csrf_token %}
-            <input class="form-control mb-2" placeholder="Bid Amount" type="number"
-            name="bidamount" min={{ minbid }} max=1000000000 step="0.01" required>
-            <input class="btn btn-primary mb-2" type="submit" value="Bid">
-            <input type="hidden" name="listing_id" value="{{ id }}">
-        </form>
-    </div>
+    {% if active %}
+        <div class="container shadow p-4 mb-4">
+            <h4>Current Price: ${{ price }}</h4>
+            <form action="{% url 'bid' %}" method="post">
+                {% csrf_token %}
+                <input class="form-control mb-2" placeholder="Bid Amount" type="number"
+                name="bidamount" min={{ minbid }} max=1000000000 step="0.01" required>
+                <div class="text-center mt-3">
+                    <input class="btn btn-primary mb-2" type="submit" value="Bid">
+                </div>
+                <input type="hidden" name="listing_id" value="{{ id }}">
+            </form>
+        </div>
+
+        {% if owner == user %}
+            <div class="container mb-4 text-end">
+                <a class="btn btn-danger" href="{% url 'close' id %}">Close Listing</a>
+            </div>
+        {% endif %}
+
+    {% else %}
+
+        <div class="container shadow p-4 mb-4 text-center">
+            <h4>Listing Closed</h4>
+            {% if winner %}
+                <h4>You are the winner!</h4>
+            {% endif %}
+        </div>
+
+    {% endif %}
 
     <div class="container shadow p-4 mb-4">
         {% for comment in comments %}
@@ -39,12 +59,14 @@
         <form action="{% url 'comment' %}" method="post">
             {% csrf_token %}
             <textarea name="commenting" type="text" class="form-control mb-2" id="exampleFormControlTextarea1" rows="3" required></textarea>
-            <input type="submit" class="btn btn-primary" value="Comment">
+            <div class="text-center mt-3">
+                <input type="submit" class="btn btn-primary" value="Comment">
+            </div>
             <input type="hidden" name="listing_id" value="{{ id }}">
         </form>
     </div>
 
-    <div class="container text-center my-5">
+    <div class="container text-end my-5">
         {% if watching %}
             <a class="btn btn-danger" href="{% url 'delwatch' id %}">Unwatch</a>
         {% else %}
