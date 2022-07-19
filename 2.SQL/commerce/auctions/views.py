@@ -102,3 +102,14 @@ def new(request):
         "form": NewListingForm(),
         "categories": Category.objects.all()
     })
+
+def listing(request, listing_id):
+    """ Listing Pages """
+    item = AuctionListing.objects.get(id=listing_id)
+    return render(request, "auctions/listing.html", {
+        "title": item.name,
+        "description": item.description,
+        "category": item.category,
+        "price": item.price,
+        "imgurl": item.imgurl
+    })

@@ -8,21 +8,19 @@
     <div class="container">
         <div class="row mb-2">
             {% for listing in auc_list %}
-            <div class="col-md-6 mb-5">
+            <div class="col-lg-6 mb-5">
               <div class="card flex-md-row mb-4 shadow h-md-250 thecard">
                 <div class="card-body d-flex flex-column align-items-start">
                   <strong class="d-inline-block mb-2 text-primary">{{ listing.category }}</strong>
-                  <h3 class="mb-0">
-                    <a href="#">{{ listing.name }}</a>
-                  </h3>
+                  <h3 class="mb-0">{{ listing.name }}</h3>
                   <div class="mb-1 text-muted"> ${{ listing.price }}</div>
                   <p class="card-text mb-auto">{{ listing.description }}</p>
-                  <a class="btn btn-primary" href="#">View Detail</a>
+                  <a class="btn btn-primary" href="{% url 'listing' listing.id %}">View Detail</a>
                 </div>
-                <img class="col-sm-6" src="{{ listing.imgurl }}" alt="Card image">
+                <img class="col-md-6" src="{{ listing.imgurl }}" alt="Card image">
               </div>
             </div>
             {% endfor %}
-          </div>
         </div>
+    </div>
 {% endblock %}

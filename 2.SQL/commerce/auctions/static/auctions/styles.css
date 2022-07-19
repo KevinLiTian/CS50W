@@ -13,6 +13,7 @@ img {
 }
 
 .pagetitle {
+  padding-top: 10px;
   text-align: center;
   margin: 20px auto;
 }
@@ -27,5 +28,9 @@ img {
 
 .thecard {
   height: 100%;
-  width: 100%;
+}
+
+.img-container {
+  width: 50%;
+  margin: 0 auto;
 }
