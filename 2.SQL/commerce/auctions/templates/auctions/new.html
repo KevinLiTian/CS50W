@@ -6,21 +6,23 @@
 
         <form action="{% url 'new' %}" method="post">
             {% csrf_token %}
-            <div class="listing-item">{{ form.title }}</div>
-            <div class="listing-item">{{ form.description }}</div>
-            <div class="listing-item">
-                <select name="category" class="form-control text-center w-50 m-auto" id="exampleFormControlSelect1">
-                    {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category }}</option>
-                    {% empty %}
-                        <option value="None">No Option Available</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="listing-item">{{ form.price }}</div>
-            <div class="listing-item">{{ form.url }}</div>
-            <div>
-                <input class="btn btn-primary" type="submit" value="Create">
+            <div class="col-lg-6 col-sm-12 m-auto">
+                <div class="listing-item">{{ form.title }}</div>
+                <div class="listing-item">{{ form.description }}</div>
+                <div class="listing-item">
+                    <select name="category" class="form-control text-center" id="exampleFormControlSelect1">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category }}</option>
+                        {% empty %}
+                            <option value="None">No Option Available</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="listing-item">{{ form.price }}</div>
+                <div class="listing-item">{{ form.url }}</div>
+                <div>
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </div>
             </div>
         </form>
     </div>
