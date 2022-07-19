@@ -226,6 +226,5 @@ def categories(request):
 
     # Get
     return render(request, "auctions/categories.html", {
-        "auc_list": [],
         "categories": Category.objects.all()
     })

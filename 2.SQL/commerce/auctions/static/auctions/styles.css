@@ -5,6 +5,7 @@
 
 body {
   padding: 10px;
+  overflow-y: scroll; /* Show vertical scrollbar */
 }
 
 a {

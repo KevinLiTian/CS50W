@@ -1,7 +1,6 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
     <div class="container pagetitle shadow p-3 col-lg-6 col-sm-12">
         <h2 class="mb-3">Category</h2>
         <form action="{% url 'categories' %}" method="post">
@@ -19,6 +18,7 @@
         </form>
     </div>
 
+    {% if auc_list %}
     <div class="container">
         <div class="row mb-2">
             {% for listing in auc_list %}
@@ -37,5 +37,6 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 
 {% endblock %}
