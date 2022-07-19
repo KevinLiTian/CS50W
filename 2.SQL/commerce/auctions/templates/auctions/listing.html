@@ -19,7 +19,7 @@
         <form action="{% url 'bid' %}" method="post">
             {% csrf_token %}
             <input class="form-control mb-2" placeholder="Bid Amount" type="number"
-            name="bidamount" min="{{ price }}" max="1000000000" step="0.01" required>
+            name="bidamount" min={{ minbid }} max=1000000000 step="0.01" required>
             <input class="btn btn-primary mb-2" type="submit" value="Bid">
             <input type="hidden" name="listing_id" value="{{ id }}">
         </form>
