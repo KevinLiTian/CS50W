@@ -208,3 +208,21 @@ def close(__, listing_id):
     item.active = False
     item.save()
     return redirect("listing", listing_id)
+
+def categories(request):
+    """ Sort by Categories """
+    if request.method == "POST":
+        category = request.POST['category']
+        category_obj = Category.objects.get(id=category)
+        auc_list = category_obj.category_listing.all()
+
+        return render(request, "auctions/categories.html", {
+            "auc_list":auc_list,
+            "categories": Category.objects.all()
+        })
+
+    # Get
+    return render(request, "auctions/categories.html", {
+        "auc_list": [],
+        "categories": Category.objects.all()
+    })
