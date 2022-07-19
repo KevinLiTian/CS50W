@@ -13,7 +13,7 @@ from .forms import NewListingForm
 def index(request):
     """ Index View """
     return render(request, "auctions/index.html", {
-        "auc_list": AuctionListing.objects.all()
+        "auc_list": AuctionListing.objects.filter(active=True)
     })
 
 
@@ -105,27 +105,38 @@ def new(request):
 
 def listing(request, listing_id):
     """ Listing Pages """
+    user = request.user
     item = AuctionListing.objects.get(id=listing_id)
     comment = Comment.objects.filter(auc_list=listing_id)
     price = item.price
     minbid = price
 
+    # Check for bids on the item
     if Bid.objects.filter(auc_list=listing_id).exists():
         bid_obj = Bid.objects.order_by('-amount').first()
         item.price = bid_obj.amount
         item.save()
         minbid = float(price) + 0.01
 
+    # Check if user is waching this list
+    watching = False
+    if user.is_authenticated:
+        watch_list = user.watch.all()
+        auc_list = [watch.auc_list for watch in watch_list]
+        if item in auc_list:
+            watching = True
+
     return render(request, "auctions/listing.html", {
         "id": item.id,
-        "user": item.user,
+        "owner": item.user,
         "title": item.name,
         "description": item.description,
         "category": item.category,
         "price": price,
         "minbid": minbid,
         "imgurl": item.imgurl,
-        "comments": comment
+        "comments": comment,
+        "watching": watching
     })
 
 @login_required(login_url="login")
@@ -145,6 +156,7 @@ def bid(request):
 
     Bid.objects.create(
         user=request.user, auc_list=item, amount=bidamount)
+
     return redirect("listing", listing_id)
 
 @login_required(login_url="login")
@@ -155,3 +167,24 @@ def comments(request):
     item = AuctionListing.objects.get(id=listing_id)
     Comment.objects.create(user=request.user, comment=commenting, auc_list=item)
     return redirect("listing", listing_id)
+
+@login_required(login_url="login")
+def watch(request):
+    """ Watch List """
+    user = request.user
+    watch_list = user.watch.all()
+    auc_list = [watch.auc_list for watch in watch_list]
+    return render(request, "auctions/watch.html", {
+        "user": user,
+        "auc_list": auc_list
+    })
+
+@login_required(login_url="login")
+def delwatch(request, listing_id):
+    """ Delete from Watch List """
+    pass
+
+@login_required(login_url="login")
+def addwatch(request, listing_id):
+    """ Add to Watch List """
+    pass

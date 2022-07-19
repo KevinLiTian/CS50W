@@ -8,7 +8,7 @@
             <img src="{{ imgurl }}" alt="image">
         </div>
         <div class="text-container">
-            <p class="text-secondary">Posted by {{ user }}</p>
+            <p class="text-secondary">Posted by {{ owner }}</p>
             <p class="text-dark">Category: {{ category }}</p>
             <p class="text-secondary">{{ description }}</p>
         </div>
@@ -25,7 +25,7 @@
         </form>
     </div>
 
-    <div class="container shadow p-4">
+    <div class="container shadow p-4 mb-4">
         {% for comment in comments %}
             <div class="comment-container">
                 <h5>{{ comment.user }}</h5>
@@ -38,10 +38,18 @@
         {% endfor %}
         <form action="{% url 'comment' %}" method="post">
             {% csrf_token %}
-            <textarea name="commenting" type="text" class="form-control mb-2" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea name="commenting" type="text" class="form-control mb-2" id="exampleFormControlTextarea1" rows="3" required></textarea>
             <input type="submit" class="btn btn-primary" value="Comment">
             <input type="hidden" name="listing_id" value="{{ id }}">
         </form>
+    </div>
+
+    <div class="container text-center my-5">
+        {% if watching %}
+            <a class="btn btn-danger" href="{% url 'delwatch' id %}">Unwatch</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'addwatch' id %}">Watch</a>
+        {% endif %}
     </div>
 
 {% endblock %}
