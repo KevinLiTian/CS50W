@@ -107,9 +107,30 @@ def listing(request, listing_id):
     """ Listing Pages """
     item = AuctionListing.objects.get(id=listing_id)
     return render(request, "auctions/listing.html", {
+        "id": item.id,
+        "user": item.user,
         "title": item.name,
         "description": item.description,
         "category": item.category,
         "price": item.price,
         "imgurl": item.imgurl
     })
+
+@login_required(login_url="login")
+def bid(request):
+    """ User Bid on an Item """
+    listing_id = request.POST['listing_id']
+    bidamount = request.POST['bidamount']
+    item = AuctionListing.objects.get(id=listing_id)
+    item.price = bidamount
+    item.save()
+
+    if Bid.objects.filter(user=request.user, auc_list=listing_id).exists():
+        bid_in_db = Bid.objects.get(user=request.user, auc_list=listing_id)
+        bid_in_db.amount = bidamount
+        bid_in_db.save()
+        return redirect("listing", listing_id)
+
+    Bid.objects.create(
+        user=request.user, auc_list=item, amount=bidamount)
+    return redirect("listing", listing_id)

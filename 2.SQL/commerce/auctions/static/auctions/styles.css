@@ -34,3 +34,12 @@ img {
   width: 50%;
   margin: 0 auto;
 }
+
+.text-container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.bid-container {
+  margin: 20px auto;
+}
