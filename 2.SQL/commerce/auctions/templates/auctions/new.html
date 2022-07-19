@@ -1,16 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class="pagetitle">
+    <div class="container shadow pagetitle p-4">
         <h2>Create Listing</h2>
-    </div>
-    <form action="{% url 'new' %}" method="post">
-        {% csrf_token %}
-        <div class="new-listing">
+
+        <form action="{% url 'new' %}" method="post">
+            {% csrf_token %}
             <div class="listing-item">{{ form.title }}</div>
             <div class="listing-item">{{ form.description }}</div>
             <div class="listing-item">
-                <select name="category">
+                <select name="category" class="form-control text-center w-50 m-auto" id="exampleFormControlSelect1">
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category }}</option>
                     {% empty %}
@@ -23,7 +22,7 @@
             <div>
                 <input class="btn btn-primary" type="submit" value="Create">
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
 {% endblock %}
