@@ -1,4 +1,5 @@
 """ View Functions """
+# pylint: disable=no-member
 
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -11,7 +12,9 @@ from .forms import NewListingForm
 
 def index(request):
     """ Index View """
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "auc_list": AuctionListing.objects.all()
+    })
 
 
 def login_view(request):
@@ -77,6 +80,7 @@ def register(request):
     # GET
     return render(request, "auctions/register.html")
 
+@login_required(login_url="login")
 def new(request):
     """ Create new listing """
     if request.method == "POST":

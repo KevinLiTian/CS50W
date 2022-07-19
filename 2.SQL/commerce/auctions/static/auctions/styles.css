@@ -2,10 +2,30 @@ body {
   padding: 10px;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
+img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.pagetitle {
+  text-align: center;
+  margin: 20px auto;
+}
+
 .new-listing {
   text-align: center;
 }
 
 .listing-item {
   margin: 10px auto;
+}
+
+.thecard {
+  height: 100%;
+  width: 100%;
 }
