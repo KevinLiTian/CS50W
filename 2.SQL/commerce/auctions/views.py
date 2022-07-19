@@ -182,9 +182,12 @@ def watch(request):
 @login_required(login_url="login")
 def delwatch(request, listing_id):
     """ Delete from Watch List """
-    pass
+    WatchList.objects.filter(user=request.user, auc_list=listing_id).delete()
+    return redirect("listing", listing_id)
 
 @login_required(login_url="login")
 def addwatch(request, listing_id):
     """ Add to Watch List """
-    pass
+    item = AuctionListing.objects.get(id=listing_id)
+    WatchList.objects.create(user=request.user, auc_list=item)
+    return redirect("listing", listing_id)
