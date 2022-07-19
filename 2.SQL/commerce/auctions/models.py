@@ -31,7 +31,7 @@ class AuctionListing(models.Model):
     category = models.ForeignKey(Category,
                             on_delete=models.CASCADE,
                             related_name="category_listing")
-    imgurl = models.URLField(
+    imgurl = models.URLField(max_length=255, blank=True,
                     default="https://ualr.edu/elearning/files/2020/10/No-Photo-Available.jpg")
 
     active = models.BooleanField(default=True)

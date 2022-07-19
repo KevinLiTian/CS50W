@@ -157,6 +157,9 @@ def bid(request):
     item.price = bidamount
     item.save()
 
+    # Automatically add to watch list
+    WatchList.objects.create(user=request.user, auc_list=item)
+
     if Bid.objects.filter(user=request.user, auc_list=listing_id).exists():
         bid_in_db = Bid.objects.get(user=request.user, auc_list=listing_id)
         bid_in_db.amount = bidamount
@@ -214,7 +217,7 @@ def categories(request):
     if request.method == "POST":
         category = request.POST['category']
         category_obj = Category.objects.get(id=category)
-        auc_list = category_obj.category_listing.all()
+        auc_list = category_obj.category_listing.filter(active=True)
 
         return render(request, "auctions/categories.html", {
             "auc_list":auc_list,
