@@ -14,13 +14,32 @@
         </div>
     </div>
 
-    <div class="container shadow p-4">
+    <div class="container shadow p-4 mb-4">
         <h4>Current Price: ${{ price }}</h4>
         <form action="{% url 'bid' %}" method="post">
             {% csrf_token %}
             <input class="form-control mb-2" placeholder="Bid Amount" type="number"
             name="bidamount" min="{{ price }}" max="1000000000" step="0.01" required>
             <input class="btn btn-primary mb-2" type="submit" value="Bid">
+            <input type="hidden" name="listing_id" value="{{ id }}">
+        </form>
+    </div>
+
+    <div class="container shadow p-4">
+        {% for comment in comments %}
+            <div class="comment-container">
+                <h5>{{ comment.user }}</h5>
+                <p class="text-secondary">{{ comment.comment }}</p>
+                <hr>
+            </div>
+        {% empty %}
+            <h6>No comments for this listing yet</h6>
+            <hr>
+        {% endfor %}
+        <form action="{% url 'comment' %}" method="post">
+            {% csrf_token %}
+            <textarea name="commenting" type="text" class="form-control mb-2" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <input type="submit" class="btn btn-primary" value="Comment">
             <input type="hidden" name="listing_id" value="{{ id }}">
         </form>
     </div>

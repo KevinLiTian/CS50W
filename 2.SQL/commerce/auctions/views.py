@@ -106,6 +106,7 @@ def new(request):
 def listing(request, listing_id):
     """ Listing Pages """
     item = AuctionListing.objects.get(id=listing_id)
+    comments = Comment.objects.filter(auc_list=listing_id)
     return render(request, "auctions/listing.html", {
         "id": item.id,
         "user": item.user,
@@ -113,7 +114,8 @@ def listing(request, listing_id):
         "description": item.description,
         "category": item.category,
         "price": item.price,
-        "imgurl": item.imgurl
+        "imgurl": item.imgurl,
+        "comments": comments
     })
 
 @login_required(login_url="login")
@@ -133,4 +135,13 @@ def bid(request):
 
     Bid.objects.create(
         user=request.user, auc_list=item, amount=bidamount)
+    return redirect("listing", listing_id)
+
+@login_required(login_url="login")
+def comments(request):
+    """ User Comment on an Item """
+    listing_id = request.POST['listing_id']
+    commenting = request.POST['commenting']
+    item = AuctionListing.objects.get(id=listing_id)
+    Comment.objects.create(user=request.user, comment=commenting, auc_list=item)
     return redirect("listing", listing_id)
