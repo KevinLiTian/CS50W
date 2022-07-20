@@ -80,6 +80,7 @@ def register(request):
     # GET
     return render(request, "auctions/register.html")
 
+
 @login_required(login_url="login")
 def new(request):
     """ Create new listing """
@@ -106,6 +107,7 @@ def new(request):
         "form": NewListingForm(),
         "categories": Category.objects.all()
     })
+
 
 def listing(request, listing_id):
     """ Listing Pages """
@@ -152,6 +154,7 @@ def listing(request, listing_id):
         "winner": winner
     })
 
+
 def categories(request):
     """ Sort by Categories """
     if request.method == "POST":
@@ -169,6 +172,7 @@ def categories(request):
         "categories": Category.objects.all()
     })
 
+
 @login_required(login_url="login")
 def bid(request):
     """ User Bid on an Item """
@@ -179,8 +183,9 @@ def bid(request):
         item.price = bidamount
         item.save()
 
-        # Automatically add to watch list
-        WatchList.objects.create(user=request.user, auc_list=item)
+        # Automatically add to watch list if yet watched
+        if not WatchList.objects.filter(user=request.user, auc_list=listing_id).exists():
+            WatchList.objects.create(user=request.user, auc_list=item)
 
         if Bid.objects.filter(user=request.user, auc_list=listing_id).exists():
             bid_in_db = Bid.objects.get(user=request.user, auc_list=listing_id)
@@ -195,6 +200,7 @@ def bid(request):
 
     return redirect("index")
 
+
 @login_required(login_url="login")
 def comments(request):
     """ User Comment on an Item """
@@ -207,6 +213,7 @@ def comments(request):
 
     return redirect("index")
 
+
 @login_required(login_url="login")
 def watch(request):
     """ Watch List """
@@ -218,32 +225,29 @@ def watch(request):
         "auc_list": auc_list
     })
 
+
 @login_required(login_url="login")
 def delwatch(request, listing_id):
     """ Delete from Watch List """
-    if request.method == "POST":
-        WatchList.objects.filter(user=request.user, auc_list=listing_id).delete()
-        return redirect("watch")
+    WatchList.objects.filter(user=request.user, auc_list=listing_id).delete()
+    return redirect("watch")
 
-    return redirect("index")
 
 @login_required(login_url="login")
 def addwatch(request, listing_id):
     """ Add to Watch List """
-    if request.method == "POST":
-        item = AuctionListing.objects.get(id=listing_id)
-        WatchList.objects.create(user=request.user, auc_list=item)
-        return redirect("watch")
+    item = AuctionListing.objects.get(id=listing_id)
+    WatchList.objects.create(user=request.user, auc_list=item)
+    return redirect("watch")
 
-    return redirect("index")
 
 @login_required(login_url="login")
 def close(request, listing_id):
     """ Owner close Listing """
-    if request.method == "POST":
-        item = AuctionListing.objects.get(id=listing_id)
+    owner = request.user
+    item = AuctionListing.objects.filter(id=listing_id, user=owner).first()
+    if item is not None:
         item.active = False
         item.save()
-        return redirect("listing", listing_id)
 
-    return redirect("index")
+    return redirect("listing", listing_id)
