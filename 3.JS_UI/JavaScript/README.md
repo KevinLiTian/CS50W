@@ -25,7 +25,7 @@ But how do we run it? It turns out that JavaScript can be written inside a HTML 
 </html>
 ```
 
-Figure 1
+![1](https://user-images.githubusercontent.com/99038613/180077458-dfe1a841-4d4c-44af-92e6-e55eadd4ecc4.jpg)
 
 #### Event
 
