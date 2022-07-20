@@ -19,7 +19,7 @@ Web programming/development involves front-end development and back-end developm
 - **[Python](#lecture-0---introduction)**: A widely-used programming language to make websites more dynamic
 - **[Django](#lecture-1---django)**: A popular web framework for the backend of websites
 - **[SQL](#lecture-2---sql)**: A language used for storing and retrieving data
-- **JavaScript**: A programming language used to make websites faster and more interactive
+- **[JavaScript](#lecture-3---js--ui)**: A programming language used to make websites faster and more interactive
 - **UI**: Methods used to make a website as easy to use as possible
 - **Testing**: Learning about different methods used to make sure updates to web pages proceed smoothly
 - **Scalability & Security**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
@@ -65,6 +65,19 @@ Django is a Python-based web framework that will allow us to write Python code t
 ### Projects
 
 - [Commerce](2.SQL/commerce/)
+
+## Lecture 3 - JS & UI
+
+JavaScript (JS) makes it possible to do client side data processing. Moreover, recall the HTML Document Object Model (DOM) structure, JS gives us the ability to modify the DOM structure and dynamically changing the webpage without communicating with the server. We'll also see how to create an interactive user interface with animation CSS and ReactJS
+
+### Objectives
+
+- [JavaScript](3.JS_UI/JavaScript/)
+- [User Interface](3.JS_UI/UserInterface)
+
+### Projects
+
+- [Mail](3.JS_UI/mail/)
 
 ## Contact ME
 
