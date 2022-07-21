@@ -389,3 +389,400 @@ function add_post(contents) {
 ![gif](https://cs50.harvard.edu/web/2020/notes/6/images/infscroll.gif)
 
 ## Animation
+
+We can also make our website more interesting by adding some animation to it. CSS makes it easy for us to animate HTML elements
+
+To create an animation with CSS, we need to define some key frames:
+
+```CSS
+@keyframes animation_name {
+    from {
+        /* Some styling for the start */
+    }
+
+    to {
+        /* Some styling for the end */
+    }
+}
+
+@keyframes animation_name {
+    0% {
+        /* Some styling for the start */
+    }
+
+    75% {
+        /* Some styling after 3/4 of animation */
+    }
+
+    100% {
+        /* Some styling for the end */
+    }
+}
+```
+
+Then to apply animation to HTML element, we include the `animation-name`, `animation-duration` and `animation-fill-mode` (typically `forwards`)
+
+```CSS
+@keyframes grow {
+    from {
+        font-size: 20px;
+    }
+    to {
+        font-size: 100px;
+    }
+ }
+
+h1 {
+    animation-name: grow;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/animate0.gif)
+
+We can do more than just manipulating the font size, we can animate any CSS properties such as position:
+
+```CSS
+@keyframes move {
+    from {
+        left: 0%;
+    }
+    to {
+        left: 50%;
+    }
+}
+
+h1 {
+    position: relative;
+    animation-name: move;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/animate1.gif)
+
+We don't always to have use `from` and `to` to indicate the start and end, we can also use percentage:
+
+```CSS
+@keyframes move {
+    0% {
+        left: 0%;
+    }
+    50% {
+        left: 50%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/animate2.gif)
+
+Animation doesn't have to run only once, we can control the number of times the animation should run by using `animation-iteration-count`, we can even have an infinite animation by setting it to `infinite`
+
+Moreover, we can use JavaScript to control the animation since JS is able to manipulate the DOM:
+
+```JS
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Find heading
+    const h1 = document.querySelector('h1');
+
+    // Pause Animation by default
+    h1.style.animationPlayState = 'paused';
+
+    // Wait for button to be clicked
+    document.querySelector('button').onclick = () => {
+
+        // If animation is currently paused, begin playing it
+        if (h1.style.animationPlayState == 'paused') {
+            h1.style.animationPlayState = 'running';
+        }
+
+        // Otherwise, pause the animation
+        else {
+            h1.style.animationPlayState = 'paused';
+        }
+    }
+})
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/animate4.gif)
+
+Now let's see how we can apply this animation to the [social media posts](#infinite-scroll) example to make the user experience more pleasant
+
+Now we wish to add a functionality such that the user is able hide certain posts by clicking a hide button. We can use a simple JS to achieve it:
+
+```JS
+// If hide button is clicked, delete the post
+document.addEventListener('click', event => {
+
+    // Find what was clicked on
+    const element = event.target;
+
+    // Check if the user clicked on a hide button
+    if (element.className === 'hide') {
+        element.parentElement.remove()
+    }
+});
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/hide0.gif)
+
+But if you don't look carefully, you can't even notice that a post disappeared since all the posts look the same and the next post move up immediately to fill in the spot of the disappearing post. If there's an animation to better show the process of hiding a post, the user experience will be much more pleasant
+
+```CSS
+@keyframes hide {
+    0% {
+        opacity: 1;
+        height: 100%;
+        line-height: 100%;
+        padding: 20px;
+        margin-bottom: 10px;
+    }
+    75% {
+        opacity: 0;
+        height: 100%;
+        line-height: 100%;
+        padding: 20px;
+        margin-bottom: 10px;
+    }
+    100% {
+        opacity: 0;
+        height: 0px;
+        line-height: 0px;
+        padding: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+.post {
+    background-color: #77dd11;
+    padding: 20px;
+    margin-bottom: 10px;
+    animation-name: hide;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+}
+```
+
+Then we modify our JavaScript to play the animation
+
+```JS
+// If hide button is clicked, delete the post
+document.addEventListener('click', event => {
+
+    // Find what was clicked on
+    const element = event.target;
+
+    // Check if the user clicked on a hide button
+    if (element.className === 'hide') {
+        element.parentElement.style.animationPlayState = 'running';
+        element.parentElement.addEventListener('animationend', () => {
+            element.parentElement.remove();
+        });
+    }
+});
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/hide1.gif)
+
+## ReactJS
+
+Writing JavaScript code is fairly complicated as you've seen so far, as a simple functionality requires quite a bit of JS code. Therefore, just like we can use Bootstrap as a CSS framework, we can use a JavaScript framework to write JS more efficiently. One of the most popular JS frameworks is a library called [React](https://reactjs.org/)
+
+Just to demonstrate how powerful React is, see the below example to incrementing a number:
+
+```JS
+// Vanilla JavaScript
+<h1>0</h1>
+
+let num = parseInt(document.querySelector("h1").innerHTML);
+num += 1;
+document.querySelector("h1").innerHTML = num;
+
+// ReactJS
+<h1>{num}</h1>
+
+num+=1
+```
+
+There are a number of ways to use ReactJS like the popular [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html) command, but now we'll focus on using React in an HTML file. We'll include three JS Packages:
+
+- `React`: ReactJS itself, defines components and their behaviors
+- `ReactDOM`: Take React components and add to the DOM
+- `Babel`: ReactJS is written in [JSX](https://reactjs.org/docs/introducing-jsx.html), which is slightly different from JS, so we'll need to use `Babel` to translate it into JS for the browser to understand
+
+JSX is a superset of JS, with some additional features such as representing HTML inside of JS code. Let's see how it works via out first React application:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>Hello</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="text/babel">
+            function App() {
+                return (
+                    <div>
+                        Hello!
+                    </div>
+                );
+            }
+
+            ReactDOM.render(<App />, document.querySelector("#app"));
+        </script>
+    </body>
+</html>
+```
+
+- In the head section, we include the three JS packages
+- In the `script` tag, we use `type="text/babel"` to translate the script block into JS
+- Then inside function `App`, we return an HTML representation which is being rendered using `ReactDOM`
+- The `render` function takes in something to render and in this case is our `App` function, and a place to render it which is inside of the `div` with id `app`
+
+![img](https://cs50.harvard.edu/web/2020/notes/6/images/react0.png)
+
+React also supports rendering components within components:
+
+```JSX
+function Hello(props) {
+    return (
+        <h1>Hello, {props.name}!</h1>
+    );
+}
+
+function App() {
+    return (
+        <div>
+            <Hello name="Harry" />
+            <Hello name="Ron" />
+            <Hello name="Hermione" />
+        </div>
+    );
+}
+```
+
+We can see that the function `App` renders the function `Hello` using HTML element like syntax. And notice that we can also pass in parameters and use `props.parameter_name` to access the parameter
+
+![img](https://cs50.harvard.edu/web/2020/notes/6/images/react2.png)
+
+#### useState
+
+React has lots of hooks that we can take advantage of, one of them is `useState` which records and updates some sort of states. We can use it to create a simple math addition game
+
+- `num1`: The first number to be added
+- `num2`: The second number to be added
+- `response`: User input
+- `score`: User score
+
+Now we can use `useState` to initialize these variables
+
+```JSX
+const [state, setState] = React.useState({
+    num1: 1,
+    num2: 1,
+    response: "",
+    score: 0
+});
+```
+
+Then we can render a basic UI
+
+```JSX
+return (
+    <div>
+        <div>{state.num1} + {state.num2}</div>
+        <input value={state.response} />
+        <div>Score: {state.score}</div>
+    </div>
+);
+```
+
+![img](https://cs50.harvard.edu/web/2020/notes/6/images/add0.png)
+
+Not the user cannot type anything in the input box since its value is fixed as `{state.response}` which is an empty string. We will add an `onChange` attribute to the input element and link it with a function to update both the state and the input box:
+
+```JSX
+<input onChange={updateResponse} value={state.response} />
+
+function updateResponse(event) {
+    setState({
+        ...state,
+        response: event.target.value
+    });
+}
+```
+
+We use `...state` to indicate that all other states remain the same
+
+Then we need a way for the users to submit their answer, maybe by simply pressing the "enter" key. We'll add an event listener for this event:
+
+```JSX
+ <input onKeyPress={inputKeyPress} onChange={updateResponse} value={state.response} />
+
+function inputKeyPress(event) {
+    if (event.key === "Enter") {
+        const answer = parseInt(state.response);
+        if (answer === state.num1 + state.num2) {
+            // User got question right
+            setState({
+                ...state,
+                score: state.score + 1,
+                response: "", // Empty the input box
+                // Randomly generate 2 integers
+                num1: Math.ceil(Math.random() * 10),
+                num2: Math.ceil(Math.random() * 10)
+            });
+        } else {
+            // User got question wrong
+            setState({
+                ...state,
+                score: state.score - 1,
+                response: "" // Empty the input box
+            })
+        }
+    }
+}
+
+if (state.score === 10) {
+    return (
+        <div id="winner">You won!</div>
+    );
+}
+
+```
+
+Now that the main functionality has been implemented, we can add some simple styling to make the webpage more appealing
+
+```CSS
+#app {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#problem {
+    font-size: 72px;
+}
+
+#winner {
+    font-size: 72px;
+    color: green;
+}
+```
+
+![gif](https://cs50.harvard.edu/web/2020/notes/6/images/add1.gif)
+
+## Examples
+
+Check out some [examples](examples/)
