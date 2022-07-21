@@ -346,3 +346,7 @@ One more feature that Sass gives us is known as inheritance, which a CSS propert
 By using `@extend`, the latter three properties inherits from the `%message` property, providing better syntax
 
 <img src="https://user-images.githubusercontent.com/99038613/178119010-c9ae9f77-a508-4096-b350-65c673b9dd56.jpg" width=60%>
+
+## Examples
+
+Check out some [examples](examples/)

@@ -484,3 +484,7 @@ except ZeroDivisionError:
 
 print(f"{x} / {y} = {result}")
 ```
+
+## Examples
+
+Check out some [examples](examples/)

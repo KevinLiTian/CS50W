@@ -43,7 +43,7 @@ After installing Django, we can go through the steps of creating a new Django pr
 4. Next, we’ll have to create an application. Django projects are split into one or more applications. Most of our projects will only require one application, but larger sites can make use of this ability to split a site into multiple apps. To create an application, we run `python manage.py startapp APP_NAME`. This will create some additional directories and files that will be useful shortly, including `views.py`
 5. Now, we have to install our new app. To do this, we go to `settings.py`, scroll down to the list of `INSTALLED_APPS`, and add the name of our new application to this list
 
-    <img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
+<img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
 
 #### Routes
 
@@ -622,3 +622,7 @@ def add(request):
 ```
 
 In order to store the session data, we must first run the command `python manage.py migrate` in the terminal
+
+## Examples
+
+Check out some [examples](examples/)
