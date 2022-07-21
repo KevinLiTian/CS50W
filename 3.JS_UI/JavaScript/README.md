@@ -442,6 +442,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 Notice that after getting the data from the API with `fetch` and `.then`, we'll need to transform the data into JSON format which is also a promise so we'll need to use `.then` again
 
+![gif](https://cs50.harvard.edu/web/2020/notes/5/images/exchange.gif)
+
 ## Examples
 
 Check out some [examples](examples/)
