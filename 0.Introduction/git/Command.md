@@ -42,6 +42,10 @@ Reset the repo to a certain version with hash number
 
 `git reset --hard <hash number>`
 
+Revert a certain commit
+
+`git revert <hash number>`
+
 ## Working with a Remote Repo
 
 Synchronize remote repo to local device
