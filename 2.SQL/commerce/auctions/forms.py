@@ -9,7 +9,7 @@ class NewListingForm(forms.Form):
             widget=forms.TextInput(attrs={'placeholder': "Listing Title",
             "class": "form-control"}))
     description = forms.CharField(max_length=128, label='', required=True,
-        widget=forms.Textarea(attrs={"placeholder":"Listing Description", 
+        widget=forms.Textarea(attrs={"placeholder":"Listing Description",
         "class": "form-control"}))
     price = forms.CharField(label='', required=True,
         widget=forms.NumberInput(attrs={"placeholder":"Starting Price", "step": 0.01, "min":0,

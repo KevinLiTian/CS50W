@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import *
+from .models import User, Category, AuctionListing, Bid, Comment, WatchList
 from .forms import NewListingForm
 
 
@@ -84,6 +84,7 @@ def register(request):
 @login_required(login_url="login")
 def new(request):
     """ Create new listing """
+    # POST
     if request.method == "POST":
         form = NewListingForm(request.POST)
         if form.is_valid():
@@ -98,11 +99,13 @@ def new(request):
             if not imgurl:
                 imgurl = "https://ualr.edu/elearning/files/2020/10/No-Photo-Available.jpg"
 
+            # Create new auction listing
             AuctionListing.objects.create(user=user, name=title, description=description,
                 price=price, category=category, imgurl=imgurl)
 
             return redirect("index")
 
+    # GET
     return render(request, "auctions/new.html", {
         "form": NewListingForm(),
         "categories": Category.objects.all()
@@ -111,6 +114,7 @@ def new(request):
 
 def listing(request, listing_id):
     """ Listing Pages """
+    # Listing Info
     user = request.user
     item = AuctionListing.objects.get(id=listing_id)
     comment = Comment.objects.filter(auc_list=listing_id)
@@ -136,9 +140,11 @@ def listing(request, listing_id):
         if item in auc_list:
             watching = True
 
+        # If listing is closed, check if current user is the winner
         if not item.active and bid_obj is not None and bid_obj.user == user:
             winner = True
 
+    # Render all Info
     return render(request, "auctions/listing.html", {
         "id": item.id,
         "owner": item.user,
@@ -157,6 +163,7 @@ def listing(request, listing_id):
 
 def categories(request):
     """ Sort by Categories """
+    # POST
     if request.method == "POST":
         category = request.POST['category']
         category_obj = Category.objects.get(id=category)
@@ -176,9 +183,13 @@ def categories(request):
 @login_required(login_url="login")
 def bid(request):
     """ User Bid on an Item """
+    # POST
     if request.method == "POST":
+        # Info
         listing_id = request.POST['listing_id']
         bidamount = request.POST['bidamount']
+
+        # Update item price
         item = AuctionListing.objects.get(id=listing_id)
         item.price = bidamount
         item.save()
@@ -187,17 +198,20 @@ def bid(request):
         if not WatchList.objects.filter(user=request.user, auc_list=listing_id).exists():
             WatchList.objects.create(user=request.user, auc_list=item)
 
+        # If alrerady exists, update amount
         if Bid.objects.filter(user=request.user, auc_list=listing_id).exists():
             bid_in_db = Bid.objects.get(user=request.user, auc_list=listing_id)
             bid_in_db.amount = bidamount
             bid_in_db.save()
             return redirect("listing", listing_id)
 
+        # Otherwise create new bid for the user
         Bid.objects.create(
             user=request.user, auc_list=item, amount=bidamount)
 
         return redirect("listing", listing_id)
 
+    # GET
     return redirect("index")
 
 
@@ -205,8 +219,11 @@ def bid(request):
 def comments(request):
     """ User Comment on an Item """
     if request.method == "POST":
+        # Info
         listing_id = request.POST['listing_id']
         commenting = request.POST['commenting']
+
+        # Find the item, add comment
         item = AuctionListing.objects.get(id=listing_id)
         Comment.objects.create(user=request.user, comment=commenting, auc_list=item)
         return redirect("listing", listing_id)
@@ -217,9 +234,13 @@ def comments(request):
 @login_required(login_url="login")
 def watch(request):
     """ Watch List """
+    # Info
     user = request.user
     watch_list = user.watch.all()
+
+    # Extract auction listings from watch list
     auc_list = [watch.auc_list for watch in watch_list]
+
     return render(request, "auctions/watch.html", {
         "owner": user,
         "auc_list": auc_list
