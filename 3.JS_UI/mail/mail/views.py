@@ -1,3 +1,6 @@
+""" View """
+# pylint: disable=no-member
+
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -39,13 +42,13 @@ def compose(request):
 
     # Convert email addresses to users
     recipients = []
-    for email in emails:
+    for mail in emails:
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email=mail)
             recipients.append(user)
         except User.DoesNotExist:
             return JsonResponse({
-                "error": f"User with email {email} does not exist."
+                "error": f"User with email {mail} does not exist."
             }, status=400)
 
     # Get contents of email
@@ -57,34 +60,34 @@ def compose(request):
     users.add(request.user)
     users.update(recipients)
     for user in users:
-        email = Email(
+        mail = Email(
             user=user,
             sender=request.user,
             subject=subject,
             body=body,
             read=user == request.user
         )
-        email.save()
+        mail.save()
         for recipient in recipients:
-            email.recipients.add(recipient)
-        email.save()
+            mail.recipients.add(recipient)
+        mail.save()
 
     return JsonResponse({"message": "Email sent successfully."}, status=201)
 
 
 @login_required
-def mailbox(request, mailbox):
+def mailbox(request, mail):
 
     # Filter emails returned based on mailbox
-    if mailbox == "inbox":
+    if mail == "inbox":
         emails = Email.objects.filter(
             user=request.user, recipients=request.user, archived=False
         )
-    elif mailbox == "sent":
+    elif mail == "sent":
         emails = Email.objects.filter(
             user=request.user, sender=request.user
         )
-    elif mailbox == "archive":
+    elif mail == "archive":
         emails = Email.objects.filter(
             user=request.user, recipients=request.user, archived=True
         )
@@ -102,22 +105,22 @@ def email(request, email_id):
 
     # Query for requested email
     try:
-        email = Email.objects.get(user=request.user, pk=email_id)
+        mail = Email.objects.get(user=request.user, pk=email_id)
     except Email.DoesNotExist:
         return JsonResponse({"error": "Email not found."}, status=404)
 
     # Return email contents
     if request.method == "GET":
-        return JsonResponse(email.serialize())
+        return JsonResponse(mail.serialize())
 
     # Update whether email is read or should be archived
     elif request.method == "PUT":
         data = json.loads(request.body)
         if data.get("read") is not None:
-            email.read = data["read"]
+            mail.read = data["read"]
         if data.get("archived") is not None:
-            email.archived = data["archived"]
-        email.save()
+            mail.archived = data["archived"]
+        mail.save()
         return HttpResponse(status=204)
 
     # Email must be via GET or PUT
@@ -131,9 +134,9 @@ def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
-        email = request.POST["email"]
+        mail = request.POST["email"]
         password = request.POST["password"]
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, username=mail, password=password)
 
         # Check if authentication successful
         if user is not None:
@@ -154,7 +157,7 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
-        email = request.POST["email"]
+        mail = request.POST["email"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -166,10 +169,10 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(email, email, password)
+            user = User.objects.create_user(mail, mail, password)
             user.save()
-        except IntegrityError as e:
-            print(e)
+        except IntegrityError as err:
+            print(err)
             return render(request, "mail/register.html", {
                 "message": "Email address already taken."
             })
