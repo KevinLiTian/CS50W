@@ -17,17 +17,19 @@
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
-            <div class="form-group">
+            <div class="form-group mb-2">
                 From: <input disabled class="form-control" value="{{ request.user.email }}">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 To: <input id="compose-recipients" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <input class="form-control" id="compose-subject" placeholder="Subject">
             </div>
-            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit" class="btn btn-primary"/>
+            <textarea class="form-control mb-3" id="compose-body" placeholder="Body"></textarea>
+            <div class="form-group text-end mb-3">
+                <input type="submit" class="btn btn-primary"/>
+            </div>
         </form>
     </div>
 {% endblock %}
