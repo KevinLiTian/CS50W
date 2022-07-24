@@ -6,6 +6,28 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
 
+  // Composition Submission
+  document.querySelector('#compose-form').onsubmit = () => {
+    fetch('/emails', {
+      // Send POST request to record the email
+      method: 'POST',
+      body: JSON.stringify({
+          recipients: document.querySelector('#compose-recipients').value,
+          subject: document.querySelector('#compose-subject').value,
+          body: document.querySelector('#compose-body').value
+      })
+    })
+    .then(response => response.json())
+    .then(() => {load_mailbox('sent');})
+    .catch(error => {
+        // Catch any errors and log them to the console
+        console.log('Error:', error);
+    });
+
+    return false;
+  };
+
+  // Collapsible
   const navLinks = document.querySelectorAll('.nav-item');
   const menuToggle = document.getElementById('navmenu');
   const bsCollapse = new bootstrap.Collapse(menuToggle, {toggle:false});
@@ -32,26 +54,6 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
-
-  document.querySelector('#compose-form').onsubmit = () => {
-    fetch('/emails', {
-      // Send POST request to record the email
-      method: 'POST',
-      body: JSON.stringify({
-          recipients: document.querySelector('#compose-recipients').value,
-          subject: document.querySelector('#compose-subject').value,
-          body: document.querySelector('#compose-body').value
-      })
-    })
-    .then(response => response.json())
-    .then(() => {load_mailbox('sent');})
-    .catch(error => {
-        // Catch any errors and log them to the console
-        console.log('Error:', error);
-    });
-
-    return false;
-  };
 }
 
 function load_mailbox(mailbox) {
@@ -273,7 +275,8 @@ function reply_email(email_id) {
     document.querySelector('#compose-recipients').value = sender;
     document.querySelector('#compose-subject').value = subject;
     document.querySelector('#compose-body').value = body;
-  }).catch()
+  })
+  .catch(error => console.log(error));
 }
 
 /* JSON
