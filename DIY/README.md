@@ -7,3 +7,5 @@ Make sure you have read and understand the lecture notes as well as the example 
 ### Django - [Wiki](wiki/)
 
 ### SQL - [Commerce](commerce/)
+
+### JS_UI - [Mail](mail/)
