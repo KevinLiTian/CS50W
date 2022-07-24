@@ -95,13 +95,13 @@ function load_mailbox(mailbox) {
       emailDiv.append(timestampDiv);
 
       // Add to DOM
-      emailDiv.addEventListener('click', () => view_email(id));
+      emailDiv.addEventListener('click', () => view_email(id, mailbox==="sent"));
       document.querySelector('#emails-view').append(emailDiv);
     });
   }).catch(error => console.log(error));
 }
 
-function view_email(email_id) {
+function view_email(email_id, sent) {
   // Show the email and hide other views
   document.querySelector('#email-view').style.display = 'block';
   document.querySelector('#emails-view').style.display = 'none';
@@ -110,53 +110,159 @@ function view_email(email_id) {
   // Clear Out
   document.querySelector('#email-view').innerHTML = '';
 
-  // fetch Info
-  fetch(`/emails/${email_id}`)
-  .then(response => response.json())
-  .then(email => {
-    // Data
-    const sender = email['sender'];
-    const recipients = email['recipients'];
-    const subject = email['subject'];
-    const timestamp = email['timestamp'];
-    const body = email['body'];
-
-    // Create HTML Elements
-    const emailDiv= document.createElement('div');
-
-    const senderP = document.createElement('p');
-    senderP.innerHTML = `From: ${sender}`;
-
-    const recipientsP = document.createElement('p');
-    let recipients_str = 'To: ';
-    recipients.forEach(recip => {
-      recipients_str = recipients_str + recip + '; '; 
-    })
-    recipientsP.innerHTML = recipients_str;
-
-    const subjectP = document.createElement('p');
-    subjectP.innerHTML = `Subject: ${subject}`;
-
-    const timestampP = document.createElement('p');
-    timestampP.innerHTML = timestamp;
-
-    const bodyP = document.createElement('p');
-    bodyP.innerHTML = body;
-
-    // Add to DOM
-    emailDiv.append(senderP, recipientsP, subjectP, timestampP, 
-      document.createElement('hr'), bodyP);
-    document.querySelector('#email-view').append(emailDiv);
-
-  }).catch(error => console.log(error));
-
   // Mark as read
   fetch(`/emails/${email_id}`, {
     method: 'PUT',
     body: JSON.stringify({
       read: true
     })
+  }).then(() => {
+
+    // fetch Info
+    fetch(`/emails/${email_id}`)
+    .then(response => response.json())
+    .then(email => {
+
+      // Data
+      const sender = email['sender'];
+      const recipients = email['recipients'];
+      const subject = email['subject'];
+      const timestamp = email['timestamp'];
+      const body = email['body'];
+      const read = email['read'];
+      const archived = email['archived'];
+
+      // Create HTML Elements
+      const emailDiv= document.createElement('div');
+      emailDiv.classList.add('mb-5');
+
+      const senderP = document.createElement('p');
+      senderP.innerHTML = `From: ${sender}`;
+
+      const recipientsP = document.createElement('p');
+      let recipients_str = 'To: ';
+      recipients.forEach(recip => {
+        recipients_str = recipients_str + recip + '; '; 
+      })
+      recipientsP.innerHTML = recipients_str;
+
+      const subjectP = document.createElement('p');
+      subjectP.innerHTML = `Subject: ${subject}`;
+
+      const timestampP = document.createElement('p');
+      timestampP.innerHTML = timestamp;
+
+      const bodyP = document.createElement('p');
+      bodyP.innerHTML = body;
+
+      // All buttons
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.classList.add('d-flex');
+
+      // Reply
+      const reply_btn = document.createElement('button');
+      reply_btn.innerHTML = 'Reply';
+      reply_btn.classList.add('btn', 'btn-primary');
+      reply_btn.addEventListener('click', () => reply_email(email_id));
+
+      // Other buttons
+      const other_btn = document.createElement('div');
+      other_btn.classList.add('ms-auto');
+
+      // Mark as read/Unread
+      const read_btn = document.createElement('button');
+      read_btn.addEventListener('click', () => setRead(read, email_id));
+      read_btn.innerHTML = 'Mark as Unread';
+      read_btn.classList.add('btn', 'btn-secondary', 'mx-2');
+      other_btn.append(read_btn);
+
+      // Archive/Unarchive
+      if (!sent) {
+        const archive_btn = document.createElement('button');
+        archive_btn.addEventListener('click', () => setArchived(archived, email_id));
+
+        if (archived) {
+          archive_btn.innerHTML = 'Unarchive';
+          archive_btn.classList.add('btn', 'btn-danger');
+        }else{
+          archive_btn.innerHTML = 'Archive';
+          archive_btn.classList.add('btn', 'btn-success');
+        }
+
+        other_btn.append(archive_btn);
+      }
+
+      // Append to div
+      buttonsDiv.append(reply_btn, other_btn);
+
+      // Add to DOM
+      emailDiv.append(senderP, recipientsP, subjectP, timestampP, 
+        document.createElement('hr'), bodyP);
+      document.querySelector('#email-view').append(emailDiv, buttonsDiv);
+
+    }).catch(error => console.log(error));
   }).catch(error => console.log(error));
+}
+
+
+function setRead(read, email_id) {
+  fetch(`/emails/${email_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      read: read ? false : true
+    })
+  })
+  .then(() => load_mailbox('inbox'))
+  .catch(error => console.log(error));
+}
+
+
+function setArchived(archived, email_id) {
+  fetch(`/emails/${email_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: archived ? false : true
+    })
+  })
+  .then(() => load_mailbox('inbox'))
+  .catch(error => console.log(error));
+}
+
+
+function reply_email(email_id) {
+
+  // Display only compose view
+  document.querySelector('#email-view').style.display = 'none';
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+
+  // Clear out composition fields
+  document.querySelector('#compose-recipients').value = '';
+  document.querySelector('#compose-subject').value = '';
+  document.querySelector('#compose-body').value = '';
+
+  fetch(`/emails/${email_id}`)
+  .then(response => response.json())
+  .then(email => {
+
+    // Data
+    const sender = email['sender'];
+    let subject = email['subject'];
+    let body = email['body'];
+    const timestamp = email['timestamp'];
+
+    // Process Data
+    if (!subject.startsWith('Re: ')) {
+      subject = 'Re: ' + subject;
+    }
+
+    body = `On ${timestamp} ${sender} wrote:"${body}"`;
+
+    // Pre-fill
+    document.querySelector('#compose-recipients').value = sender;
+    document.querySelector('#compose-subject').value = subject;
+    document.querySelector('#compose-body').value = body;
+  }).catch()
 }
 
 /* JSON
