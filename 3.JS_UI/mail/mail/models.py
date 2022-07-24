@@ -1,12 +1,17 @@
+""" Models """
+# pylint: disable=no-member
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
+    """ Users """
     pass
 
 
 class Email(models.Model):
+    """ Emails """
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emails")
     sender = models.ForeignKey("User", on_delete=models.PROTECT, related_name="emails_sent")
     recipients = models.ManyToManyField("User", related_name="emails_received")
@@ -16,7 +21,11 @@ class Email(models.Model):
     read = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"Sender: {self.sender}, Subject: {self.subject}"
+
     def serialize(self):
+        """ Serialize for JSON """
         return {
             "id": self.id,
             "sender": self.sender.email,
