@@ -12,12 +12,12 @@
                 From: <input disabled class="form-control" value="{{ request.user.email }}">
             </div>
             <div class="form-group mb-3">
-                To: <input id="compose-recipients" class="form-control">
+                To: <input id="compose-recipients" class="form-control" required>
             </div>
             <div class="form-group mb-3">
-                <input class="form-control" id="compose-subject" placeholder="Subject">
+                <input class="form-control" id="compose-subject" placeholder="Subject" required>
             </div>
-            <textarea class="form-control mb-3" id="compose-body" placeholder="Body"></textarea>
+            <textarea class="form-control mb-3" id="compose-body" placeholder="Body" required></textarea>
             <div class="form-group text-end mb-3">
                 <input type="submit" class="btn btn-primary" value="Send"/>
             </div>
