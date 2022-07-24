@@ -4,7 +4,12 @@ body {
 
 .my-custom-row {
     height: 50px;
-    background-color: bisque;
+    transition: box-shadow .3s;
+}
+
+.my-custom-row:hover {
+    box-shadow: 0 0 15px rgba(33,33,33,.2); 
+    cursor: pointer;
 }
 
 #compose-body {
