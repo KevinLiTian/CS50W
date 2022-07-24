@@ -24,6 +24,11 @@ Web programming/development involves front-end development and back-end developm
 - **Testing**: Learning about different methods used to make sure updates to web pages proceed smoothly
 - **Scalability & Security**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
 
+## Get Started
+
+- To setup the environment on your device, please follow the guide in [docs](docs/)
+- To practice doing projects, check all the projects with their specifications in [DIY](DIY/)
+
 ## Lecture 0 - Introduction
 
 HTML is a markup language that defines the structure of a web page. CSS is used to customize the appearance of a website. They are interpreted by web browsers (Safari, Google Chrome, Firefox, etc.) in order to display content on the screen. Git is a version control tool to help programmers to have better workflows. Python is a popular programming language that has a variety of uses

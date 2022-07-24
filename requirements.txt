@@ -1,9 +1,9 @@
 """
 # Sass (Choose one from the following three commands)
 
-npm install -g sass
-choco install sass
-brew install sass/sass/sass
+npm install -g sass (need to have node.js installed)
+choco install sass (need to have Chocolatey installed)
+brew install sass/sass/sass (need to have brew installed)
 """
 
 # Django Framework
