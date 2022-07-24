@@ -35,7 +35,7 @@ You’ll get mail, send mail, and update emails by using this application’s AP
 
 This application supports the following API routes:
 
-`GET /emails/<str:mailbox>`
+#### `GET /emails/<str:mailbox>`
 
 Sending a `GET` request to `/emails/<mailbox>` where `<mailbox>` is either `inbox`, `sent`, or `archive` will return back to you (in JSON form) a list of all emails in that mailbox, in reverse chronological order. For example, if you send a `GET` request to `/emails/inbox`, you might get a JSON response like the below (representing two emails):
 
@@ -77,7 +77,7 @@ fetch('/emails/inbox')
 });
 ```
 
-`GET /emails/<int:email_id>`
+#### `GET /emails/<int:email_id>`
 
 Sending a `GET` request to `/emails/<int:email_id>` will return back to you all the information regardig one email with Django model id of `email_id`. The JavaScript code to fetch will be:
 
@@ -107,7 +107,7 @@ The JSON response will look like:
 }
 ```
 
-`POST /emails`
+#### `POST /emails`
 
 Other than `GET` email information, you can also send an email via `POST` request. The JavaScript code to send will be:
 
@@ -127,7 +127,7 @@ fetch('/emails', {
 });
 ```
 
-`PUT /emails/<int:email_id>`
+#### `PUT /emails/<int:email_id>`
 
 We introduce a new request which is to modify existing data. In order to modify the `read` or `archived` boolean in email objects, we use `PUT` request with a body:
 
