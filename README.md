@@ -21,7 +21,7 @@ Web programming/development involves front-end development and back-end developm
 - **[SQL](#lecture-2---sql)**: A language used for storing and retrieving data
 - **[JavaScript](#lecture-3---js--ui)**: A programming language used to make websites faster and more interactive
 - **[UI](#lecture-3---js--ui)**: Methods used to make a website as easy to use as possible
-- **Testing & CI/CD**: Learning about different methods used to make sure updates to web pages proceed smoothly
+- **[Testing & CI/CD](#lecture-4---testing--cicd)**: Learning about different methods used to make sure updates to web pages proceed smoothly
 - **Scalability & Security**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
 
 ## Get Started
@@ -83,6 +83,20 @@ JavaScript (JS) makes it possible to do client side data processing. Moreover, r
 ### Projects
 
 - [Mail](3.JS_UI/mail/)
+
+## Lecture 4 - [Testing & CI/CD](4.Testing_CI_CD/)
+
+One important part of the software development process is the act of Testing the code we’ve written to make sure everything runs as we expect it to. CI/CD, which stands for Continuous Integration and Continuous Delivery, is a set of software development best practices that dictate how code is written by a team of people, and how that code is later delivered to users of the application
+
+### Objectives
+
+- General Testing
+- Web Testing
+- Continuous Integration/Delivery
+
+### Projects
+
+- [Network](4.Testing_CI_CD/network/)
 
 ## Contact ME
 
