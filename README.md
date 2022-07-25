@@ -21,7 +21,7 @@ Web programming/development involves front-end development and back-end developm
 - **[SQL](#lecture-2---sql)**: A language used for storing and retrieving data
 - **[JavaScript](#lecture-3---js--ui)**: A programming language used to make websites faster and more interactive
 - **[UI](#lecture-3---js--ui)**: Methods used to make a website as easy to use as possible
-- **Testing**: Learning about different methods used to make sure updates to web pages proceed smoothly
+- **Testing & CI/CD**: Learning about different methods used to make sure updates to web pages proceed smoothly
 - **Scalability & Security**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
 
 ## Get Started
