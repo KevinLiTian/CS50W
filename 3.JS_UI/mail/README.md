@@ -4,7 +4,7 @@ Design a front-end for an email client that makes API calls to send and receive 
 
 ## Video Demo
 
-![vid](https://youtu.be/G4KMczsLtAU)
+[![Watch the video](https://img.youtube.com/vi/G4KMczsLtAU/default.jpg)](https://youtu.be/G4KMczsLtAU)
 
 ## How to Use
 
