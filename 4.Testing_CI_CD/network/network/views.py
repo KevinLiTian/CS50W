@@ -2,10 +2,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
-from .models import User
+from .models import User, Post, Follow
 
 
 def index(request):
+    # POST
+    if request.method == "POST":
+        owner = User.objects.get(id=request.user.id)
+        content = request.POST['content']
+        Post.objects.create(owner=owner, content=content)
+
+    # GET
     return render(request, "network/index.html")
 
 

@@ -3,7 +3,20 @@
 {% block body %}
 
 <div class="container">
-    
+    {% if user.is_authenticated %}
+        <div class="shadow my-4">
+            <div class="w-75 m-auto py-3">
+                <h3>New Post</h3>
+                <form action="{% url 'index' %}" method="post">
+                    {% csrf_token %}
+                    <textarea class="form-control" name="content" rows="3" required></textarea>
+                    <div class="text-right mt-3">
+                        <input class="btn btn-primary" type="submit" value="Post">
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}
