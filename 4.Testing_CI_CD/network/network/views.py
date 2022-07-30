@@ -23,7 +23,7 @@ def index(request):
         Post.objects.create(owner=owner, content=content)
         return redirect('index')
 
-    # GET
+    # Anti-Chronological order
     posts = Post.objects.order_by("-timestamp")
 
     # Pagination
@@ -46,6 +46,7 @@ def index(request):
 def login_view(request):
     """ Login View """
 
+    # POST
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -62,6 +63,7 @@ def login_view(request):
             "message": "Invalid username and/or password."
         })
 
+    # GET
     return render(request, "network/login.html")
 
 
@@ -75,6 +77,7 @@ def logout_view(request):
 def register(request):
     """ Register View """
 
+    # POST
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -98,22 +101,25 @@ def register(request):
         login(request, user)
         return redirect("index")
 
+    # GET
     return render(request, "network/register.html")
 
 
 def profile(request, username):
     """ User Profile """
-    if request.method == "POST":
-        pass
 
+    # Query the user profile to visit
     usr = User.objects.get(username=username)
 
+    # If the requesting user is following the query user
     is_following = (Follow.objects.filter(user1=request.user, user2=usr)
                     if request.user.is_authenticated
                     else None)
 
+    # Anti-Chronological order
     posts = usr.posts.order_by("-timestamp")
 
+    # Pagination
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -137,7 +143,8 @@ def follow(request, username):
 
     usr = User.objects.get(username=username)
     if request.user != usr:
-        Follow.objects.create(user1=request.user, user2=usr)
+        follow_obj = Follow.objects.create(user1=request.user, user2=usr)
+        assert follow_obj.valid_follow()
 
     return redirect('profile', username)
 
@@ -161,8 +168,11 @@ def following(request):
 
     usr = User.objects.get(username=request.user)
     followed_users = [followed.user2 for followed in usr.following_others.all()]
+
+    # Anti-Chronological order
     posts = Post.objects.filter(owner__in=followed_users).order_by('-timestamp')
 
+    # Pagination
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -230,6 +240,7 @@ def like(request, post_id):
                 like_obj.delete()
                 post_obj.likes -= 1
                 post_obj.save()
+                assert post_obj.valid_like()
 
             return JsonResponse({"success": "Done"}, status=200)
 
