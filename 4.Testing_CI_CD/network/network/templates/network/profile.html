@@ -38,7 +38,8 @@
 {% endif %}
 
     <div class="w-75 m-auto">
-        <p class="form-control mt-3">{{ post.content }}</p>
+        <p class="form-control mt-3 original-content">{{ post.content }}</p>
+        <textarea class="form-control my-3 new-content d-none" rows="3" required></textarea>
         <p class="text-secondary">{{ post.timestamp }}</p>
         <div class="d-flex">
             <button type="button" class="btn btn-outline-danger">
@@ -53,7 +54,7 @@
 
             {% if post.owner == request.user %}
             <div class="ms-auto">
-                <button type="button" class="btn btn-primary">Edit</button>
+                <button type="button" class="btn btn-primary edit-btn" data-id="{{ post.id }}">Edit</button>
             </div>
             {% endif %}
 

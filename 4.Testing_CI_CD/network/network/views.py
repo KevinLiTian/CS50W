@@ -1,11 +1,14 @@
 """ Views """
 # pylint: disable=no-member
 
+import json
+from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Post, Follow
 
@@ -158,3 +161,30 @@ def following(request):
     return render(request, 'network/following.html', {
         "posts": page_obj
     })
+
+
+@csrf_exempt
+@login_required(login_url="login")
+def edit(request, post_id):
+    """ Edit API """
+
+    # Query for requested email
+    try:
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    print(post)
+
+    # Check Data
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("content") is not None:
+            content = data["content"]
+            post = Post.objects.get(id=post_id)
+            post.content = content
+            post.save()
+
+        return HttpResponse(status=204)
+
+    return JsonResponse({"error": "PUT request required."}, status=400)
