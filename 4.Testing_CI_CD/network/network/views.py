@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
@@ -11,9 +12,13 @@ def index(request):
         owner = User.objects.get(id=request.user.id)
         content = request.POST['content']
         Post.objects.create(owner=owner, content=content)
+        return redirect('index')
 
     # GET
-    return render(request, "network/index.html")
+    posts = Post.objects.order_by("-timestamp")
+    return render(request, "network/index.html", {
+        "posts": posts
+    })
 
 
 def login_view(request):
@@ -66,3 +71,46 @@ def register(request):
         return redirect("index")
     else:
         return render(request, "network/register.html")
+
+
+def profile(request, username):
+    """ User Profile """
+    if request.method == "POST":
+        pass
+
+    usr = User.objects.get(username=username)
+
+
+    is_following = (Follow.objects.filter(user1=request.user, user2=usr)
+                    if request.user.is_authenticated
+                    else None)
+
+    print(is_following)
+
+    return render(request, "network/profile.html", {
+        "owner": username,
+        "posts": usr.posts.all(),
+        "following": usr.following_others.count(),
+        "follower": usr.being_followed.count(),
+        "is_following": is_following
+    })
+
+
+@login_required(login_url="login")
+def follow(request, username):
+    usr = User.objects.get(username=username)
+    if request.user != usr:
+        Follow.objects.create(user1=request.user, user2=usr)
+
+    return redirect('profile', username)
+
+
+@login_required(login_url="login")
+def unfollow(request, username):
+    usr = User.objects.get(username=username)
+    follow_obj = Follow.objects.filter(user1=request.user, user2=usr)
+
+    if follow_obj:
+        follow_obj.delete()
+
+    return redirect('profile', username)

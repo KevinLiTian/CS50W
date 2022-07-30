@@ -2,19 +2,31 @@
 
 {% block body %}
 
-{% if user.is_authenticated %}
-<div class="shadow mt-4">
-    <div class="w-75 m-auto py-3">
-        <h3>New Post</h3>
-        <form action="{% url 'index' %}" method="post">
-            {% csrf_token %}
-            <textarea class="form-control" name="content" rows="3" required></textarea>
-            <div class="text-end mt-3">
-                <input class="btn btn-primary" type="submit" value="Post">
-            </div>
-        </form>
-    </div>
+<h2 class="text-center my-4">{{ owner }}</h2>
+
+{% if user.username == owner %}
+
+<div class="text-center">
+    <h6 class="d-inline text-secondary me-3">Follower: {{ follower }}</h6>
+    <h6 class="d-inline text-secondary">Following: {{ following }}</h6>
 </div>
+
+{% elif is_following is not None %}
+
+    {% if not is_following %}
+
+    <div class="text-center">
+        <a href="{% url 'follow' owner %}" class="btn btn-secondary">Follow</a>
+    </div>
+
+    {% else %}
+
+    <div class="text-center">
+        <a href="{% url 'unfollow' owner %}" class="btn btn-danger">Unfollow</a>
+    </div>
+
+    {% endif %}
+
 {% endif %}
 
 {% for post in posts %}
@@ -26,11 +38,6 @@
 {% endif %}
 
     <div class="w-75 m-auto">
-        <h3>
-            <a href="{% url 'profile' post.owner %}" class="text-secondary text-decoration-none">
-                {{ post.owner }}
-            </a>
-        </h3>
         <p class="form-control mt-3">{{ post.content }}</p>
         <p class="text-secondary">{{ post.timestamp }}</p>
         <div class="d-flex">
