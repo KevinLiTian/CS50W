@@ -54,6 +54,28 @@
     </div>
 </div>
 
+{% if forloop.last %}
+
+<div class="d-flex justify-content-center align-items-center my-4">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if posts.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">previous</a></li>
+            {% endif %}
+
+            <li class="page-item"><a class="page-link" href="#">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</li></a>
+
+            {% if posts.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ posts.paginator.num_pages }}">last &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endif %}
+
 {% empty %}
 
 <div class="d-flex justify-content-center align-items-center mt-4">

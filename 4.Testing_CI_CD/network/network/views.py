@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 
 from .models import User, Post, Follow
 
@@ -21,8 +22,14 @@ def index(request):
 
     # GET
     posts = Post.objects.order_by("-timestamp")
+
+    paginator = Paginator(posts, 10) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "network/index.html", {
-        "posts": posts
+        "posts": page_obj
     })
 
 
@@ -96,9 +103,15 @@ def profile(request, username):
                     if request.user.is_authenticated
                     else None)
 
+    posts = usr.posts.all()
+    paginator = Paginator(posts, 10) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "network/profile.html", {
         "owner": username,
-        "posts": usr.posts.all(),
+        "posts": page_obj,
         "following": usr.following_others.count(),
         "follower": usr.being_followed.count(),
         "is_following": is_following
@@ -137,6 +150,11 @@ def following(request):
     followed_users = [followed.user2 for followed in usr.following_others.all()]
     posts = Post.objects.filter(owner__in=followed_users)
 
+    paginator = Paginator(posts, 10) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'network/following.html', {
-        "posts": posts
+        "posts": page_obj
     })

@@ -1,0 +1,4 @@
+body {
+    /* Show vertical scrollbar */
+    overflow-y: scroll !important;
+}
