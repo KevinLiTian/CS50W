@@ -1,4 +1,5 @@
 """ Database """
+# pylint: disable=no-member
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -17,6 +18,14 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.owner}'s Post, ID: {self.pk}"
 
+    def valid_owner(self):
+        """ Check valid owner """
+        return self.owner in User.objects.all()
+
+    def valid_like(self):
+        """ Check validity of number of likes """
+        return self.likes >= 0
+
 class Follow(models.Model):
     """ All User Followingsm (user1 follows user2) """
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_others')
@@ -25,6 +34,14 @@ class Follow(models.Model):
     def __str__(self):
         return f"{self.user1} is following {self.user2}"
 
+    def valid_users(self):
+        """ Check Users Validity """
+        return self.user1 in User.objects.all() and self.user2 in User.objects.all()
+
+    def valid_follow(self):
+        """ Check Validity """
+        return self.user1 != self.user2
+
 class Like(models.Model):
     """ User Like Posts """
     usr = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liking')
@@ -32,3 +49,7 @@ class Like(models.Model):
 
     def __str__(self):
         return f"{self.usr} likes {self.post}"
+
+    def check_validity(self):
+        """ Check user and post validity """
+        return self.usr in User.objects.all() and self.post in Post.objects.all()

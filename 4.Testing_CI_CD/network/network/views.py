@@ -32,8 +32,10 @@ def index(request):
     page_obj = paginator.get_page(page_number)
 
     # Current User Liked Posts
-    usr = User.objects.get(username=request.user)
-    likes = [like_obj.post for like_obj in usr.liking.all()]
+    likes = []
+    if request.user.is_authenticated:
+        usr = User.objects.get(username=request.user)
+        likes = [like_obj.post for like_obj in usr.liking.all()]
 
     return render(request, "network/index.html", {
         "posts": page_obj,

@@ -1,5 +1,6 @@
-from django.apps import AppConfig
+""" Register App """
 
+from django.apps import AppConfig
 
 class NetworkConfig(AppConfig):
     name = 'network'
