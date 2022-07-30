@@ -14,7 +14,7 @@ By having one Markdown file represent each encyclopedia entry, we can make our e
 
 ## Video Demo
 
-[![Watch the video](https://img.youtube.com/vi/DoJh0hTbG24/default.jpg)](https://youtu.be/DoJh0hTbG24)
+[![Watch the video](https://img.youtube.com/vi/DoJh0hTbG24/hqdefault.jpg)](https://youtu.be/DoJh0hTbG24)
 
 ## How to Use
 
@@ -22,4 +22,4 @@ In the `1.Django/wiki` diretory, run the command
 
 `python manage.py runserver`
 
-Then open the HTTP address the terminal provides using the browser of your choice
+Then open the URL the terminal provides using the browser of your choice

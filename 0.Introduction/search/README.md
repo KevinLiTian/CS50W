@@ -39,7 +39,7 @@ Using this information, we are able to re-implement a front end for Google's sea
 
 ## Video Demo
 
-[![Watch the video](https://img.youtube.com/vi/nYtm2S3cETE/default.jpg)](https://www.youtube.com/watch?v=nYtm2S3cETE)
+[![Watch the video](https://img.youtube.com/vi/nYtm2S3cETE/hqdefault.jpg)](https://www.youtube.com/watch?v=nYtm2S3cETE)
 
 ## How to Use
 
