@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 
@@ -109,7 +109,10 @@ def profile(request, username):
     """ User Profile """
 
     # Query the user profile to visit
-    usr = User.objects.get(username=username)
+    try:
+        usr = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
 
     # If the requesting user is following the query user
     is_following = (Follow.objects.filter(user1=request.user, user2=usr)
@@ -141,7 +144,11 @@ def profile(request, username):
 def follow(request, username):
     """ Follow Other User """
 
-    usr = User.objects.get(username=username)
+    try:
+        usr = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
     if request.user != usr:
         follow_obj = Follow.objects.create(user1=request.user, user2=usr)
         assert follow_obj.valid_follow()
@@ -153,7 +160,11 @@ def follow(request, username):
 def unfollow(request, username):
     """ Unfollow a User """
 
-    usr = User.objects.get(username=username)
+    try:
+        usr = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
     follow_obj = Follow.objects.filter(user1=request.user, user2=usr)
 
     if follow_obj:
@@ -208,7 +219,7 @@ def edit(request, post_id):
 
             return JsonResponse({"success": "Done"}, status=200)
 
-        return JsonResponse({"error": "Body needed"}, status=200)
+        return JsonResponse({"error": "Body needed"}, status=400)
 
     return JsonResponse({"error": "PUT request required."}, status=400)
 
@@ -220,7 +231,12 @@ def like(request, post_id):
 
     # Query for requested usr and post
     usr = User.objects.get(username=request.user)
-    post_obj = Post.objects.get(id=post_id)
+
+    # Query for requested post
+    try:
+        post_obj = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
 
     # Check Data
     if request.method == "PUT":
@@ -244,6 +260,6 @@ def like(request, post_id):
 
             return JsonResponse({"success": "Done"}, status=200)
 
-        return JsonResponse({"error": "Body needed"}, status=200)
+        return JsonResponse({"error": "Body needed"}, status=400)
 
     return JsonResponse({"error": "PUT request required."}, status=400)
