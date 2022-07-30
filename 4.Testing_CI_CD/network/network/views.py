@@ -85,8 +85,6 @@ def profile(request, username):
                     if request.user.is_authenticated
                     else None)
 
-    print(is_following)
-
     return render(request, "network/profile.html", {
         "owner": username,
         "posts": usr.posts.all(),
@@ -114,3 +112,14 @@ def unfollow(request, username):
         follow_obj.delete()
 
     return redirect('profile', username)
+
+
+@login_required(login_url="login")
+def following(request):
+    usr = User.objects.get(username=request.user)
+    followed_users = [followed.user2 for followed in usr.following_others.all()]
+    posts = Post.objects.filter(owner__in=followed_users)
+
+    return render(request, 'network/following.html', {
+        "posts": posts
+    })
