@@ -19,6 +19,8 @@
         <p class="form-control mt-3 original-content">{{ post.content }}</p>
         <textarea class="form-control my-3 new-content d-none" rows="3" required></textarea>
         <p class="text-secondary">{{ post.timestamp }}</p>
+
+        {% if user.is_authenticated %}
         <div class="d-flex">
             <button type="button" class="btn btn-outline-danger">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -30,13 +32,14 @@
                 Like {{ post.likes }}
             </button>
 
-            {% if post.owner == request.user %}
+            {% if post.owner == user %}
             <div class="ms-auto">
                 <button type="button" class="btn btn-primary edit-btn" data-id="{{ post.id }}">Edit</button>
             </div>
             {% endif %}
 
         </div>
+        {% endif %}
     </div>
 </div>
 
