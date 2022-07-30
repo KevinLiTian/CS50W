@@ -1,3 +1,6 @@
+""" Views """
+# pylint: disable=no-member
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -7,6 +10,8 @@ from .models import User, Post, Follow
 
 
 def index(request):
+    """ Index View """
+
     # POST
     if request.method == "POST":
         owner = User.objects.get(id=request.user.id)
@@ -22,6 +27,8 @@ def index(request):
 
 
 def login_view(request):
+    """ Login View """
+
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -33,20 +40,24 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return redirect("index")
-        else:
-            return render(request, "network/login.html", {
-                "message": "Invalid username and/or password."
-            })
-    else:
-        return render(request, "network/login.html")
+
+        return render(request, "network/login.html", {
+            "message": "Invalid username and/or password."
+        })
+
+    return render(request, "network/login.html")
 
 
 def logout_view(request):
+    """ Logout View """
+
     logout(request)
     return redirect("index")
 
 
 def register(request):
+    """ Register View """
+
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -69,8 +80,8 @@ def register(request):
             })
         login(request, user)
         return redirect("index")
-    else:
-        return render(request, "network/register.html")
+
+    return render(request, "network/register.html")
 
 
 def profile(request, username):
@@ -96,6 +107,8 @@ def profile(request, username):
 
 @login_required(login_url="login")
 def follow(request, username):
+    """ Follow Other User """
+
     usr = User.objects.get(username=username)
     if request.user != usr:
         Follow.objects.create(user1=request.user, user2=usr)
@@ -105,6 +118,8 @@ def follow(request, username):
 
 @login_required(login_url="login")
 def unfollow(request, username):
+    """ Unfollow a User """
+
     usr = User.objects.get(username=username)
     follow_obj = Follow.objects.filter(user1=request.user, user2=usr)
 
@@ -116,6 +131,8 @@ def unfollow(request, username):
 
 @login_required(login_url="login")
 def following(request):
+    """ Show Posts by Followings """
+
     usr = User.objects.get(username=request.user)
     followed_users = [followed.user2 for followed in usr.following_others.all()]
     posts = Post.objects.filter(owner__in=followed_users)
