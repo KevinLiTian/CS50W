@@ -6,11 +6,11 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User, Post, Follow
+from .models import User, Post, Follow, Like
 
 
 def index(request):
@@ -106,7 +106,7 @@ def profile(request, username):
                     if request.user.is_authenticated
                     else None)
 
-    posts = usr.posts.all()
+    posts = usr.posts.order_by("-timestamp")
     paginator = Paginator(posts, 10) # Show 25 contacts per page.
 
     page_number = request.GET.get('page')
@@ -151,7 +151,7 @@ def following(request):
 
     usr = User.objects.get(username=request.user)
     followed_users = [followed.user2 for followed in usr.following_others.all()]
-    posts = Post.objects.filter(owner__in=followed_users)
+    posts = Post.objects.filter(owner__in=followed_users).order_by('-timestamp')
 
     paginator = Paginator(posts, 10) # Show 25 contacts per page.
 
@@ -168,13 +168,11 @@ def following(request):
 def edit(request, post_id):
     """ Edit API """
 
-    # Query for requested email
+    # Query for requested post
     try:
         post = Post.objects.get(id=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
-
-    print(post)
 
     # Check Data
     if request.method == "PUT":
@@ -185,6 +183,39 @@ def edit(request, post_id):
             post.content = content
             post.save()
 
-        return HttpResponse(status=204)
+            return JsonResponse({"success": "Done"}, status=200)
+
+        return JsonResponse({"error": "Body needed"}, status=200)
+
+    return JsonResponse({"error": "PUT request required."}, status=400)
+
+
+@csrf_exempt
+@login_required(login_url="login")
+def like(request, post_id):
+    """ Like API """
+
+    # Query for requested usr and post
+    usr = User.objects.get(username=request.user)
+    post_obj = Post.objects.get(id=post_id)
+
+    # Check Data
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        like_bool = data.get('like')
+        if like_bool is not None:
+
+            # Create Like
+            if like_bool:
+                Like.objects.create(usr=usr, post=post_obj)
+
+            # Destroy Like
+            else:
+                like_obj = Like.objects.get(usr=usr, post=post_obj)
+                like_obj.delete()
+
+            return JsonResponse({"success": "Done"}, status=200)
+
+        return JsonResponse({"error": "Body needed"}, status=200)
 
     return JsonResponse({"error": "PUT request required."}, status=400)

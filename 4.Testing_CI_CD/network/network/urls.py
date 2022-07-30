@@ -1,3 +1,4 @@
+""" Relevant URL """
 
 from django.urls import path
 
@@ -12,5 +13,6 @@ urlpatterns = [
     path("follow/<str:username>", views.follow, name="follow"),
     path("unfollow/<str:username>", views.unfollow, name="unfollow"),
     path("following", views.following, name="following"),
-    path("edit/<str:post_id>", views.edit, name="edit")
+    path("edit/<str:post_id>", views.edit, name="edit"),
+    path("like/<str:post_id>", views.like, name="like")
 ]

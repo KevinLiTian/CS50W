@@ -1,9 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // Edit Button Click
-    document.querySelectorAll(".edit-btn").forEach(edit_btn => edit(edit_btn));
+    document.querySelectorAll('.edit-btn').forEach(edit_btn => edit(edit_btn));
+
+    // Like Button Click
+    document.querySelectorAll('.like-btn').forEach(like_btn => like(like_btn));
 });
 
+
+/* Each Like Button */
+function like(like_btn) {
+    like_btn.addEventListener("click", () => {
+
+        // Get Post ID
+        const id = like_btn.dataset.id;
+
+        // Get Empty Heart and fill heart
+        const empty_heart = like_btn.querySelector('.bi-heart');
+        const fill_heart = like_btn.querySelector('.bi-heart-fill');
+
+        // If not liked yet
+        if (fill_heart.classList.contains('d-none')) {
+
+            fetch(`/like/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    like: true
+                })
+            }).then(response => response.json()).catch(err => console.error(err));
+
+            empty_heart.classList.add('d-none');
+            fill_heart.classList.remove('d-none');
+            like_btn.classList.remove('btn-outline-danger');
+            like_btn.classList.add('btn-danger');
+            const like_num = like_btn.querySelector('span');
+            like_num.innerHTML = parseInt(like_num.innerHTML) + 1;
+            like_btn.blur();
+
+            // Already Liked
+        } else {
+
+            fetch(`/like/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    like: false
+                })
+            }).then(response => response.json()).catch(err => console.error(err));
+
+            empty_heart.classList.remove('d-none');
+            fill_heart.classList.add('d-none');
+            like_btn.classList.remove('btn-danger');
+            like_btn.classList.add('btn-outline-danger');
+            const like_num = like_btn.querySelector('span');
+            like_num.innerHTML = parseInt(like_num.innerHTML) - 1;
+            like_btn.blur();
+        }
+    });
+}
+
+
+/* Each Edit Button */
 function edit(edit_btn) {
     edit_btn.addEventListener("click", () => {
 
@@ -38,6 +94,15 @@ function edit(edit_btn) {
             const input_textarea = outerDiv.querySelector('.new-content');
             const new_content = input_textarea.value;
 
+            // PUT Request to edit API
+            const post_id = edit_btn.dataset.id;
+            fetch(`/edit/${post_id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    content: new_content
+                })
+            }).then(response => response.json()).catch(error => console.log(error));
+
             // Hide input_textarea
             input_textarea.classList.add('d-none')
 
@@ -47,15 +112,6 @@ function edit(edit_btn) {
 
             // Replace Button Value
             edit_btn.innerHTML = 'Edit';
-
-            // PUT Request to edit API
-            const post_id = edit_btn.dataset.id;
-            fetch(`/edit/${post_id}`, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    content: new_content
-                })
-            }).then(response => response.json()).catch(error => console.log(error));
         }
     });
 }

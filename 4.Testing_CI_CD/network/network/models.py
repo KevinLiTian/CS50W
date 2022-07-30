@@ -15,7 +15,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.owner}'s Post"
+        return f"{self.owner}'s Post, ID: {self.pk}"
 
 class Follow(models.Model):
     """ All User Followingsm (user1 follows user2) """
@@ -29,3 +29,6 @@ class Like(models.Model):
     """ User Like Posts """
     usr = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liking')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.usr} likes {self.post}"

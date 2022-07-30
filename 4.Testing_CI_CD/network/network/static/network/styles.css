@@ -2,3 +2,8 @@ body {
     /* Show vertical scrollbar */
     overflow-y: scroll !important;
 }
+
+button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
