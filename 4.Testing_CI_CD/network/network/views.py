@@ -26,13 +26,18 @@ def index(request):
     # GET
     posts = Post.objects.order_by("-timestamp")
 
-    paginator = Paginator(posts, 10) # Show 25 contacts per page.
-
+    # Pagination
+    paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    # Current User Liked Posts
+    usr = User.objects.get(username=request.user)
+    likes = [like_obj.post for like_obj in usr.liking.all()]
+
     return render(request, "network/index.html", {
-        "posts": page_obj
+        "posts": page_obj,
+        "likes": likes
     })
 
 
@@ -101,23 +106,26 @@ def profile(request, username):
 
     usr = User.objects.get(username=username)
 
-
     is_following = (Follow.objects.filter(user1=request.user, user2=usr)
                     if request.user.is_authenticated
                     else None)
 
     posts = usr.posts.order_by("-timestamp")
-    paginator = Paginator(posts, 10) # Show 25 contacts per page.
 
+    paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
+    # Current User Liked Posts
+    likes = [like_obj.post for like_obj in usr.liking.all()]
 
     return render(request, "network/profile.html", {
         "owner": username,
         "posts": page_obj,
         "following": usr.following_others.count(),
         "follower": usr.being_followed.count(),
-        "is_following": is_following
+        "is_following": is_following,
+        "likes": likes
     })
 
 
@@ -153,13 +161,16 @@ def following(request):
     followed_users = [followed.user2 for followed in usr.following_others.all()]
     posts = Post.objects.filter(owner__in=followed_users).order_by('-timestamp')
 
-    paginator = Paginator(posts, 10) # Show 25 contacts per page.
-
+    paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    # Current User Liked Posts
+    likes = [like_obj.post for like_obj in usr.liking.all()]
+
     return render(request, 'network/following.html', {
-        "posts": page_obj
+        "posts": page_obj,
+        "likes": likes
     })
 
 
@@ -208,11 +219,15 @@ def like(request, post_id):
             # Create Like
             if like_bool:
                 Like.objects.create(usr=usr, post=post_obj)
+                post_obj.likes += 1
+                post_obj.save()
 
             # Destroy Like
             else:
                 like_obj = Like.objects.get(usr=usr, post=post_obj)
                 like_obj.delete()
+                post_obj.likes -= 1
+                post_obj.save()
 
             return JsonResponse({"success": "Done"}, status=200)
 

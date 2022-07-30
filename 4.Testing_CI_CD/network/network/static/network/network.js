@@ -31,8 +31,6 @@ function like(like_btn) {
 
             empty_heart.classList.add('d-none');
             fill_heart.classList.remove('d-none');
-            like_btn.classList.remove('btn-outline-danger');
-            like_btn.classList.add('btn-danger');
             const like_num = like_btn.querySelector('span');
             like_num.innerHTML = parseInt(like_num.innerHTML) + 1;
             like_btn.blur();
@@ -49,8 +47,6 @@ function like(like_btn) {
 
             empty_heart.classList.remove('d-none');
             fill_heart.classList.add('d-none');
-            like_btn.classList.remove('btn-danger');
-            like_btn.classList.add('btn-outline-danger');
             const like_num = like_btn.querySelector('span');
             like_num.innerHTML = parseInt(like_num.innerHTML) - 1;
             like_btn.blur();
