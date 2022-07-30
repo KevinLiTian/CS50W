@@ -1,4 +1,4 @@
-name: Testing
+name: Django Test for Network Project
 on: push
 
 jobs:
@@ -9,4 +9,6 @@ jobs:
     - name: Run Django unit tests
       run: |
         pip3 install --user django
+        cd 4.Testing_CI_CD
+        cd network
         python3 manage.py test
