@@ -30,7 +30,7 @@ Next step is to [clone](https://docs.github.com/en/repositories/creating-and-man
 
 ## What to Learn?
 
-Recommanded to learn in the order of the lectures, from `0.Introduction` to `3.JS_UI`, there will be more coming soon. For each lecture:
+Recommanded to learn in the order of the lectures, from `0.Introduction` to `5.Scale_Secure`. For each lecture:
 
 1. Read and understand the notes, search online for additional information if needed
 2. In the `example` directory of each lecture, read, run and understand the code of each program
