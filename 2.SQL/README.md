@@ -13,11 +13,11 @@ There are several SQL database management systems that are commonly used to stor
 
 The first two, MySQL and PostgreSQL, are heavier-duty database management systems that are typically run on their own servers separate from those running a website. SQLite on the other hand, is a light-weight system that can store all the data in a single file. Django's default system is SQLite
 
-#### Database
+### Database
 
 Before getting into the details of SQL, let's first discuss what is a database. A database consists of relational tables, which are just normal tables with a certain number of columns and a flexible number of rows. Relational tables stand for tables with relations between each other
 
-#### Column Types
+### Column Types
 
 Just like variable types in any programming language, SQL also provides types of data:
 
@@ -27,7 +27,7 @@ Just like variable types in any programming language, SQL also provides types of
 - `NUMERIC`: A more general form a numbers, such as boolean value
 - `BLOB`(Binary Large Object): Any other binary data, such as images
 
-#### Tables
+### Tables
 
 Now, to actually get started with using SQL to interact with a database, let’s begin by creating a new table. The [command to create a new table](https://www.w3schools.com/sql/sql_create_table.asp) looks something like this:
 
@@ -63,7 +63,7 @@ INSERT INTO flights
 
 In the `INSERT` command, we have to specify which table to `INSERT INTO` and for each column, provide `VALUES`. Notice we don't have to provide value for the `id` column since we specified that it should be `AUTOINCREMENT` during the creation of the table
 
-#### SELECT
+### SELECT
 
 Once a table has been created and populated with data, we would want a way to retrieve the data from the database. The [`SELECT`](https://www.w3schools.com/sql/sql_select.asp) keyword allows us to extract specific information from the database:
 
@@ -99,7 +99,7 @@ SELECT * FROM flights WHERE origin = "New York";
 
 <img src="https://user-images.githubusercontent.com/99038613/179120229-4baa62e3-a05d-46c6-8a2c-d3fd7e12e822.jpg" width=60%>
 
-#### Working with SQL in the Terminal
+### Working with SQL in the Terminal
 
 Now that we learned that basic SQL commands, let's test them out in the terminal! In order to work with SQLite, first download it from [HERE](https://www.sqlite.org/download.html)(Specifically the sqlite-tools one in Precompiled Binaries). An alternative is to download the [DB Browser](https://sqlitebrowser.org/dl/) which provides a more user-friendly way to use SQL. Don't forget to add to environment after downloading it
 
@@ -230,7 +230,7 @@ The `%` means 0 or more characters
 
 <img src="https://user-images.githubusercontent.com/99038613/179123503-4bebbb69-e0e5-4431-a57e-aa2b3d21280d.jpg" width=60%>
 
-#### Functions
+### Functions
 
 There are also a number of SQL functions we can apply to the results of a query. These can be useful if we don’t need all of the data returned by a query, but just some summary statistics of the data
 
@@ -241,7 +241,7 @@ There are also a number of SQL functions we can apply to the results of a query.
 - [`SUM`](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
 - ...
 
-#### UPDATE
+### UPDATE
 
 We now have the ability to `CREATE` a table, `INSERT` data into a table, and `SELECT` data to retrive them. Now imagine a case where an airline might upgrade their airplane and the duration will thus decrease. In this case, we might want a way to update the data for that airline. We can [`DELETE`](https://www.w3schools.com/sql/sql_delete.asp) that data then `INSERT` an updated one:
 
@@ -262,7 +262,7 @@ UPDATE flights
 
 However, if for instance an airline is canceled permanently, `DELETE` is the one to use. Choose the suitable SQL command to do corresponding work
 
-#### Other Clauses
+### Other Clauses
 
 There are a number of additional clauses we can use to control queries coming back to us:
 
@@ -271,7 +271,7 @@ There are a number of additional clauses we can use to control queries coming ba
 - [`GROUP BY`](https://www.w3schools.com/sql/sql_groupby.asp): Groups results by a specified column
 - [`HAVING`](https://www.w3schools.com/sql/sql_having.asp): Allows for additional constraints based on the number of results
 
-#### Joining Tables
+### Joining Tables
 
 So far, we have been working on only one table, instead of the relational tables we mentioned in the beginning about databases. It turns out that many databases in practice are popuated by number of tables tha all relate to each other in some way. In the airlines example, what if we want to add the airport code to the origin and destination? Such as JFK for New York, or PVG for Shanghai. For sure we can add more columns to store the additional information, but that will make the table too large and slow down the performance when quering or storing data. Instead, we can create another `code` table that relates the cities with their airport codes:
 
@@ -295,7 +295,7 @@ We can do even better, since one passenger could book more than one flights, we 
 
 This creates a "Many to Many" relationship where a passenger could book more than one airline and an airline could have more than one passenger
 
-#### JOIN Query
+### JOIN Query
 
 Although our data are stored more efficiently by now, it seems like it may be harder to query the data since they are spreaded across several tables. SQL makes it convenient by introducing the [`JOIN`](https://www.w3schools.com/sql/sql_join.asp) query where we can combine tables for data retrieval
 
@@ -329,7 +329,7 @@ Ginny          Lima      New York
 
 We’ve just used something called an [INNER JOIN](https://www.w3schools.com/sql/sql_join_inner.asp), which means we are ignoring rows that have no matches between the tables, but there are other types of joins, including [LEFT JOIN](https://www.w3schools.com/sql/sql_join_left.asp), [RIGHT JOIN](https://www.w3schools.com/sql/sql_join_right.asp), and [FULL OUTER JOIN](https://www.w3schools.com/sql/sql_join_right.asp), which we won’t discuss here in detail
 
-#### Indexing
+### Indexing
 
 Indexing is an optimization technique when querying frequently and regarding specific columns. This works as if the index page of a dictionary, which will let us find contents quicker than flipping page by page. For instance, if we know that we will frequently look up passengers by their last names, we can:
 
@@ -337,7 +337,7 @@ Indexing is an optimization technique when querying frequently and regarding spe
 CREATE INDEX name_index ON passengers (last);
 ```
 
-#### SQL Vulnerabilities
+### SQL Vulnerabilities
 
 Now that we know the basics of using SQL to work with data, it's important to know the vulnerabilities associated with using SQL. Start with [SQL Injection](https://www.w3schools.com/sql/sql_injection.asp)
 
@@ -405,7 +405,7 @@ class Flight(models.Model):
 - Below, we add fields for origin, destination, and duration. The first two are [Character Fields](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#charfield), meaning they store strings, and the third is an [Integer Field](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#integerfield). These are just two of many [built-in Django Field classes](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes)
 - We specify maximum lengths of 64 for the two Character Fields. you can check the specifications available for a given field by checking the [documentation](https://docs.djangoproject.com/en/4.0/ref/forms/fields/#built-in-field-classes)
 
-#### Migration
+### Migration
 
 Now that we've created a Django model class, we don't yet have a database setup. In order to create a database from the models, we navigate to the main directory of the Django project and run the command:
 
@@ -417,7 +417,7 @@ This command will create some Python files that allow us to create and query the
 
 Which will create a `db.sqlite3` file as the database
 
-#### Shell
+### Shell
 
 After setting up a database, we need a way to interact with it, for example insert data or retrieve data. We can enter Django's shell to achieve this:
 
@@ -559,7 +559,7 @@ In [17]: lhr.arrivals.all()
 Out[17]: <QuerySet [<Flight: 1: New York (JFK) to London (LHR)>]>
 ```
 
-#### Starting the Application
+### Starting the Application
 
 We can now build an application with the skills of working with Django models to create and interact with a database. First create a `urls.py` file in the airline application:
 
@@ -619,7 +619,7 @@ Now our webpage is able to display all the flights information stored in our dat
 
 ![1](https://user-images.githubusercontent.com/99038613/179260206-21f201d3-8ccc-4dc8-b8e1-8387caf65218.jpg)
 
-#### Django Admin
+### Django Admin
 
 Instead of interacting with the database in the Django shell, Django provides a more convenient way which is the Django Admin. We start by creating an administrative userL
 
@@ -649,7 +649,7 @@ Now, when we visit our site and add /admin to the url, we can log into a page th
 
 <img src="https://user-images.githubusercontent.com/99038613/179260284-f4df1557-af35-4a2e-a4ed-cac6dfe5369f.jpg" width=60%>
 
-#### Many to Many Relationship
+### Many to Many Relationship
 
 Think back to the relationship where a passenger could book more than one flight and a flight could have booked by more than one passenger. We can achieve this by using the `ManytoManyField` in Django:
 

@@ -22,13 +22,13 @@ Hypertext Markup Language (HTML) is a language that describes the layout/structu
 
 HTML is structured by elements, or pairs of tag, which are the `<>` pairs. For instance, the `<html>` and `</html>` are the opening and closing tag for this HTML file. HTML elements can include attributes such as the `lang="en"` in the opening _html_ tag, indicates that this webpage is in English
 
-#### Document Objet Model (DOM)
+### Document Objet Model (DOM)
 
 <img src="https://user-images.githubusercontent.com/99038613/177905929-2bcfc647-b63a-41e1-b364-b8aa2ae0c986.jpg" height=30% width=30%>
 
 The DOM is a convenient way of visualizing the way HTML elements relate to each other using a tree-like structure. Above is an example of the DOM layout for the "Hello, world" HTML file
 
-#### More HTML Elements
+### More HTML Elements
 
 Otherthan the html, head and body elements that are used in almost all the webpages, there are more elements to describe different layout of the webpage such as headings, lists, links, images, bold/italics, tables, etc.
 
@@ -38,7 +38,7 @@ Otherthan the html, head and body elements that are used in almost all the webpa
 - **Images**: `<img src="image.png">`
 - **Bold/Italics**: `<strong></strong>`, `<i></i>`
 
-##### Example Program
+#### Example Program
 
 ```HTML
 <!DOCTYPE html>
@@ -107,11 +107,11 @@ Otherthan the html, head and body elements that are used in almost all the webpa
 
 <img src="https://user-images.githubusercontent.com/99038613/177905942-4f770665-a675-46d5-a93c-4433378095c8.jpg" height=40% width=40%>
 
-#### Forms
+### Forms
 
 The previous elements were not interactive, they only show something to the users. Forms are elements that can interact with users, users can enter texts, select from options or submit the form
 
-##### Example Program
+#### Example Program
 
 ```HTML
 <!DOCTYPE html>
@@ -158,11 +158,11 @@ Cascading Style Sheet (CSS) is used to customize the appearance of a website. CS
 
 <img src="https://user-images.githubusercontent.com/99038613/178088415-6c5ec938-4ae8-4b5f-88fb-ca3718b79261.jpg" width=60%>
 
-#### Inline Styling
+### Inline Styling
 
 By adding the attribute "style" in the h1 element in the above example, the heading turns to blue color and is aligned at the center of the webpage. This styling method is called "inline styling", which the style is specified within the HTML element. Inline styling is powerful as it gives certain elements some appearance; however, if we have lots of styling, the inline styling method can make the HTML file messy.
 
-#### Head Styling
+### Head Styling
 
 Another way of styling is to put the style in the head section of the HTML page. For instance
 
@@ -187,7 +187,7 @@ Another way of styling is to put the style in the head section of the HTML page.
 
 The `style` tag within the head section is specifying the style of this HTML page, and the `h1` in the style specifies that all `h1` elements in this HTML file should have the style in the curly brackets. This method allows the style to be only in the head section, provides readability and cleanness. But the style in the head section only specifies the style in this certain HTML page, commonly a website will have lots of HTML pages, what if some other HTML pages also want the same style? We can copy and paste, but it's not the best design pattern to have things everywhere
 
-#### CSS Files
+### CSS Files
 
 A good way to implement CSS is to create another .css file and link it in the head section of the HTML page, such that any HTML file can borrow CSS properties from the .css file. For instance
 
@@ -214,7 +214,7 @@ h1 {
 }
 ```
 
-#### CSS Properties
+### CSS Properties
 
 There are too many CSS properties that can be modified to make the website looks better. Some most common properties are:
 
@@ -229,7 +229,7 @@ There are too many CSS properties that can be modified to make the website looks
 - **Font-size**: in pixels
 - **Border**: size type (solid, dashed, etc) color
 
-#### CSS Selectors
+### CSS Selectors
 
 In the previous examples, the styling only applies to certain HTML elements such as headings; however, sometimes not all headings should have the same styling, so it's not enough to select only `h1`, we want a way to specify which `h1` the styling should be applied to. There are two ways to do this
 
@@ -239,7 +239,7 @@ In the previous examples, the styling only applies to certain HTML elements such
 
 There are more advanced selectors such as multiple element selector, descendant selector,, child selector, attribute selector, etc.
 
-#### Responsive Design
+### Responsive Design
 
 Nowadays people browse the web not only using their computers, but also pads and mobile phones. The website that looks nice on computer does not necessarily look good on mobile devices. That's why we introduce responsive design, which makes the website looks good whatever the device is.
 

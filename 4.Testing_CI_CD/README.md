@@ -6,7 +6,7 @@ In our development workflow, we might encounter various tedious issues such as h
 
 One important part of the software development process is the act of **Testing** the code we’ve written to make sure everything runs as we expect it to
 
-#### Assert
+### Assert
 
 One of the simplest ways we can run tests in Python is by using the `assert` command. This command should be followed by something we think should be true
 
@@ -38,7 +38,7 @@ AssertionError
 
 The `assert` will give us some information about where things went wrong so we don't have to start nowhere. `assert` doesn't seem that useful in this simple example, but imagine the code base is enormous, and with the help of `assert`, you will be able to identify where things went wrong immediately
 
-#### Test Driven Development
+### Test Driven Development
 
 As you begin building larger projects, you may want to consider using test-driven development, a development style where every time you fix a bug, you add a test that checks for that bug to a growing set of tests that are run every time you make changes. Ensuring that later features does not affect existing ones
 
@@ -96,7 +96,7 @@ ERROR on is_prime(8), expected False
 ERROR on is_prime(25), expected False
 ```
 
-#### Unit Testing
+### Unit Testing
 
 A popular Python testing method is unit testing, which makes testing easier and provides some useful outputs for debugging. Let's take a look at what a unit testing program would look like for the `is_prime` function
 
@@ -210,7 +210,7 @@ OK
 
 Now let's see how the idea of automated testing can be applied to web applications, starting with the Django framework
 
-#### Django Testing
+### Django Testing
 
 We'll use the `flights` example when we first learned Django models. Consider the `Flight` model with entries `origin`, `destination` and `duration`. We want to make sure they meet two requirements:
 
@@ -337,7 +337,7 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-#### Client Testing
+### Client Testing
 
 Aside from server testing such as how our database is behaving, we also want to test whether the client side works as intended. We can do this by creating a `Client` object which behaves like a real browser, making requests to the server. Then we can test the requests and responses:
 
@@ -393,7 +393,7 @@ def test_flight_page_non_passengers(self):
     self.assertEqual(response.context["non_passengers"].count(), 1)
 ```
 
-#### Selenium
+### Selenium
 
 So far, we are testing our web application with Django and the tests are written on the server side. What if we only have access to the front-end of the web app? Let's see an example of a counter webpage:
 
@@ -550,7 +550,7 @@ Benefits including but not bounded to:
 - Release small, incremental changes allows users to get a taste of new features everytime rather than being overwhelmed with an entirely new version
 - Shorter waiting time for each release allows company to stay ahead in the competitive market
 
-#### Github Actions
+### Github Actions
 
 One popular tool to help with CI is [GitHub Actions](https://github.com/features/actions), which allows the Git repository to automatically run a customed test set after each push
 
@@ -596,7 +596,7 @@ Now if we push anything to the GitHub repository and check the GitHub webpage fo
 
 ![gif](https://cs50.harvard.edu/web/2020/notes/7/images/action.gif)
 
-#### Docker
+### Docker
 
 Modern softwares have large amount of dependencies, and problem can arise in the world of software development when the configuration on your computer is different than the one your colleage is using, maybe you are using some version of Python and Django while your co-worker is using other versions, some codes might not be compatible when working together. One way to solve this is to use a tool called Docker, which is a containerization software, much like a virtual environment, which has a set of configuration isolated from outside environments. While Docker is a bit like a Virtual Machine, they are different techhnologies. A VM (like the one we used in GitHub Actions) is an entire virtual computer with its own OS, which takes up lots of space, and it ends up taking a lot more when its running. Dockers, on the other hand, are much ligher weight
 
@@ -643,3 +643,7 @@ services:
 Now we are ready to start up our services with the command `docker-compose up`. which will launch both servers inside of new Docker containers
 
 If we want to run commands within the Docker container, we can use `docker ps` to show all of the docker containers that are running. Then find the `CONTAINER ID` of the container we wish to enter, then run `docker exec -it <CONTAINER ID> bash -l`. This will let you enter the `usr/src/app` path within the container. We can exit by pressing CTRL-D
+
+## Examples
+
+Check out some [examples](examples/)

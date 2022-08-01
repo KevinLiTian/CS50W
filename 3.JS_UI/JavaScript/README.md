@@ -27,7 +27,7 @@ But how do we run it? It turns out that JavaScript can be written inside a HTML 
 
 ![1](https://user-images.githubusercontent.com/99038613/180077458-dfe1a841-4d4c-44af-92e6-e55eadd4ecc4.jpg)
 
-#### Event
+### Event
 
 One feature of JavaScript that makes it helpful for web programming is that it supports [Event-Driven Programming](https://medium.com/@vsvaibhav2016/introduction-to-event-driven-programming-28161b79c223)
 
@@ -52,7 +52,7 @@ An event can be anything from clicking a button to submitting a form or even scr
 
 The above program defines a JavaScript function using the keyword function, and notice that by adding an `onclick` attribute to the `button` tag, the JavaScript will listen to the button click event, and if it happens it will call the `hello()` function which sends an alert
 
-#### Variables
+### Variables
 
 JavaScript is a programming language just like Python, it has variables. There are multiple ways of declaring a variable in JS:
 
@@ -68,7 +68,7 @@ JavaScript is a programming language just like Python, it has variables. There a
 
   `const PI = 3.14;`
 
-#### Template Literal
+### Template Literal
 
 Similar to formatting strings in Python, JS uses template literals to concatenate variables with strings
 
@@ -83,7 +83,7 @@ function count() {
 }
 ```
 
-#### Query Selector
+### Query Selector
 
 It might be more beneficial if JavaScript can do more than just sending alerts, for example, interact with the HTML. `document` gives us the ability to search through the DOM and `querySelector` allows us to get an element from the DOM
 
@@ -209,7 +209,7 @@ Having JavaScript in a separate file is useful for a number of reasons:
 - **Collaboration**: We can now easily have one person work on the JavaScript while another works on HTML.
 - **Importing**: We are able to import JavaScript libraries that other people have already written. For example Bootstrap has their own JavaScript library you can include to make your site more interactive.
 
-#### CSS Manipulation
+### CSS Manipulation
 
 It turns out that we can use DOM manipulation to dynamically change the CSS properties as well
 
@@ -243,7 +243,7 @@ This is a fairly complicated program since everything is nested, so take your ti
 
 ![gif](https://cs50.harvard.edu/web/2020/notes/5/images/colors.gif)
 
-#### More Events
+### More Events
 
 Other than the `onclick` event, JS provides us with lots of [events](https://www.w3schools.com/js/js_events.asp) to play with
 
@@ -287,7 +287,7 @@ Notice that the `this` keyword is a special functionality in JS that Python does
 
 ![gif](https://cs50.harvard.edu/web/2020/notes/5/images/colors2.gif)
 
-#### Interval
+### Interval
 
 After seeing some DOM manipulation and event-driven programming, JS is always responding to some user input, such as clicking or selecting. In fact, JS can also do something automatically by a set interval. Such as incrementing a counter automatically for each second
 
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 The [`setInterval`](https://www.w3schools.com/jsref/met_win_setinterval.asp) function takes in a function to run, in this case is the `count` function, and an interval (in milliseconds) between function runs, in this case 1000 milliseconds, which is equivalent to 1 second
 
-#### Local Storage
+### Local Storage
 
 Everytime we refresh the webpage, everything will be restarted, whether it's the static HTML and CSS or JS variables, since they will all be reloaded by the browser. Sometimes, it is the way we want it to behave, but sometimes we might want it to remember something. We can easily accomplish this using a backend server such as Django, but is there a way to do everything client side? Local storage makes it possible to cache some information as key value pairs in the browser
 
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 [Application Programming Interface (API)](https://www.mulesoft.com/resources/api/what-is-an-api) is the connection between different services. For example, if someone wants to use the Google Maps data, or currency exchange data in their website, since these data are constantly changing in real time, the website cannot use some static data, or manually transfering the data. This is where API comes in handy, every service generally has their own APIs, Google Maps for example, if you visit one of their API links, some real time data will be returned to you
 
-#### JavaScript Object
+### JavaScript Object
 
 A [JavaScript Object](https://www.w3schools.com/js/js_objects.asp) is very similar to a Python dictionary, which contains key value pairs. For example
 
@@ -382,7 +382,7 @@ JS objects store data in such structured way such that the data can be transfere
 }
 ```
 
-#### Currency Exchange
+### Currency Exchange
 
 Now we'll use the [European Central Bank’s Exchange Rate API](https://exchangeratesapi.io/) to build a simple currency exchange website
 

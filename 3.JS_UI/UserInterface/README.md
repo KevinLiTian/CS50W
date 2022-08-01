@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ![gif](https://cs50.harvard.edu/web/2020/notes/6/images/singlepage1.gif)
 
-#### Our Own API
+### Our Own API
 
 In many cases, it is unrealistic to load everything when we first visit a webpage since it will take too long. Common times, we'll need a server to access data when needed. We'll see how to use Django as our own API and use JS to request data from it in the previous one page application
 
@@ -149,7 +149,7 @@ Now in `index.html`, we take advantage of AJAX, to make a request to our own ser
 
 ![gif](https://cs50.harvard.edu/web/2020/notes/6/images/singlepage2.gif)
 
-#### Manual URL & Browsing History
+### Manual URL & Browsing History
 
 One disadvantage of this site is that the URL is less informative and if you noticed, the URL is not even changing since we are essentially on the same page. We can solve this problem by using the [JavaScript History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API). This API enables us to update the URL manually
 
@@ -677,7 +677,7 @@ We can see that the function `App` renders the function `Hello` using HTML eleme
 
 ![img](https://cs50.harvard.edu/web/2020/notes/6/images/react2.png)
 
-#### useState
+### useState
 
 React has lots of hooks that we can take advantage of, one of them is `useState` which records and updates some sort of states. We can use it to create a simple math addition game
 

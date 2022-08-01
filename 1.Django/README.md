@@ -27,7 +27,7 @@ Django is a web framework in Python that allows us to create a backend where the
 - To get started, we’ll have to install Django, which means you’ll also have to [install pip](https://pip.pypa.io/en/stable/installation/) if you haven’t already done so
 - Once you have Pip installed, you can run `pip3 install Django` in your terminal to install Django
 
-#### Creating a Django Project
+### Creating a Django Project
 
 After installing Django, we can go through the steps of creating a new Django project:
 
@@ -45,7 +45,7 @@ After installing Django, we can go through the steps of creating a new Django pr
 
 <img src="https://user-images.githubusercontent.com/99038613/178370096-7945c8bf-7a68-4caf-8e86-47df16042920.jpg" width=60%>
 
-#### Routes
+### Routes
 
 Now, in order to get started with our application:
 
@@ -151,7 +151,7 @@ This function takes in one more parameter `name` and pass into the HttpResponse 
 
 By using `<>`, the end part of the URL will be passed as a `name` variable into the `greet` function and it will return an HttpResponse which renders the page with "Hello, {name}"
 
-#### Templates
+### Templates
 
 So far, our HTTP Responses, have been only text, but we can include any HTML elements we want to! For example, I could decide to return a blue header instead of just the text in our index function:
 
@@ -362,7 +362,7 @@ Notice here that we are able to loop over our tasks using syntax similar to our 
 
 <img src="https://user-images.githubusercontent.com/99038613/178379794-66b874c6-52cd-4b10-aa3d-759a6b2aa00b.jpg" width=60%>
 
-#### Forms
+### Forms
 
 Now that we can see all of our current tasks as a list, we may want to be able to add some new tasks. To do this we’ll start taking a look at using forms to update a web page. Let’s begin by adding another function to `views.py` that will render a page with a form for adding a new task:
 
@@ -486,7 +486,7 @@ And to prevent [Cross-Site Request Forgery (CSRF) Attack](https://portswigger.ne
 </form>
 ```
 
-#### Django Forms
+### Django Forms
 
 While we can create forms by writing raw HTML as we’ve just done, Django provides an even easier way to collect information from a user: [Django Forms](https://docs.djangoproject.com/en/4.0/ref/forms/api/). In order to use this method, we’ll add the following to the top of `views.py` to import the `forms` module:
 
@@ -574,7 +574,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 ```
 
-#### Sessions
+### Sessions
 
 At this point, the TODO list is working as it load additional user input tasks and render on the webpage; however, it is problematic to store the task list as a gloabl variable inside `views.py`. Because it means that all of the users who visit this page will see the exact same list of TODOs, which is not what we want in this case. In order to solve this problem, we introduce [sessions](https://docs.djangoproject.com/en/4.0/topics/http/sessions/)
 

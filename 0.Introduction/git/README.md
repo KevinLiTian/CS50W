@@ -13,7 +13,7 @@ In the above explanations, we used the word repository, which we haven’t expla
 
 Remote repositories have to be stored some places online, the most popular one is [Github](https://github.com/). GitHub is a website that allows us to store Git repositories remotely on the web. Another tool that comes with Github is [Github Desktop](https://desktop.github.com/), which simplifies command line to a GUI which can be understood by developers that aren't familiar with git command line
 
-#### Create Remote Repository
+### Create Remote Repository
 
 Here's a quick overview of creating a repository on Github. Make sure that you have a GitHub account set up, if not, you can create one [here](https://github.com/)
 
@@ -23,7 +23,7 @@ Here's a quick overview of creating a repository on Github. Make sure that you h
 - Choose whether the repository should be public (visible to anyone on the web) or private (visible just to you and others you specifically grant access)
 - (Optional) Decide whether you want to add a README, which is a file describing your new repository
 
-#### Synchronize Local Repository
+### Synchronize Local Repository
 
 After creating a remote repository, one will want to synchronize this repository to their local devices and then make changes. The simplest way to do this is through the steps below:
 
@@ -45,7 +45,7 @@ Git specifies the workflow into 4 stages, local directory, staging area, local r
 
 ![stages](https://user-images.githubusercontent.com/99038613/178121325-ad649e2e-1c2d-49d9-95aa-14e450361fba.png)
 
-#### Common Workflow
+### Common Workflow
 
 1. After setting up a remote repository and clone that repository to your local device, you can start coding in that local repository
 2. After finish developing a feature (maybe a single function or maybe an entire program), use `git add .` to add all the changes to the staging area, which Git can track all the changes
