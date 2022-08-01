@@ -37,3 +37,9 @@ Recommanded to learn in the order of the lectures, from `0.Introduction` to `3.J
 3. Check the completed projects, read the descriptions, and run them to see what they do. It is recommanded to DIY the projects afterwards, the specifications and release materials of each project are in the `DIY` directory
 
 Learning Web Development is a long road and this is just a beginning, it is normal if you have any difficulties understanding the notes, example codes or the projects. Feel free to contact me if needed through my emails <kevintian.li@mail.utoronto.ca> or <kevin.li20021106@gmail.com>
+
+## Troubleshoot
+
+When you are building your web application, if modifying the CSS or JavaScript then refresh the webpage does not seem to be working, it might be that your browser is **Caching** static CSS and JavaScript, you can solve this by using an incognito window to develop your web application
+
+To learn more about caching, check `5.Scale_Secure`
