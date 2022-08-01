@@ -22,7 +22,7 @@ Web programming/development involves front-end development and back-end developm
 - **[JavaScript](#lecture-3---js--ui)**: A programming language used to make websites faster and more interactive
 - **[UI](#lecture-3---js--ui)**: Methods used to make a website as easy to use as possible
 - **[Testing & CI/CD](#lecture-4---testing--cicd)**: Learning about different methods used to make sure updates to web pages proceed smoothly
-- **Scalability & Security**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
+- **[Scalability & Security](#lecture-5---scalability--security)**: Making sure websites can be accessed by many users at once, and that they are safe from malicious intent
 
 ## Get Started
 
@@ -97,6 +97,16 @@ One important part of the software development process is the act of Testing the
 ### Projects
 
 - [Network](4.Testing_CI_CD/network/)
+
+## Lecture 5 - [Scalability & Security](5.Scale_Secure/)
+
+As web applications gets larger, and run not only on local machines, but on the internet, scalability and security issues arises. This lecture will discuss some of the common issues and best practices
+
+### Objectives
+
+- Scalability
+- Security
+- What's Next?
 
 ## Contact ME
 
