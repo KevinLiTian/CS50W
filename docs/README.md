@@ -42,4 +42,4 @@ Learning Web Development is a long road and this is just a beginning, it is norm
 
 When you are building your web application, if modifying the CSS or JavaScript then refresh the webpage does not seem to be working, it might be that your browser is **Caching** static CSS and JavaScript, you can solve this by using an incognito window to develop your web application
 
-Learn more about [caching](../5.Scale_Secure/README.md/#caching)
+Learn more about [caching](../5.Scale_Secure/#caching)
