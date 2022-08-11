@@ -22,7 +22,7 @@ Hypertext Markup Language (HTML) is a language that describes the layout/structu
 
 HTML is structured by elements, or pairs of tag, which are the `<>` pairs. For instance, the `<html>` and `</html>` are the opening and closing tag for this HTML file. HTML elements can include attributes such as the `lang="en"` in the opening _html_ tag, indicates that this webpage is in English
 
-### Document Objet Model (DOM)
+### Document Object Model (DOM)
 
 <img src="https://user-images.githubusercontent.com/99038613/177905929-2bcfc647-b63a-41e1-b364-b8aa2ae0c986.jpg" height=30% width=30%>
 
