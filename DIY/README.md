@@ -9,3 +9,7 @@ Make sure you have read and understand the lecture notes as well as the example 
 ### SQL - [Commerce](commerce/)
 
 ### JS_UI - [Mail](mail/)
+
+### Testing & CI/CD - [Network](network/)
+
+### Final Project - [Capstone](capstone/)

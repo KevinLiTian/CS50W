@@ -108,6 +108,12 @@ As web applications gets larger, and run not only on local machines, but on the 
 - Security
 - What's Next?
 
+## Final Project
+
+Designing and implementing a web application of your own with Python and JavaScript. The final project is your opportunity to design and implement a dynamic website of your own
+
+- [Requirements](DIY/capstone/)
+
 ## Contact ME
 
 If you have any questions regarding the course material or any of the projects, please feel free to contact me through my email <kevintian.li@mail.utoronto.ca> or <kevin.li20021106@gmail.com>
