@@ -113,6 +113,7 @@ As web applications gets larger, and run not only on local machines, but on the 
 Designing and implementing a web application of your own with Python and JavaScript. The final project is your opportunity to design and implement a dynamic website of your own
 
 - [Requirements](DIY/capstone/)
+- [Example](https://github.com/KevinLiTian/EverLove)
 
 ## Contact ME
 
