@@ -1,8 +1,8 @@
 # Harvard University's CS50W - Web Programming
 
-In the summer after my sophomore year, in order to gain more knowledge and continue programming, I chose to study Harvard's online web programming course, [CS50W](https://cs50.harvard.edu/web/2020/), which I found through the online learning platform, [edX](https://www.edx.org/)<br/>
+In the summer after my sophomore year, in order to gain more knowledge and continue programming, I chose to study Harvard's online web programming course, [CS50W](https://cs50.harvard.edu/web/2020/), which I found through the online learning platform, [edX](https://www.edx.org/). Here's my [certificate](https://certificates.cs50.io/d581ea9c-a42f-4f31-85d4-64869276a9ea) after completing the course
 
-In this repository, I will put my notes and my work on course projects. For each lecture, I will list the objectives of the lecture and corresponding projects. Detailed notes and in-class examples regarding each lecture can be accessed through the link of the corresponding lecture below
+In this repository, I am putting my notes and my work on course projects. For each lecture, I will list the objectives of the lecture and corresponding projects. Detailed notes and in-class examples regarding each lecture can be accessed through the link of the corresponding lecture below
 
 Please <strong>DO NOT</strong> directly use the source code, they are <strong>ONLY</strong> for reference. Plagiarism is strictly prohibited by both the Harvard University and the edX platform. See [academic honesty](https://cs50.harvard.edu/college/2021/fall/syllabus/#academic-honesty) and [license](https://cs50.harvard.edu/web/2020/license/) for details
 
