@@ -732,7 +732,7 @@ Then in `views.py`:
 def index(request):
     # If no user is signed in, return to login page:
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
+        return redirect("login")
     return render(request, "users/user.html")
 
 def login_view(request):
