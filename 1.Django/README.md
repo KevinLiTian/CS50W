@@ -625,4 +625,4 @@ In order to store the session data, we must first run the command `python manage
 
 ## Examples
 
-Check out some [examples](examples/)
+Check out some [examples](./examples/)
