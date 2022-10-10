@@ -621,7 +621,7 @@ Now our webpage is able to display all the flights information stored in our dat
 
 ### Django Admin
 
-Instead of interacting with the database in the Django shell, Django provides a more convenient way which is the Django Admin. We start by creating an administrative userL
+Instead of interacting with the database in the Django shell, Django provides a more convenient way which is the Django Admin. We start by creating an administrative user
 
 ```shell
 python manage.py createsuperuser
